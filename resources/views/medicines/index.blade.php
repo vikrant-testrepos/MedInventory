@@ -12,82 +12,154 @@
 
 </div>
 
-<div class="card">
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+<div class="card shadow-sm">
 
     <div class="card-body">
 
-        <table class="table table-bordered table-hover">
+        <div class="table-responsive">
 
-            <thead class="thead-dark">
+            <table class="table table-hover align-middle">
 
-            <tr>
+                <thead class="thead-dark">
 
-                <th>ID</th>
+                    <tr>
+                        <th width="90">Image</th>
+                        <th>Medicine</th>
+                        <th>Category</th>
+                        <th>Company</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th width="150">Action</th>
+                    </tr>
 
-                <th>Name</th>
+                </thead>
 
-                <th>Category</th>
+                <tbody>
 
-                <th>Company</th>
+                @forelse($medicines as $medicine)
 
-                <th>Price</th>
+                    <tr>
 
-                <th>Quantity</th>
+                        <td>
 
-                <th width="150">Action</th>
+                            @if($medicine->image)
 
-            </tr>
+                                <img src="{{ asset('uploads/medicines/'.$medicine->image) }}"
+                                     width="60"
+                                     height="60"
+                                     class="rounded border">
 
-            </thead>
+                            @else
 
-            <tbody>
+                                <div class="text-center text-muted">
+                                    <i class="fas fa-pills fa-2x"></i>
+                                </div>
 
-            @forelse($medicines as $medicine)
+                            @endif
 
-                <tr>
+                        </td>
 
-                    <td>{{ $medicine->id }}</td>
+                        <td>
+                            <strong>{{ $medicine->name }}</strong>
+                        </td>
 
-                    <td>{{ $medicine->name }}</td>
+                        <td>
+                            {{ $medicine->category->name ?? '-' }}
+                        </td>
 
-                    <td>{{ $medicine->category->name ?? '-' }}</td>
+                        <td>
+                            {{ $medicine->company }}
+                        </td>
 
-                    <td>{{ $medicine->company }}</td>
+                        <td>
+                            Rs. {{ number_format($medicine->price,2) }}
+                        </td>
 
-                    <td>Rs. {{ $medicine->price }}</td>
+                        <td>
+                            {{ $medicine->quantity }}
+                        </td>
 
-                    <td>{{ $medicine->quantity }}</td>
+                        <td>
 
-                    <td>
+                            @if($medicine->quantity > 20)
 
-                        <a href="{{ route('medicines.edit',$medicine->id) }}"
-                           class="btn btn-sm btn-warning">
-                            Edit
-                        </a>
+                                <span class="badge badge-success">
+                                    In Stock
+                                </span>
 
-                    </td>
+                            @elseif($medicine->quantity > 0)
 
-                </tr>
+                                <span class="badge badge-warning">
+                                    Low Stock
+                                </span>
 
-            @empty
+                            @else
 
-                <tr>
+                                <span class="badge badge-danger">
+                                    Out of Stock
+                                </span>
 
-                    <td colspan="7" class="text-center">
+                            @endif
 
-                        No medicines found.
+                        </td>
 
-                    </td>
+                        <td>
 
-                </tr>
+                            <a href="{{ route('medicines.edit',$medicine->id) }}"
+                               class="btn btn-warning btn-sm">
 
-            @endforelse
+                                <i class="fas fa-edit"></i>
 
-            </tbody>
+                            </a>
 
-        </table>
+                            <form action="{{ route('medicines.destroy', $medicine->id) }}"
+                                method="POST"
+                                style="display:inline-block;"
+                                onsubmit="return confirm('Delete this medicine?');">
 
-        {{ $medicines->links() }}
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="8" class="text-center text-muted">
+
+                            No medicines found.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="mt-3">
+            {{ $medicines->links() }}
+        </div>
 
     </div>
 
