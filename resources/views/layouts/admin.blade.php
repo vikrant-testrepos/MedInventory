@@ -1,111 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedInventory Admin</title>
 
-    <title>MEDINVENTORY Admin</title>
-
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
-
         body{
-            background:#f5f7fb;
+            margin:0;
+            font-family:Arial,Helvetica,sans-serif;
+            background:#f4f6f9;
+        }
+
+        .wrapper{
+            display:flex;
+            min-height:100vh;
         }
 
         .sidebar{
-
             width:250px;
-            height:100vh;
-            background:#2563EB;
-            position:fixed;
-            color:white;
-            padding-top:20px;
+            background:#343a40;
+            color:#fff;
+        }
 
+        .sidebar h3{
+            padding:20px;
+            margin:0;
+            background:#212529;
+            text-align:center;
         }
 
         .sidebar a{
-
-            color:white;
             display:block;
-            padding:15px 25px;
+            color:#ddd;
+            padding:15px 20px;
             text-decoration:none;
-
         }
 
         .sidebar a:hover{
-
-            background:rgba(255,255,255,.15);
-
+            background:#495057;
+            color:#fff;
         }
 
         .content{
+            flex:1;
+        }
 
-            margin-left:250px;
-            padding:30px;
+        .topbar{
+            background:#fff;
+            padding:15px 20px;
+            border-bottom:1px solid #ddd;
+        }
 
+        .main{
+            padding:25px;
         }
 
         .card{
-
             border:none;
-            border-radius:12px;
-            box-shadow:0 5px 15px rgba(0,0,0,.08);
-
+            border-radius:8px;
+            box-shadow:0 2px 8px rgba(0,0,0,.1);
         }
-
     </style>
-
 </head>
-
 <body>
 
-<div class="sidebar">
+<div class="wrapper">
 
-<h3 class="text-center mb-4">
-MEDINVENTORY
-</h3>
+    <div class="sidebar">
+        <h3>💊 MedInventory</h3>
 
-<a href="/admin">
-<i class="fa fa-home"></i>
-Dashboard
-</a>
+        <a href="/admin">Dashboard</a>
+        <a href="#">Medicines</a>
+        <a href="{{ route('categories.index') }}">Categories</a>
+        <a href="#">Inventory</a>
+        <a href="#">Orders</a>
+        <a href="#">Reports</a>
 
-<a href="/categories">
-<i class="fa fa-list"></i>
-Categories
-</a>
+        <hr style="background:#666">
 
-<a href="/medicines">
-<i class="fa fa-capsules"></i>
-Medicines
-</a>
+        <a href="{{ route('logout') }}"
+           onclick="event.preventDefault();
+           document.getElementById('logout-form').submit();">
+            Logout
+        </a>
 
-<a href="/orders">
-<i class="fa fa-shopping-cart"></i>
-Orders
-</a>
+        <form id="logout-form"
+              action="{{ route('logout') }}"
+              method="POST"
+              style="display:none;">
+            @csrf
+        </form>
 
-<a href="/">
-<i class="fa fa-globe"></i>
-Website
-</a>
+    </div>
 
-<a href="/logout">
-<i class="fa fa-sign-out-alt"></i>
-Logout
-</a>
+    <div class="content">
 
-</div>
+        <div class="topbar">
+            Welcome,
+            <strong>{{ Auth::user()->name }}</strong>
+        </div>
 
-<div class="content">
+        <div class="main">
+            @yield('content')
+        </div>
 
-@yield('content')
+    </div>
 
 </div>
 
