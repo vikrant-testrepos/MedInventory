@@ -70,27 +70,45 @@
 <div class="wrapper">
 
     <div class="sidebar">
+
         <h3>💊 MedInventory</h3>
 
-        <a href="/admin">Dashboard</a>
-        <a href="#">Medicines</a>
-        <a href="{{ route('categories.index') }}">Categories</a>
-        <a href="#">Inventory</a>
-        <a href="#">Orders</a>
-        <a href="#">Reports</a>
+        <a href="{{ url('/admin') }}">
+            📊 Dashboard
+        </a>
+
+        <a href="{{ route('categories.index') }}">
+            🗂 Categories
+        </a>
+
+        <a href="{{ route('medicines.index') }}">
+            💊 Medicines
+        </a>
+
+        <a href="{{ route('inventory.index') }}">
+            📦 Inventory
+        </a>
+
+        <a href="#">
+            🛒 Orders
+        </a>
+
+        <a href="#">
+            📈 Reports
+        </a>
 
         <hr style="background:#666">
 
         <a href="{{ route('logout') }}"
-           onclick="event.preventDefault();
-           document.getElementById('logout-form').submit();">
-            Logout
+        onclick="event.preventDefault();
+        document.getElementById('logout-form').submit();">
+            🚪 Logout
         </a>
 
         <form id="logout-form"
-              action="{{ route('logout') }}"
-              method="POST"
-              style="display:none;">
+            action="{{ route('logout') }}"
+            method="POST"
+            style="display:none;">
             @csrf
         </form>
 

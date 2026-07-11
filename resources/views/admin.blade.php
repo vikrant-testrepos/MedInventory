@@ -21,7 +21,12 @@
         body{
             background:#eef2f7;
             font-family:'Segoe UI',sans-serif;
-        }
+        }<li class="nav-item">
+    <a class="nav-link text-white" href="{{ route('inventory.index') }}">
+        <i class="fas fa-boxes mr-2"></i>
+        Inventory
+    </a>
+</li>
 
         .sidebar{
 

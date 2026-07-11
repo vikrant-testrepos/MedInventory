@@ -13,4 +13,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', 'CategoryController');
 
     Route::resource('medicines', 'MedicineController');
+
+    Route::get('/inventory', 'InventoryController@index')->name('inventory.index');
+
+    Route::post('/inventory/{id}', 'InventoryController@update')->name('inventory.update');
+    
 });
