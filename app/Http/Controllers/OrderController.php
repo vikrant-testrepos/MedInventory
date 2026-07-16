@@ -81,8 +81,17 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
+        $medicine = $order->medicine;
+
+        if ($medicine) {
+            $medicine->quantity += $order->quantity;
+            $medicine->save();
+        }
+
         $order->delete();
 
-        return back()->with('success','Order deleted.');
+        return redirect()
+            ->route('orders.index')
+            ->with('success', 'Order deleted and stock restored.');
     }
 }
