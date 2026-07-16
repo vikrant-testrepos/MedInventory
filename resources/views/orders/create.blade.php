@@ -2,106 +2,212 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container-fluid">
 
-    <h2>New Order</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <a href="{{ route('orders.index') }}" class="btn btn-secondary">
-        Back
-    </a>
+        <h2>
+            <i class="fas fa-shopping-cart"></i>
+            Place New Order
+        </h2>
 
-</div>
+        <a href="{{ route('orders.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            Back
+        </a>
 
-@if($errors->any())
+    </div>
 
-<div class="alert alert-danger">
+    @if($errors->any())
 
-    <ul class="mb-0">
+        <div class="alert alert-danger">
 
-        @foreach($errors->all() as $error)
+            <ul class="mb-0">
 
-            <li>{{ $error }}</li>
+                @foreach($errors->all() as $error)
 
-        @endforeach
+                    <li>{{ $error }}</li>
 
-    </ul>
+                @endforeach
 
-</div>
+            </ul>
 
-@endif
+        </div>
 
-@if(session('error'))
+    @endif
 
-<div class="alert alert-danger">
+    @if(session('error'))
 
-    {{ session('error') }}
+        <div class="alert alert-danger">
 
-</div>
+            {{ session('error') }}
 
-@endif
+        </div>
 
-<div class="card">
+    @endif
 
-    <div class="card-body">
+    <div class="card shadow">
 
-        <form action="{{ route('orders.store') }}" method="POST">
+        <div class="card-header bg-primary text-white">
 
-            @csrf
+            Order Information
 
-            <div class="form-group">
+        </div>
 
-                <label>Medicine</label>
+        <div class="card-body">
 
-                <select name="medicine_id" class="form-control" required>
+            <form action="{{ route('orders.store') }}" method="POST">
 
-                    <option value="">-- Select Medicine --</option>
+                @csrf
 
-                    @foreach($medicines as $medicine)
+                <div class="form-group">
 
-                        <option value="{{ $medicine->id }}">
+                    <label><strong>Select Medicine</strong></label>
 
-                            {{ $medicine->name }}
-                            (Stock: {{ $medicine->quantity }})
-                            - Rs. {{ number_format($medicine->price,2) }}
+                    <select
+                        name="medicine_id"
+                        class="form-control"
+                        id="medicineSelect"
+                        required>
 
-                        </option>
+                        @foreach($medicines as $medicine)
 
-                    @endforeach
+                            <option
+                                value="{{ $medicine->id }}"
+                                data-price="{{ $medicine->price }}"
+                                data-stock="{{ $medicine->quantity }}"
 
-                </select>
+                                @if(isset($selectedMedicine) && $selectedMedicine && $selectedMedicine->id == $medicine->id)
+                                    selected
+                                @endif>
 
-            </div>
+                                {{ $medicine->name }}
+                                -
+                                Rs. {{ number_format($medicine->price,2) }}
+                                (Stock: {{ $medicine->quantity }})
 
-            <div class="form-group">
+                            </option>
 
-                <label>Quantity</label>
+                        @endforeach
 
-                <input type="number"
-                       name="quantity"
-                       class="form-control"
-                       min="1"
-                       value="1"
-                       required>
+                    </select>
 
-            </div>
+                </div>
 
-            <button type="submit" class="btn btn-primary">
+                <div class="form-group">
 
-                Place Order
+                    <label><strong>Quantity</strong></label>
 
-            </button>
+                    <input
+                        type="number"
+                        name="quantity"
+                        id="quantity"
+                        class="form-control"
+                        value="1"
+                        min="1"
+                        required>
 
-            <a href="{{ route('orders.index') }}"
-               class="btn btn-secondary">
+                </div>
 
-                Cancel
+                <div class="row mb-4">
 
-            </a>
+                    <div class="col-md-4">
 
-        </form>
+                        <div class="alert alert-info">
+
+                            <strong>Price</strong>
+
+                            <br>
+
+                            Rs. <span id="price">0.00</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="alert alert-warning">
+
+                            <strong>Available Stock</strong>
+
+                            <br>
+
+                            <span id="stock">0</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="alert alert-success">
+
+                            <strong>Total Price</strong>
+
+                            <br>
+
+                            Rs. <span id="total">0.00</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button class="btn btn-success">
+
+                    <i class="fas fa-check"></i>
+
+                    Place Order
+
+                </button>
+
+                <a href="{{ route('orders.index') }}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
 
     </div>
 
 </div>
+
+<script>
+
+function calculateTotal(){
+
+    let medicine=document.getElementById('medicineSelect');
+
+    let option=medicine.options[medicine.selectedIndex];
+
+    let price=parseFloat(option.dataset.price);
+
+    let stock=option.dataset.stock;
+
+    let qty=parseInt(document.getElementById('quantity').value);
+
+    document.getElementById('price').innerHTML=price.toFixed(2);
+
+    document.getElementById('stock').innerHTML=stock;
+
+    document.getElementById('total').innerHTML=(price*qty).toFixed(2);
+
+}
+
+document.getElementById('medicineSelect').addEventListener('change',calculateTotal);
+
+document.getElementById('quantity').addEventListener('keyup',calculateTotal);
+
+document.getElementById('quantity').addEventListener('change',calculateTotal);
+
+calculateTotal();
+
+</script>
 
 @endsection

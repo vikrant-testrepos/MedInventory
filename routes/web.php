@@ -8,9 +8,18 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'WelcomeController@index')->name('welcome');
 
 Auth::routes();
+
+/*
+|--------------------------------------------------------------------------
+| Medicine Search (Public)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/search', 'SearchController@index')
+    ->name('medicine.search');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +48,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Orders
     Route::resource('orders', 'OrderController');
 
+    Route::get('/orders/create/{medicine}',
+        'OrderController@create')
+        ->name('orders.create.medicine');
+
     // Reports
     Route::get('/reports', 'ReportController@index')
         ->name('reports.index');
@@ -46,9 +59,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/reports/print', 'ReportController@print')
         ->name('reports.print');
 
-    // Pharmacy Management
+    // Pharmacies
     Route::resource('pharmacies', 'PharmacyController');
-
 });
 
 /*

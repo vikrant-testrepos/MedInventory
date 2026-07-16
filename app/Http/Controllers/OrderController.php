@@ -17,11 +17,22 @@ class OrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
-    public function create()
+    public function create($medicine = null)
     {
+        $selectedMedicine = null;
+
+        if ($medicine) {
+
+            $selectedMedicine = Medicine::findOrFail($medicine);
+
+        }
+
         $medicines = Medicine::where('quantity','>',0)->get();
 
-        return view('orders.create', compact('medicines'));
+        return view(
+            'orders.create',
+            compact('medicines','selectedMedicine')
+        );
     }
 
     public function store(Request $request)
