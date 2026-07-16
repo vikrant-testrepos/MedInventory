@@ -27,22 +27,23 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'medicine_id'=>'required',
-            'quantity'=>'required|integer|min:1'
+            'medicine_id' => 'required',
+            'quantity' => 'required|integer|min:1'
         ]);
 
         $medicine = Medicine::findOrFail($request->medicine_id);
 
-        if($request->quantity > $medicine->quantity){
-            return back()->with('error','Not enough stock available.');
+        if ($request->quantity > $medicine->quantity) {
+            return back()->with('error', 'Not enough stock available.');
         }
 
         Order::create([
-            'user_id'=>auth()->id(),
-            'medicine_id'=>$medicine->id,
-            'quantity'=>$request->quantity,
-            'total_price'=>$medicine->price * $request->quantity,
-            'status'=>'Pending'
+            'user_id'      => auth()->id(),
+            'pharmacy_id'  => $medicine->pharmacy_id,
+            'medicine_id'  => $medicine->id,
+            'quantity'     => $request->quantity,
+            'total_price'  => $medicine->price * $request->quantity,
+            'status'       => 'Pending'
         ]);
 
         $medicine->quantity -= $request->quantity;
@@ -50,7 +51,7 @@ class OrderController extends Controller
 
         return redirect()
             ->route('orders.index')
-            ->with('success','Order placed successfully.');
+            ->with('success', 'Order placed successfully.');
     }
 
     public function edit($id)

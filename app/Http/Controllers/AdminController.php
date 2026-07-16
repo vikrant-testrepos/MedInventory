@@ -10,19 +10,28 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $medicineCount = Medicine::count();
+        $totalMedicines = \App\Medicine::count();
+        $totalCategories = \App\Category::count();
+        $totalOrders = \App\Order::count();
+        $totalPharmacies = \App\Pharmacy::count();
 
-        $categoryCount = Category::count();
+        $lowStock = \App\Medicine::where('quantity', '<=', 10)
+                        ->orderBy('quantity')
+                        ->take(5)
+                        ->get();
 
-        $orderCount = Order::count();
-
-        $lowStock = Medicine::where('quantity', '<=', 20)->count();
+        $recentOrders = \App\Order::with('medicine', 'user')
+                        ->latest()
+                        ->take(5)
+                        ->get();
 
         return view('admin.dashboard', compact(
-            'medicineCount',
-            'categoryCount',
-            'orderCount',
-            'lowStock'
+            'totalMedicines',
+            'totalCategories',
+            'totalOrders',
+            'totalPharmacies',
+            'lowStock',
+            'recentOrders'
         ));
     }
 }
