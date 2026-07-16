@@ -8,7 +8,7 @@ use App\Order;
 
 class ReportController extends Controller
 {
-    public function index()
+    private function getReportData()
     {
         $totalMedicines = Medicine::count();
         $totalCategories = Category::count();
@@ -16,25 +16,25 @@ class ReportController extends Controller
 
         $totalStock = Medicine::sum('quantity');
 
-        $lowStock = Medicine::where('quantity', '<=', 10)
-                            ->where('quantity', '>', 0)
-                            ->count();
+        $lowStock = Medicine::where('quantity','<=',10)
+            ->where('quantity','>',0)
+            ->count();
 
-        $outOfStock = Medicine::where('quantity', 0)->count();
+        $outOfStock = Medicine::where('quantity',0)->count();
 
         $inventoryValue = Medicine::selectRaw('SUM(price * quantity) as total')
-                                  ->value('total');
+            ->value('total');
 
-        $lowStockMedicines = Medicine::where('quantity', '<=', 10)
-                                     ->orderBy('quantity')
-                                     ->get();
+        $lowStockMedicines = Medicine::where('quantity','<=',10)
+            ->orderBy('quantity')
+            ->get();
 
-        $recentOrders = Order::with('medicine', 'user')
-                             ->latest()
-                             ->take(5)
-                             ->get();
+        $recentOrders = Order::with('medicine','user')
+            ->latest()
+            ->take(10)
+            ->get();
 
-        return view('reports.index', compact(
+        return compact(
             'totalMedicines',
             'totalCategories',
             'totalOrders',
@@ -44,6 +44,16 @@ class ReportController extends Controller
             'inventoryValue',
             'lowStockMedicines',
             'recentOrders'
-        ));
+        );
+    }
+
+    public function index()
+    {
+        return view('reports.index', $this->getReportData());
+    }
+
+    public function print()
+    {
+        return view('reports.print', $this->getReportData());
     }
 }

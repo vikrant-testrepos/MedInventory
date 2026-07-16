@@ -21,5 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', 'OrderController');
 
     Route::get('/reports', 'ReportController@index')->name('reports.index');
+
+    Route::get('/reports/print', 'ReportController@print')->name('reports.print');
     
 });
