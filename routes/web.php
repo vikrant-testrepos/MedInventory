@@ -12,14 +12,7 @@ Route::get('/', 'WelcomeController@index')->name('welcome');
 
 Auth::routes();
 
-/*
-|--------------------------------------------------------------------------
-| Medicine Search (Public)
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/search', 'SearchController@index')
-    ->name('medicine.search');
+Route::get('/search', 'SearchController@index')->name('medicine.search');
 
 /*
 |--------------------------------------------------------------------------
@@ -29,38 +22,27 @@ Route::get('/search', 'SearchController@index')
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/admin', 'AdminController@index')
-        ->name('admin.dashboard');
+    Route::get('/admin', 'AdminController@index')->name('admin.dashboard');
 
-    // Categories
     Route::resource('categories', 'CategoryController');
-
-    // Medicines
     Route::resource('medicines', 'MedicineController');
+    Route::resource('orders', 'OrderController');
+    Route::resource('pharmacies', 'PharmacyController');
 
-    // Inventory
+    Route::get('/orders/create/{medicine}', 'OrderController@create')
+        ->name('orders.create.medicine');
+
     Route::get('/inventory', 'InventoryController@index')
         ->name('inventory.index');
 
     Route::post('/inventory/{id}', 'InventoryController@update')
         ->name('inventory.update');
 
-    // Orders
-    Route::resource('orders', 'OrderController');
-
-    Route::get('/orders/create/{medicine}',
-        'OrderController@create')
-        ->name('orders.create.medicine');
-
-    // Reports
     Route::get('/reports', 'ReportController@index')
         ->name('reports.index');
 
     Route::get('/reports/print', 'ReportController@print')
         ->name('reports.print');
-
-    // Pharmacies
-    Route::resource('pharmacies', 'PharmacyController');
 });
 
 /*
@@ -87,17 +69,13 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/patient', 'PatientController@index')
         ->name('patient.dashboard');
 
-    Route::get('/home', 'HomeController@index')
-        ->name('home');
+    // Keep old links working
+    Route::redirect('/home', '/patient');
 
-    Route::get('/cart', 'CartController@index')
-    ->name('cart.index');
-
-    Route::post('/cart', 'CartController@store')
-        ->name('cart.store');
-
-    Route::delete('/cart/{id}', 'CartController@destroy')
-        ->name('cart.destroy');
+    // Cart
+    Route::get('/cart', 'CartController@index')->name('cart.index');
+    Route::post('/cart', 'CartController@store')->name('cart.store');
+    Route::delete('/cart/{id}', 'CartController@destroy')->name('cart.destroy');
 
     // Checkout
     Route::get('/checkout', 'CheckoutController@index')
@@ -105,5 +83,4 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
 
     Route::post('/checkout', 'CheckoutController@store')
         ->name('checkout.store');
-
 });
