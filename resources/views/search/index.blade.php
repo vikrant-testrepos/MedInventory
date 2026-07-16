@@ -181,15 +181,25 @@
 
                 <div class="card-footer bg-white">
 
-                    href="{{ route('orders.create.medicine',$medicine->id) }}"
+                    <form action="{{ route('cart.store') }}" method="POST">
 
-                       class="btn btn-success btn-block">
+                        @csrf
 
-                        <i class="fas fa-shopping-cart"></i>
+                        <input
+                            type="hidden"
+                            name="medicine_id"
+                            value="{{ $medicine->id }}">
 
-                        Order Now
+                        <button
+                            class="btn btn-success btn-block">
 
-                    </a>
+                            <i class="fas fa-cart-plus"></i>
+
+                            Add to Cart
+
+                        </button>
+
+                    </form>
 
                 </div>
 

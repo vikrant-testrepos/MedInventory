@@ -90,4 +90,20 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/home', 'HomeController@index')
         ->name('home');
 
+    Route::get('/cart', 'CartController@index')
+    ->name('cart.index');
+
+    Route::post('/cart', 'CartController@store')
+        ->name('cart.store');
+
+    Route::delete('/cart/{id}', 'CartController@destroy')
+        ->name('cart.destroy');
+
+    // Checkout
+    Route::get('/checkout', 'CheckoutController@index')
+        ->name('checkout.index');
+
+    Route::post('/checkout', 'CheckoutController@store')
+        ->name('checkout.store');
+
 });
