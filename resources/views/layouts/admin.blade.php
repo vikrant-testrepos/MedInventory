@@ -70,32 +70,19 @@
 <div class="wrapper">
 
     <div class="sidebar">
-
         <h3>💊 MedInventory</h3>
 
-        <a href="{{ url('/admin') }}">
-            📊 Dashboard
-        </a>
+        <a href="{{ url('/admin') }}">📊 Dashboard</a>
 
-        <a href="{{ route('categories.index') }}">
-            🗂 Categories
-        </a>
+        <a href="{{ route('categories.index') }}">🗂 Categories</a>
 
-        <a href="{{ route('medicines.index') }}">
-            💊 Medicines
-        </a>
+        <a href="{{ route('medicines.index') }}">💊 Medicines</a>
 
-        <a href="{{ route('inventory.index') }}">
-            📦 Inventory
-        </a>
+        <a href="{{ route('inventory.index') }}">📦 Inventory</a>
 
-        <a href="#">
-            🛒 Orders
-        </a>
+        <a href="{{ route('orders.index') }}">🛒 Orders</a>
 
-        <a href="#">
-            📈 Reports
-        </a>
+        <a href="{{ route('reports.index') }}">📈 Reports</a>
 
         <hr style="background:#666">
 
@@ -111,8 +98,53 @@
             style="display:none;">
             @csrf
         </form>
+    </div>
+
+    <div class="content">
+
+        <div class="topbar">
+            Welcome,
+            <strong>{{ Auth::user()->name }}</strong>
+        </div>
+
+        <div class="main">
+            @yield('content')
+        </div>
 
     </div>
+
+</div>
+
+</body>
+</html><h3>💊 MedInventory</h3>
+
+    <a href="{{ url('/admin') }}">📊 Dashboard</a>
+
+    <a href="{{ route('categories.index') }}">🗂 Categories</a>
+
+    <a href="{{ route('medicines.index') }}">💊 Medicines</a>
+
+    <a href="{{ route('inventory.index') }}">📦 Inventory</a>
+
+    <a href="{{ route('orders.index') }}">🛒 Orders</a>
+
+    <a href="{{ route('reports.index') }}">📈 Reports</a>
+
+    <hr style="background:#666">
+
+    <a href="{{ route('logout') }}"
+       onclick="event.preventDefault();
+       document.getElementById('logout-form').submit();">
+        🚪 Logout
+    </a>
+
+    <form id="logout-form"
+          action="{{ route('logout') }}"
+          method="POST"
+          style="display:none;">
+        @csrf
+    </form>
+</div>
 
     <div class="content">
 

@@ -17,5 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/inventory', 'InventoryController@index')->name('inventory.index');
 
     Route::post('/inventory/{id}', 'InventoryController@update')->name('inventory.update');
+
+    Route::resource('orders', 'OrderController');
+
+    Route::get('/reports', 'ReportController@index')->name('reports.index');
     
 });
