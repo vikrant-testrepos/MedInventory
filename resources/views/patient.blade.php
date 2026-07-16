@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedInventory Admin</title>
+    <title>MedInventory Patient</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -20,28 +20,27 @@
         }
 
         .sidebar{
-            width:250px;
-            background:#343a40;
+            width:240px;
+            background:#28a745;
             color:#fff;
         }
 
         .sidebar h3{
             padding:20px;
             margin:0;
-            background:#212529;
+            background:#218838;
             text-align:center;
         }
 
         .sidebar a{
             display:block;
-            color:#ddd;
-            padding:15px 20px;
+            color:#fff;
             text-decoration:none;
+            padding:15px 20px;
         }
 
         .sidebar a:hover{
-            background:#495057;
-            color:#fff;
+            background:#1e7e34;
         }
 
         .content{
@@ -66,6 +65,7 @@
     </style>
 
 </head>
+
 <body>
 
 <div class="wrapper">
@@ -74,33 +74,29 @@
 
         <h3>💊 MedInventory</h3>
 
-        <a href="{{ url('/admin') }}">📊 Dashboard</a>
+        <a href="{{ route('home') }}">🏠 Dashboard</a>
 
-        <a href="{{ route('pharmacies.index') }}">🏥 Pharmacies</a>
+        <a href="{{ route('home') }}">💊 Browse Medicines</a>
 
-        <a href="{{ route('categories.index') }}">🗂 Categories</a>
+        <a href="{{ route('orders.index') }}">🛒 My Orders</a>
 
-        <a href="{{ route('medicines.index') }}">💊 Medicines</a>
-
-        <a href="{{ route('inventory.index') }}">📦 Inventory</a>
-
-        <a href="{{ route('orders.index') }}">🛒 Orders</a>
-
-        <a href="{{ route('reports.index') }}">📈 Reports</a>
-
-        <hr style="background:#666">
+        <hr>
 
         <a href="{{ route('logout') }}"
            onclick="event.preventDefault();
            document.getElementById('logout-form').submit();">
+
             🚪 Logout
+
         </a>
 
         <form id="logout-form"
-              action="{{ route('logout') }}"
               method="POST"
+              action="{{ route('logout') }}"
               style="display:none;">
+
             @csrf
+
         </form>
 
     </div>
@@ -108,12 +104,16 @@
     <div class="content">
 
         <div class="topbar">
+
             Welcome,
             <strong>{{ Auth::user()->name }}</strong>
+
         </div>
 
         <div class="main">
+
             @yield('content')
+
         </div>
 
     </div>
