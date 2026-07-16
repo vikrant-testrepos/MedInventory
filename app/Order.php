@@ -10,13 +10,21 @@ class Order extends Model
 
         'user_id',
 
-        'pharmacy_id',
-
         'medicine_id',
+
+        'pharmacy_id',
 
         'quantity',
 
         'total_price',
+
+        'phone',
+
+        'district',
+
+        'address',
+
+        'payment_method',
 
         'status'
 

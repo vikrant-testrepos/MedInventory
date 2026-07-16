@@ -193,7 +193,7 @@
 
                     </table>
 
-                    <a href="#" class="btn btn-success btn-lg btn-block">
+                    <a href="{{ route('checkout.index') }}" class="btn btn-success btn-lg btn-block">
 
                         <i class="fas fa-credit-card"></i>
 
