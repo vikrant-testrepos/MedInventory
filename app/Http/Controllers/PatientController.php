@@ -21,4 +21,14 @@ class PatientController extends Controller
             'pharmacies'
         ));
     }
+
+    public function orders()
+    {
+        $orders = \App\Order::with('medicine')
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('patient.orders', compact('orders'));
+    }
 }

@@ -74,8 +74,18 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
 
     // Cart
     Route::get('/cart', 'CartController@index')->name('cart.index');
-    Route::post('/cart', 'CartController@store')->name('cart.store');
-    Route::delete('/cart/{id}', 'CartController@destroy')->name('cart.destroy');
+
+    Route::post('/cart', 'CartController@store')
+        ->name('cart.store');
+
+    Route::patch('/cart/{id}/increase', 'CartController@increase')
+        ->name('cart.increase');
+
+    Route::patch('/cart/{id}/decrease', 'CartController@decrease')
+        ->name('cart.decrease');
+
+    Route::delete('/cart/{id}', 'CartController@destroy')
+        ->name('cart.destroy');
 
     // Checkout
     Route::get('/checkout', 'CheckoutController@index')
@@ -83,4 +93,13 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
 
     Route::post('/checkout', 'CheckoutController@store')
         ->name('checkout.store');
+
+    Route::get('/checkout/success', function () {
+    return view('checkout.success');
+    })->name('checkout.success');
+
+    // Patient Orders
+    Route::get('/my-orders', 'PatientOrderController@index')
+    ->name('patient.orders');
+    
 });

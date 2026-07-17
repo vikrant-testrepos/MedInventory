@@ -2,66 +2,112 @@
 
 @section('content')
 
-<div class="container">
+<div class="container my-5">
 
     <div class="row">
 
-        <!-- Delivery Details -->
-        <div class="col-md-7">
+        <!-- Checkout Form -->
+        <div class="col-lg-8">
 
-            <div class="card shadow">
+            <div class="card shadow border-0 rounded-lg">
 
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-success text-white py-3">
 
-                    <h4>Delivery Details</h4>
+                    <h3 class="mb-0">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Delivery Information
+                    </h3>
 
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
 
                     <form action="{{ route('checkout.store') }}" method="POST">
 
                         @csrf
 
+                        <div class="form-row">
+
+                            <div class="form-group col-md-6">
+
+                                <label><strong>Name</strong></label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    value="{{ auth()->user()->name }}"
+                                    readonly>
+
+                            </div>
+
+                            <div class="form-group col-md-6">
+
+                                <label><strong>Email</strong></label>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    value="{{ auth()->user()->email }}"
+                                    readonly>
+
+                            </div>
+
+                        </div>
+
                         <div class="form-group">
 
-                            <label>Phone Number</label>
+                            <label><strong>Phone Number</strong></label>
 
                             <input
                                 type="text"
                                 name="phone"
                                 class="form-control"
+                                placeholder="98XXXXXXXX"
                                 required>
 
                         </div>
 
                         <div class="form-group">
 
-                            <label>District</label>
+                            <label><strong>District</strong></label>
 
-                            <input
-                                type="text"
+                            <select
                                 name="district"
                                 class="form-control"
                                 required>
 
+                                <option value="">Select District</option>
+                                <option>Kathmandu</option>
+                                <option>Lalitpur</option>
+                                <option>Bhaktapur</option>
+                                <option>Pokhara</option>
+                                <option>Chitwan</option>
+                                <option>Biratnagar</option>
+                                <option>Butwal</option>
+                                <option>Dharan</option>
+                                <option>Janakpur</option>
+                                <option>Nepalgunj</option>
+
+                            </select>
+
                         </div>
 
                         <div class="form-group">
 
-                            <label>Complete Address</label>
+                            <label><strong>Delivery Address</strong></label>
 
                             <textarea
                                 name="address"
+                                rows="4"
                                 class="form-control"
-                                rows="3"
+                                placeholder="House No, Street, Area..."
                                 required></textarea>
 
                         </div>
 
                         <div class="form-group">
 
-                            <label>Payment Method</label>
+                            <label><strong>Payment Method</strong></label>
 
                             <select
                                 name="payment_method"
@@ -83,9 +129,22 @@
 
                         </div>
 
+                        <div class="form-group">
+
+                            <label><strong>Order Notes (Optional)</strong></label>
+
+                            <textarea
+                                class="form-control"
+                                rows="3"
+                                placeholder="Any delivery instructions..."></textarea>
+
+                        </div>
+
                         <button
                             type="submit"
                             class="btn btn-success btn-lg btn-block">
+
+                            <i class="fas fa-check-circle"></i>
 
                             Place Order
 
@@ -100,77 +159,111 @@
         </div>
 
         <!-- Order Summary -->
-        <div class="col-md-5">
+        <div class="col-lg-4">
 
-            <div class="card shadow">
-
-                <div class="card-header bg-dark text-white">
-
-                    <h4>Order Summary</h4>
-
-                </div>
+            <div class="card shadow border-0 rounded-lg sticky-top" style="top:20px;">
 
                 <div class="card-body">
 
+                    <h3 class="mb-4">
+
+                        Order Summary
+
+                    </h3>
+
+                    <hr>
+
                     @foreach($cartItems as $item)
 
-                        <p>
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <div>
+
+                                <strong>
+
+                                    {{ $item->medicine->name }}
+
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+
+                                    Qty: {{ $item->quantity }}
+
+                                </small>
+
+                            </div>
 
                             <strong>
 
-                                {{ $item->medicine->name }}
+                                Rs. {{ number_format($item->price * $item->quantity,2) }}
 
                             </strong>
 
-                            <br>
-
-                            {{ $item->quantity }} × Rs. {{ number_format($item->price, 2) }}
-
-                        </p>
-
-                        <hr>
+                        </div>
 
                     @endforeach
 
-                    <table class="table">
+                    <hr>
 
-                        <tr>
+                    <div class="d-flex justify-content-between mb-2">
 
-                            <th>Subtotal</th>
+                        <span>Subtotal</span>
 
-                            <td>
+                        <strong>
 
-                                Rs. {{ number_format($subtotal, 2) }}
+                            Rs. {{ number_format($subtotal,2) }}
 
-                            </td>
+                        </strong>
 
-                        </tr>
+                    </div>
 
-                        <tr>
+                    <div class="d-flex justify-content-between mb-2">
 
-                            <th>Delivery Charge</th>
+                        <span>Delivery</span>
 
-                            <td>
+                        <strong>
 
-                                Rs. {{ number_format($delivery, 2) }}
+                            Rs. {{ number_format($delivery,2) }}
 
-                            </td>
+                        </strong>
 
-                        </tr>
+                    </div>
 
-                        <tr>
+                    <div class="d-flex justify-content-between mb-3">
 
-                            <th>Total</th>
+                        <span>Discount</span>
 
-                            <th class="text-success">
+                        <strong class="text-success">
 
-                                Rs. {{ number_format($grandTotal, 2) }}
+                            Rs. 0.00
 
-                            </th>
+                        </strong>
 
-                        </tr>
+                    </div>
 
-                    </table>
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <h4>Total</h4>
+
+                        <h4 class="text-success">
+
+                            Rs. {{ number_format($grandTotal,2) }}
+
+                        </h4>
+
+                    </div>
+
+                    <div class="alert alert-light mt-4 mb-0">
+
+                        <i class="fas fa-lock text-success"></i>
+
+                        Secure Checkout
+
+                    </div>
 
                 </div>
 

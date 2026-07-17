@@ -2,6 +2,32 @@
 
 @section('content')
 
+@if(session('success'))
+
+    <div class="container mt-3">
+
+        <div class="alert alert-success alert-dismissible fade show">
+
+            <strong>
+                <i class="fas fa-check-circle"></i>
+                {{ session('success') }}
+            </strong>
+
+            <button
+                type="button"
+                class="close"
+                data-dismiss="alert">
+
+                <span>&times;</span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+@endif
+
 <div class="container">
 
     <!-- =========================
@@ -294,15 +320,26 @@
 
                         <div class="mt-4">
 
-                            <a
-                                href="{{ route('orders.create.medicine',$medicine->id) }}"
-                                class="btn btn-cart">
+                              <form action="{{ route('cart.store') }}" method="POST">
 
-                                <i class="fas fa-shopping-cart"></i>
+                                    @csrf
 
-                                Add to Cart
+                                    <input
+                                        type="hidden"
+                                        name="medicine_id"
+                                        value="{{ $medicine->id }}">
 
-                            </a>
+                                    <button
+                                        type="submit"
+                                        class="btn btn-cart btn-block">
+
+                                        <i class="fas fa-shopping-cart"></i>
+
+                                        Add to Cart
+
+                                    </button>
+
+                                </form>
 
                         </div>
 

@@ -2,21 +2,7 @@
 
 @section('content')
 
-<div class="container">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <h2>
-            <i class="fas fa-shopping-cart"></i>
-            My Shopping Cart
-        </h2>
-
-        <a href="{{ route('home') }}" class="btn btn-primary">
-            <i class="fas fa-search"></i>
-            Continue Shopping
-        </a>
-
-    </div>
+<div class="container my-5">
 
     @if(session('success'))
 
@@ -28,178 +14,360 @@
 
     @endif
 
-    @php
-        $grandTotal = 0;
-    @endphp
+    <div class="row">
 
-    @if($cartItems->count())
+        <div class="col-lg-8">
 
-    <div class="card shadow">
+            <h2 class="mb-4">
 
-        <div class="card-body p-0">
+                <i class="fas fa-shopping-cart text-success"></i>
 
-            <table class="table table-bordered table-hover mb-0">
+                My Shopping Cart
 
-                <thead class="thead-dark">
+            </h2>
 
-                    <tr>
+            @forelse($cartItems as $item)
 
-                        <th>Medicine</th>
+                @php
 
-                        <th>Price</th>
+                    $subtotal = $item->price * $item->quantity;
 
-                        <th width="120">Quantity</th>
+                @endphp
 
-                        <th>Total</th>
+                <div class="card shadow-sm border-0 rounded-lg mb-4">
 
-                        <th width="100">Action</th>
+                    <div class="card-body">
 
-                    </tr>
+                        <div class="row align-items-center">
 
-                </thead>
+                            <!-- Medicine Image -->
 
-                <tbody>
+                            <div class="col-md-3 text-center">
 
-                @foreach($cartItems as $item)
+                                @if($item->medicine->image)
 
-                    @php
+                                    <img
+                                        src="{{ asset('storage/'.$item->medicine->image) }}"
+                                        class="img-fluid"
+                                        style="max-height:120px;">
 
-                        $total = $item->price * $item->quantity;
+                                @else
 
-                        $grandTotal += $total;
+                                    <i class="fas fa-capsules text-success"
+                                       style="font-size:80px;"></i>
 
-                    @endphp
+                                @endif
 
-                    <tr>
+                            </div>
 
-                        <td>
+                            <!-- Medicine Info -->
 
-                            <strong>
+                            <div class="col-md-5">
 
-                                {{ $item->medicine->name }}
+                                <h4>
 
-                            </strong>
+                                    {{ $item->medicine->name }}
 
-                            <br>
+                                </h4>
 
-                            <small class="text-muted">
+                                <p class="text-muted mb-1">
 
-                                {{ $item->medicine->company }}
+                                    {{ $item->medicine->company }}
 
-                            </small>
+                                </p>
 
-                        </td>
+                                <p class="mb-1">
 
-                        <td>
+                                    <span class="badge badge-info">
 
-                            Rs. {{ number_format($item->price,2) }}
+                                        {{ optional($item->medicine->category)->name }}
 
-                        </td>
+                                    </span>
 
-                        <td>
+                                </p>
 
-                            {{ $item->quantity }}
+                                <small class="text-primary">
 
-                        </td>
+                                    <i class="fas fa-store"></i>
 
-                        <td>
+                                    {{ optional($item->medicine->pharmacy)->name }}
 
-                            Rs. {{ number_format($total,2) }}
+                                </small>
 
-                        </td>
+                                <div class="mt-2">
 
-                        <td>
+                                    <span class="text-warning">
 
-                            <form
-                                action="{{ route('cart.destroy',$item->id) }}"
-                                method="POST">
+                                        ★★★★★
 
-                                @csrf
+                                    </span>
 
-                                @method('DELETE')
+                                    <small class="text-muted">
 
-                                <button
-                                    class="btn btn-danger btn-sm">
+                                        (4.8)
 
-                                    <i class="fas fa-trash"></i>
+                                    </small>
 
-                                </button>
+                                </div>
 
-                            </form>
+                            </div>
 
-                        </td>
+                            <!-- Quantity -->
 
-                    </tr>
+                            <div class="col-md-2 text-center">
 
-                @endforeach
+                                <h5>
 
-                </tbody>
+                                    Rs.
+                                    {{ number_format($item->price,2) }}
 
-            </table>
+                                </h5>
+
+                                <div class="d-flex justify-content-center align-items-center mt-3">
+
+                                    <form
+                                        action="{{ route('cart.decrease',$item->id) }}"
+                                        method="POST">
+
+                                        @csrf
+
+                                        @method('PATCH')
+
+                                        <button class="btn btn-outline-secondary btn-sm">
+
+                                            -
+
+                                        </button>
+
+                                    </form>
+
+                                    <span class="mx-3 font-weight-bold">
+
+                                        {{ $item->quantity }}
+
+                                    </span>
+
+                                    <form
+                                        action="{{ route('cart.increase',$item->id) }}"
+                                        method="POST">
+
+                                        @csrf
+
+                                        @method('PATCH')
+
+                                        <button class="btn btn-outline-success btn-sm">
+
+                                            +
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Total -->
+
+                            <div class="col-md-2 text-center">
+
+                                <h5 class="text-success">
+
+                                    Rs.
+                                    {{ number_format($subtotal,2) }}
+
+                                </h5>
+
+                                <form
+                                    action="{{ route('cart.destroy',$item->id) }}"
+                                    method="POST"
+                                    class="mt-3">
+
+                                    @csrf
+
+                                    @method('DELETE')
+
+                                    <button
+                                        class="btn btn-danger btn-sm">
+
+                                        <i class="fas fa-trash"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @empty
+
+                <div class="card shadow border-0">
+
+                    <div class="card-body text-center py-5">
+
+                        <i class="fas fa-shopping-cart text-muted"
+                           style="font-size:90px;"></i>
+
+                        <h3 class="mt-4">
+
+                            Your cart is empty
+
+                        </h3>
+
+                        <p class="text-muted">
+
+                            Browse medicines and add them to your cart.
+
+                        </p>
+
+                        <a
+                            href="{{ route('patient.dashboard') }}"
+                            class="btn btn-main">
+
+                            Continue Shopping
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            @endforelse
 
         </div>
 
-    </div>
+                <!-- Order Summary -->
 
-    <div class="card mt-4 shadow">
+        <div class="col-lg-4">
 
-        <div class="card-body">
+            <div class="card shadow border-0 rounded-lg sticky-top" style="top:20px;">
 
-            <div class="row">
+                <div class="card-body">
 
-                <div class="col-md-6 offset-md-6">
+                    <h3 class="mb-4">
 
-                    <table class="table">
+                        Order Summary
 
-                        <tr>
+                    </h3>
 
-                            <th>Subtotal</th>
+                    <hr>
 
-                            <td>
+                    <div class="d-flex justify-content-between mb-3">
 
-                                Rs. {{ number_format($grandTotal,2) }}
+                        <span>
 
-                            </td>
+                            Subtotal
 
-                        </tr>
+                        </span>
 
-                        <tr>
+                        <strong>
 
-                            <th>Delivery Charge</th>
+                            Rs. {{ number_format($grandTotal,2) }}
 
-                            <td>
+                        </strong>
 
-                                Rs. 100.00
+                    </div>
 
-                            </td>
+                    <div class="d-flex justify-content-between mb-3">
 
-                        </tr>
+                        <span>
 
-                        <tr>
+                            Delivery
 
-                            <th>
+                        </span>
 
-                                Grand Total
+                        <strong>
 
-                            </th>
+                            Rs. 100.00
 
-                            <th class="text-success">
+                        </strong>
 
-                                Rs. {{ number_format($grandTotal + 100,2) }}
+                    </div>
 
-                            </th>
+                    <div class="d-flex justify-content-between mb-3">
 
-                        </tr>
+                        <span>
 
-                    </table>
+                            Discount
 
-                    <a href="{{ route('checkout.index') }}" class="btn btn-success btn-lg btn-block">
+                        </span>
 
-                        <i class="fas fa-credit-card"></i>
+                        <strong class="text-success">
 
-                        Proceed to Checkout
+                            Rs. 0.00
 
-                    </a>
+                        </strong>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+
+                        <h4>
+
+                            Grand Total
+
+                        </h4>
+
+                        <h4 class="text-success">
+
+                            Rs. {{ number_format($grandTotal + 100,2) }}
+
+                        </h4>
+
+                    </div>
+
+                    @if($cartItems->count())
+
+                        <a
+                            href="{{ route('checkout.index') }}"
+                            class="btn btn-success btn-lg btn-block mt-4">
+
+                            <i class="fas fa-credit-card"></i>
+
+                            Proceed to Checkout
+
+                        </a>
+
+                        <a
+                            href="{{ route('patient.dashboard') }}"
+                            class="btn btn-outline-secondary btn-block mt-2">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Continue Shopping
+
+                        </a>
+
+                    @else
+
+                        <a
+                            href="{{ route('patient.dashboard') }}"
+                            class="btn btn-primary btn-block mt-4">
+
+                            Browse Medicines
+
+                        </a>
+
+                    @endif
+
+                    <div class="mt-4">
+
+                        <small class="text-muted">
+
+                            <i class="fas fa-lock"></i>
+
+                            Secure checkout with encrypted order processing.
+
+                        </small>
+
+                    </div>
 
                 </div>
 
@@ -208,28 +376,6 @@
         </div>
 
     </div>
-
-    @else
-
-        <div class="alert alert-info">
-
-            <h4>Your cart is empty.</h4>
-
-            <p>
-
-                Search medicines and add them to your cart.
-
-            </p>
-
-            <a href="{{ route('home') }}" class="btn btn-primary">
-
-                Browse Medicines
-
-            </a>
-
-        </div>
-
-    @endif
 
 </div>
 

@@ -2,38 +2,38 @@
 
 @section('content')
 
-<div class="container mt-4">
+<div class="container">
 
-    <div class="row mb-4">
+    <!-- Search Header -->
 
-        <div class="col-md-12">
+    <div class="hero">
 
-            <div class="card shadow">
+        <div class="row align-items-center">
 
-                <div class="card-body">
+            <div class="col-lg-8">
 
-                    <h3 class="mb-3">
+                <h1>Search Medicines</h1>
 
-                        <i class="fas fa-search"></i>
+                <p>
+                    Find medicines by name, company or category.
+                </p>
 
-                        Search Medicines
+                <form action="{{ route('medicine.search') }}" method="GET">
 
-                    </h3>
-
-                    <form action="{{ route('medicine.search') }}" method="GET">
+                    <div class="search-box">
 
                         <div class="input-group">
 
                             <input
                                 type="text"
-                                name="search"
-                                class="form-control form-control-lg"
-                                placeholder="Enter medicine name..."
-                                value="{{ request('search') }}">
+                                name="keyword"
+                                class="form-control"
+                                value="{{ $keyword }}"
+                                placeholder="Search medicines...">
 
                             <div class="input-group-append">
 
-                                <button class="btn btn-primary">
+                                <button class="btn btn-main">
 
                                     <i class="fas fa-search"></i>
 
@@ -45,9 +45,15 @@
 
                         </div>
 
-                    </form>
+                    </div>
 
-                </div>
+                </form>
+
+            </div>
+
+            <div class="col-lg-4 text-center">
+
+                <i class="fas fa-search fa-8x text-white" style="opacity:.15;"></i>
 
             </div>
 
@@ -55,177 +61,158 @@
 
     </div>
 
-    @if(request('search'))
+    <h2 class="section-title">
 
-    <div class="mb-4">
+        Search Results
 
-        <h4>
+        <small class="text-muted">
 
-            Search Results for
+            ({{ $medicines->total() }} medicines)
 
-            <span class="text-primary">
+        </small>
 
-                "{{ request('search') }}"
-
-            </span>
-
-        </h4>
-
-    </div>
-
-    @endif
+    </h2>
 
     <div class="row">
 
         @forelse($medicines as $medicine)
 
-        <div class="col-lg-4 mb-4">
+            <div class="col-lg-4 col-md-6">
 
-            <div class="card h-100 shadow-sm">
+                <div class="medicine-card">
 
-                <div class="card-body">
+                    <span class="badge-new">
 
-                    <h4>
+                        Available
 
-                        {{ $medicine->name }}
+                    </span>
 
-                    </h4>
+                    <div class="wishlist">
 
-                    <hr>
+                        <i class="far fa-heart"></i>
 
-                    <p>
+                    </div>
 
-                        <strong>Company:</strong>
+                    <div class="medicine-image">
 
-                        {{ $medicine->company }}
+                        @if($medicine->image)
 
-                    </p>
-
-                    <p>
-
-                        <strong>Category:</strong>
-
-                        {{ optional($medicine->category)->name }}
-
-                    </p>
-
-                    <p>
-
-                        <strong>Pharmacy:</strong>
-
-                        {{ optional($medicine->pharmacy)->name }}
-
-                    </p>
-
-                    <p>
-
-                        <strong>District:</strong>
-
-                        {{ optional($medicine->pharmacy)->district }}
-
-                    </p>
-
-                    <p>
-
-                        <strong>Address:</strong>
-
-                        {{ optional($medicine->pharmacy)->address }}
-
-                    </p>
-
-                    <p>
-
-                        <strong>Price:</strong>
-
-                        <span class="text-success">
-
-                            Rs. {{ number_format($medicine->price,2) }}
-
-                        </span>
-
-                    </p>
-
-                    <p>
-
-                        <strong>Available:</strong>
-
-                        @if($medicine->quantity>10)
-
-                            <span class="badge badge-success">
-
-                                {{ $medicine->quantity }}
-
-                            </span>
-
-                        @elseif($medicine->quantity>0)
-
-                            <span class="badge badge-warning">
-
-                                {{ $medicine->quantity }}
-
-                            </span>
+                            <img
+                                src="{{ asset('storage/'.$medicine->image) }}"
+                                class="img-fluid">
 
                         @else
 
-                            <span class="badge badge-danger">
+                            <i class="fas fa-capsules"></i>
 
-                                Out of Stock
+                        @endif
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <small>
+
+                            {{ optional($medicine->category)->name }}
+
+                        </small>
+
+                        <h4>
+
+                            {{ $medicine->name }}
+
+                        </h4>
+
+                        <p>
+
+                            {{ $medicine->company }}
+
+                        </p>
+
+                        <div class="rating">
+
+                            ★★★★★
+
+                            <span class="text-muted">
+
+                                (4.8)
 
                             </span>
 
-                        @endif
+                        </div>
+
+                        <div class="price mt-2">
+
+                            Rs.
+                            {{ number_format($medicine->price,2) }}
+
+                        </div>
+
+                        <div class="stock {{ $medicine->quantity < 20 ? 'low' : '' }}">
+
+                            {{ $medicine->quantity }}
+
+                            in stock
+
+                        </div>
+
+                        <div class="pharmacy-name mt-2">
+
+                            <i class="fas fa-store"></i>
+
+                            {{ optional($medicine->pharmacy)->name }}
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <a
+                                href="{{ route('orders.create.medicine',$medicine->id) }}"
+                                class="btn btn-cart">
+
+                                <i class="fas fa-shopping-cart"></i>
+
+                                Add to Cart
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        @empty
+
+            <div class="col-12">
+
+                <div class="alert alert-warning text-center p-5">
+
+                    <h3>
+
+                        No medicines found
+
+                    </h3>
+
+                    <p>
+
+                        Try searching with another keyword.
 
                     </p>
 
                 </div>
 
-                <div class="card-footer bg-white">
-
-                    <form action="{{ route('cart.store') }}" method="POST">
-
-                        @csrf
-
-                        <input
-                            type="hidden"
-                            name="medicine_id"
-                            value="{{ $medicine->id }}">
-
-                        <button
-                            class="btn btn-success btn-block">
-
-                            <i class="fas fa-cart-plus"></i>
-
-                            Add to Cart
-
-                        </button>
-
-                    </form>
-
-                </div>
-
             </div>
-
-        </div>
-
-        @empty
-
-        <div class="col-md-12">
-
-            <div class="alert alert-warning">
-
-                No medicines found.
-
-            </div>
-
-        </div>
 
         @endforelse
 
     </div>
 
-    <div class="mt-4">
+    <div class="mt-4 d-flex justify-content-center">
 
-        {{ $medicines->links() }}
+        {{ $medicines->appends(request()->query())->links() }}
 
     </div>
 

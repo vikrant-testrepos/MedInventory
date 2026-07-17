@@ -10,11 +10,15 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cartItems = Cart::with('medicine')
+        $cartItems = Cart::with(['medicine', 'medicine.pharmacy'])
             ->where('user_id', auth()->id())
             ->get();
 
-        return view('cart.index', compact('cartItems'));
+        $grandTotal = $cartItems->sum(function ($item) {
+            return $item->price * $item->quantity;
+        });
+
+        return view('cart.index', compact('cartItems', 'grandTotal'));
     }
 
     public function store(Request $request)
@@ -27,22 +31,17 @@ class CartController extends Controller
 
         if ($cart) {
 
-            $cart->quantity++;
+            $cart->quantity += 1;
 
             $cart->save();
 
         } else {
 
             Cart::create([
-
-                'user_id' => auth()->id(),
-
+                'user_id'     => auth()->id(),
                 'medicine_id' => $medicine->id,
-
-                'quantity' => 1,
-
-                'price' => $medicine->price
-
+                'quantity'    => 1,
+                'price'       => $medicine->price,
             ]);
 
         }
@@ -52,9 +51,40 @@ class CartController extends Controller
             ->with('success', 'Medicine added to cart.');
     }
 
+    public function increase($id)
+    {
+        $cart = Cart::where('user_id', auth()->id())
+            ->findOrFail($id);
+
+        $cart->quantity++;
+
+        $cart->save();
+
+        return back();
+    }
+
+    public function decrease($id)
+    {
+        $cart = Cart::where('user_id', auth()->id())
+            ->findOrFail($id);
+
+        if ($cart->quantity > 1) {
+
+            $cart->quantity--;
+
+            $cart->save();
+
+        }
+
+        return back();
+    }
+
     public function destroy($id)
     {
-        Cart::findOrFail($id)->delete();
+        $cart = Cart::where('user_id', auth()->id())
+            ->findOrFail($id);
+
+        $cart->delete();
 
         return back()->with('success', 'Item removed from cart.');
     }

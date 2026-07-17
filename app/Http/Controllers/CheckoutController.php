@@ -58,7 +58,7 @@ class CheckoutController extends Controller
 
         ]);
 
-        $cartItems = \App\Cart::with('medicine')
+        $cartItems = Cart::with('medicine')
             ->where('user_id', auth()->id())
             ->get();
 
@@ -115,13 +115,8 @@ class CheckoutController extends Controller
 
         }
 
-        \App\Cart::where('user_id', auth()->id())->delete();
+        Cart::where('user_id', auth()->id())->delete();
 
-        return redirect()
-            ->route('home')
-            ->with(
-                'success',
-                'Your order has been placed successfully.'
-            );
+        return redirect()->route('checkout.success');
     }
 }
