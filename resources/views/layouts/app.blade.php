@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,6 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/patient.css') }}" rel="stylesheet">
 
     <style>
         body {
@@ -21,7 +23,7 @@
         }
 
         .navbar {
-            background: #ffffff;
+            background: #fff;
             box-shadow: 0 2px 15px rgba(0, 0, 0, .08);
         }
 
@@ -44,7 +46,7 @@
 
         .btn-main {
             background: #16a085;
-            color: #fff;
+            color: white;
             border: none;
             border-radius: 30px;
             padding: 10px 22px;
@@ -52,11 +54,11 @@
 
         .btn-main:hover {
             background: #13856f;
-            color: #fff;
+            color: white;
         }
 
         footer {
-            background: #fff;
+            background: white;
             margin-top: 60px;
             padding: 20px;
             text-align: center;
@@ -64,11 +66,13 @@
             border-top: 1px solid #eee;
         }
     </style>
+
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light">
+
     <div class="container">
 
         <a class="navbar-brand" href="{{ route('patient.dashboard') }}">
@@ -76,8 +80,13 @@
             MedInventory
         </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav">
+
             <span class="navbar-toggler-icon"></span>
+
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -109,47 +118,67 @@
                     </a>
                 </li>
 
-                <li class="nav-item dropdown">
+                @auth
 
-                    <a class="nav-link dropdown-toggle"
-                       href="#"
-                       role="button"
-                       data-toggle="dropdown">
+                    <li class="nav-item dropdown">
 
-                        <i class="fa-solid fa-user"></i>
-                        {{ Auth::user()->name }}
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-toggle="dropdown">
 
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-
-                        <a class="dropdown-item"
-                           href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
-                           document.getElementById('logout-form').submit();">
-
-                            Logout
+                            <i class="fa-solid fa-user"></i>
+                            {{ Auth::user()->name }}
 
                         </a>
 
-                        <form id="logout-form"
-                              action="{{ route('logout') }}"
-                              method="POST"
-                              style="display:none;">
+                        <div class="dropdown-menu dropdown-menu-right">
 
-                            @csrf
+                            <a class="dropdown-item"
+                               href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
 
-                        </form>
+                                Logout
 
-                    </div>
+                            </a>
 
-                </li>
+                            <form id="logout-form"
+                                  action="{{ route('logout') }}"
+                                  method="POST"
+                                  style="display:none;">
+
+                                @csrf
+
+                            </form>
+
+                        </div>
+
+                    </li>
+
+                @else
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">
+                            Login
+                        </a>
+                    </li>
+
+                    <li class="nav-item ml-2">
+                        <a class="btn btn-main" href="{{ route('register') }}">
+                            Register
+                        </a>
+                    </li>
+
+                @endauth
 
             </ul>
 
         </div>
 
     </div>
+
 </nav>
 
 <main>
@@ -157,14 +186,17 @@
 </main>
 
 <footer>
+
     © {{ date('Y') }} MedInventory
 
     <br>
 
     Your Trusted Online Pharmacy
+
 </footer>
 
 <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
+
 </html>
