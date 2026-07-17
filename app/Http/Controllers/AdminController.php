@@ -2,36 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Medicine;
 use App\Category;
+use App\Medicine;
 use App\Order;
+use App\Pharmacy;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $totalMedicines = \App\Medicine::count();
-        $totalCategories = \App\Category::count();
-        $totalOrders = \App\Order::count();
-        $totalPharmacies = \App\Pharmacy::count();
+        return view('admin.dashboard', [
 
-        $lowStock = \App\Medicine::where('quantity', '<=', 10)
-                        ->orderBy('quantity')
-                        ->take(5)
-                        ->get();
+            'totalMedicines'  => Medicine::count(),
 
-        $recentOrders = \App\Order::with('medicine', 'user')
-                        ->latest()
-                        ->take(5)
-                        ->get();
+            'totalCategories' => Category::count(),
 
-        return view('admin.dashboard', compact(
-            'totalMedicines',
-            'totalCategories',
-            'totalOrders',
-            'totalPharmacies',
-            'lowStock',
-            'recentOrders'
-        ));
+            'totalOrders'     => Order::count(),
+
+            'totalPharmacies' => Pharmacy::count(),
+
+            'recentOrders' => Order::with(
+                'user',
+                'medicine',
+                'pharmacy'
+            )->latest()->take(5)->get(),
+
+            'lowStock' => Medicine::where('quantity','<',10)
+                            ->orderBy('quantity')
+                            ->take(5)
+                            ->get(),
+
+            'latestPharmacies' => Pharmacy::latest()
+                                    ->take(5)
+                                    ->get()
+
+        ]);
     }
 }

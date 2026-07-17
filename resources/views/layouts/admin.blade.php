@@ -1,124 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>MedInventory Admin</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <style>
-        body{
-            margin:0;
-            font-family:Arial,Helvetica,sans-serif;
-            background:#f4f6f9;
-        }
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
-        .wrapper{
-            display:flex;
-            min-height:100vh;
-        }
-
-        .sidebar{
-            width:250px;
-            background:#343a40;
-            color:#fff;
-        }
-
-        .sidebar h3{
-            padding:20px;
-            margin:0;
-            background:#212529;
-            text-align:center;
-        }
-
-        .sidebar a{
-            display:block;
-            color:#ddd;
-            padding:15px 20px;
-            text-decoration:none;
-        }
-
-        .sidebar a:hover{
-            background:#495057;
-            color:#fff;
-        }
-
-        .content{
-            flex:1;
-        }
-
-        .topbar{
-            background:#fff;
-            padding:15px 20px;
-            border-bottom:1px solid #ddd;
-        }
-
-        .main{
-            padding:25px;
-        }
-
-        .card{
-            border:none;
-            border-radius:8px;
-            box-shadow:0 2px 8px rgba(0,0,0,.1);
-        }
-    </style>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
+
 <body>
 
 <div class="wrapper">
 
-    <div class="sidebar">
+    {{-- Sidebar --}}
+    @include('components.admin-sidebar')
 
-        <h3>💊 MedInventory</h3>
-
-        <a href="{{ url('/admin') }}">📊 Dashboard</a>
-
-        <a href="{{ route('pharmacies.index') }}">🏥 Pharmacies</a>
-
-        <a href="{{ route('categories.index') }}">🗂 Categories</a>
-
-        <a href="{{ route('medicines.index') }}">💊 Medicines</a>
-
-        <a href="{{ route('inventory.index') }}">📦 Inventory</a>
-
-        <a href="{{ route('orders.index') }}">🛒 Orders</a>
-
-        <a href="{{ route('reports.index') }}">📈 Reports</a>
-
-        <hr style="background:#666">
-
-        <a href="{{ route('logout') }}"
-           onclick="event.preventDefault();
-           document.getElementById('logout-form').submit();">
-            🚪 Logout
-        </a>
-
-        <form id="logout-form"
-              action="{{ route('logout') }}"
-              method="POST"
-              style="display:none;">
-            @csrf
-        </form>
-
-    </div>
-
+    {{-- Main Content --}}
     <div class="content">
 
+        {{-- Top Bar --}}
         <div class="topbar">
-            Welcome,
-            <strong>{{ Auth::user()->name }}</strong>
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h4 class="mb-0">
+
+                        @yield('title','Admin Dashboard')
+
+                    </h4>
+
+                    <small class="text-muted">
+
+                        Welcome back,
+                        {{ Auth::user()->name }}
+
+                    </small>
+
+                </div>
+
+                <div class="d-flex align-items-center">
+
+                    <button class="btn btn-light mr-3">
+
+                        <i class="fas fa-bell"></i>
+
+                    </button>
+
+                    <div class="dropdown">
+
+                        <button
+                            class="btn btn-light dropdown-toggle"
+                            data-toggle="dropdown">
+
+                            <i class="fas fa-user-circle"></i>
+
+                            {{ Auth::user()->name }}
+
+                        </button>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+
+                            <a class="dropdown-item" href="#">
+
+                                <i class="fas fa-user"></i>
+
+                                Profile
+
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <form
+                                action="{{ route('logout') }}"
+                                method="POST">
+
+                                @csrf
+
+                                <button
+                                    class="dropdown-item text-danger">
+
+                                    <i class="fas fa-sign-out-alt"></i>
+
+                                    Logout
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
+        {{-- Page Content --}}
         <div class="main">
+
+            @if(session('success'))
+
+                <div class="alert alert-success">
+
+                    {{ session('success') }}
+
+                </div>
+
+            @endif
+
+            @if(session('error'))
+
+                <div class="alert alert-danger">
+
+                    {{ session('error') }}
+
+                </div>
+
+            @endif
+
             @yield('content')
+
         </div>
 
     </div>
 
 </div>
 
+<script src="{{ asset('js/app.js') }}"></script>
+
 </body>
+
 </html>

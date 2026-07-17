@@ -1,82 +1,51 @@
-@extends('layouts.dashboard')
-
-@section('title','Admin Dashboard')
+@extends('layouts.admin')
 
 @section('content')
 
-<div class="container-fluid">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h2 class="mb-4">
-        Dashboard
-    </h2>
+    <div>
+        <h2 class="mb-1">
+            Dashboard
+        </h2>
 
-    <div class="row">
+        <p class="text-muted mb-0">
+            Welcome back, {{ Auth::user()->name }} 👋
+        </p>
+    </div>
 
-        <div class="col-md-3 mb-4">
+</div>
 
-            <div class="card text-center">
 
-                <div class="card-body">
+{{-- Statistics Cards --}}
 
-                    <i class="fas fa-pills fa-2x text-primary mb-3"></i>
+<div class="row">
 
-                    <h3>{{ $totalMedicines }}</h3>
+    <div class="col-lg-3 col-md-6 mb-4">
 
-                    <p>Total Medicines</p>
+        <div class="card shadow-sm border-0">
 
-                </div>
+            <div class="card-body">
 
-            </div>
+                <div class="d-flex justify-content-between align-items-center">
 
-        </div>
+                    <div>
 
-        <div class="col-md-3 mb-4">
+                        <small class="text-muted">
+                            Medicines
+                        </small>
 
-            <div class="card text-center">
+                        <h2 class="mb-0">
+                            {{ $totalMedicines }}
+                        </h2>
 
-                <div class="card-body">
+                    </div>
 
-                    <i class="fas fa-tags fa-2x text-success mb-3"></i>
+                    <div class="rounded-circle bg-primary text-white p-3">
 
-                    <h3>{{ $totalCategories }}</h3>
+                        <i class="fas fa-pills fa-lg"></i>
 
-                    <p>Categories</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 mb-4">
-
-            <div class="card text-center">
-
-                <div class="card-body">
-
-                    <i class="fas fa-shopping-cart fa-2x text-warning mb-3"></i>
-
-                    <h3>{{ $totalOrders }}</h3>
-
-                    <p>Total Orders</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 mb-4">
-
-            <div class="card text-center">
-
-                <div class="card-body">
-
-                    <i class="fas fa-clinic-medical fa-2x text-danger mb-3"></i>
-
-                    <h3>{{ $totalPharmacies }}</h3>
-
-                    <p>Pharmacies</p>
+                    </div>
 
                 </div>
 
@@ -86,79 +55,32 @@
 
     </div>
 
-    <div class="row">
 
-        <div class="col-lg-7">
+    <div class="col-lg-3 col-md-6 mb-4">
 
-            <div class="card">
+        <div class="card shadow-sm border-0">
 
-                <div class="card-header">
+            <div class="card-body">
 
-                    <strong>Recent Orders</strong>
+                <div class="d-flex justify-content-between align-items-center">
 
-                </div>
+                    <div>
 
-                <div class="card-body p-0">
+                        <small class="text-muted">
+                            Categories
+                        </small>
 
-                    <table class="table table-hover mb-0">
+                        <h2 class="mb-0">
+                            {{ $totalCategories }}
+                        </h2>
 
-                        <thead>
+                    </div>
 
-                        <tr>
+                    <div class="rounded-circle bg-success text-white p-3">
 
-                            <th>ID</th>
+                        <i class="fas fa-tags fa-lg"></i>
 
-                            <th>Medicine</th>
-
-                            <th>Patient</th>
-
-                            <th>Status</th>
-
-                        </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                        @forelse($recentOrders as $order)
-
-                            <tr>
-
-                                <td>{{ $order->id }}</td>
-
-                                <td>{{ $order->medicine->name ?? '-' }}</td>
-
-                                <td>{{ $order->user->name ?? '-' }}</td>
-
-                                <td>
-
-                                    <span class="badge badge-info">
-
-                                        {{ $order->status }}
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td colspan="4" class="text-center">
-
-                                    No Orders
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
-                        </tbody>
-
-                    </table>
+                    </div>
 
                 </div>
 
@@ -166,47 +88,353 @@
 
         </div>
 
-        <div class="col-lg-5">
+    </div>
 
-            <div class="card">
 
-                <div class="card-header">
+    <div class="col-lg-3 col-md-6 mb-4">
 
-                    <strong>Low Stock Medicines</strong>
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-muted">
+                            Orders
+                        </small>
+
+                        <h2 class="mb-0">
+                            {{ $totalOrders }}
+                        </h2>
+
+                    </div>
+
+                    <div class="rounded-circle bg-warning text-white p-3">
+
+                        <i class="fas fa-shopping-cart fa-lg"></i>
+
+                    </div>
 
                 </div>
 
-                <div class="card-body">
+            </div>
 
-                    @forelse($lowStock as $medicine)
+        </div>
 
-                        <div class="d-flex justify-content-between border-bottom py-2">
+    </div>
 
-                            <span>
 
-                                {{ $medicine->name }}
+    <div class="col-lg-3 col-md-6 mb-4">
 
-                            </span>
+        <div class="card shadow-sm border-0">
 
-                            <span class="badge badge-danger">
+            <div class="card-body">
 
-                                {{ $medicine->quantity }}
+                <div class="d-flex justify-content-between align-items-center">
 
-                            </span>
+                    <div>
 
-                        </div>
+                        <small class="text-muted">
+                            Pharmacies
+                        </small>
+
+                        <h2 class="mb-0">
+                            {{ $totalPharmacies }}
+                        </h2>
+
+                    </div>
+
+                    <div class="rounded-circle bg-danger text-white p-3">
+
+                        <i class="fas fa-clinic-medical fa-lg"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="row">
+
+    {{-- Recent Orders --}}
+
+    <div class="col-lg-8 mb-4">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-header bg-white">
+
+                <strong>
+                    Recent Orders
+                </strong>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover mb-0">
+
+                    <thead class="thead-light">
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Patient</th>
+
+                            <th>Medicine</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    @forelse($recentOrders as $order)
+
+                        <tr>
+
+                            <td>#{{ $order->id }}</td>
+
+                            <td>
+                                {{ optional($order->user)->name }}
+                            </td>
+
+                            <td>
+                                {{ optional($order->medicine)->name }}
+                            </td>
+
+                            <td>
+
+                                @if($order->status=="Pending")
+
+                                    <span class="badge badge-warning">
+
+                                        Pending
+
+                                    </span>
+
+                                @elseif($order->status=="Preparing")
+
+                                    <span class="badge badge-info">
+
+                                        Preparing
+
+                                    </span>
+
+                                @elseif($order->status=="Delivered")
+
+                                    <span class="badge badge-success">
+
+                                        Delivered
+
+                                    </span>
+
+                                @else
+
+                                    <span class="badge badge-danger">
+
+                                        Cancelled
+
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+                        </tr>
 
                     @empty
 
-                        <p class="mb-0">
+                        <tr>
 
-                            No low stock medicines.
+                            <td colspan="4" class="text-center">
 
-                        </p>
+                                No orders found.
+
+                            </td>
+
+                        </tr>
 
                     @endforelse
 
-                </div>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- Low Stock --}}
+
+    <div class="col-lg-4 mb-4">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-header bg-white">
+
+                <strong>
+
+                    Low Stock Medicines
+
+                </strong>
+
+            </div>
+
+            <div class="card-body">
+
+                @forelse($lowStock as $medicine)
+
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+
+                        <div>
+
+                            <strong>
+
+                                {{ $medicine->name }}
+
+                            </strong>
+
+                        </div>
+
+                        <span class="badge badge-danger">
+
+                            {{ $medicine->quantity }}
+
+                        </span>
+
+                    </div>
+
+                @empty
+
+                    <p class="text-muted mb-0">
+
+                        No low stock medicines.
+
+                    </p>
+
+                @endforelse
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="row">
+
+    {{-- Latest Pharmacies --}}
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-header bg-white">
+
+                <strong>
+
+                    Latest Pharmacies
+
+                </strong>
+
+            </div>
+
+            <div class="card-body">
+
+                @forelse($latestPharmacies as $pharmacy)
+
+                    <div class="d-flex justify-content-between border-bottom py-2">
+
+                        <span>
+
+                            {{ $pharmacy->name }}
+
+                        </span>
+
+                        <small class="text-muted">
+
+                            {{ $pharmacy->district }}
+
+                        </small>
+
+                    </div>
+
+                @empty
+
+                    <p class="text-muted">
+
+                        No pharmacies available.
+
+                    </p>
+
+                @endforelse
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- Quick Actions --}}
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-header bg-white">
+
+                <strong>
+
+                    Quick Actions
+
+                </strong>
+
+            </div>
+
+            <div class="card-body">
+
+                <a href="{{ route('medicines.create') }}" class="btn btn-primary mb-2 btn-block">
+
+                    <i class="fas fa-plus"></i>
+
+                    Add Medicine
+
+                </a>
+
+                <a href="{{ route('categories.create') }}" class="btn btn-success mb-2 btn-block">
+
+                    <i class="fas fa-folder-plus"></i>
+
+                    Add Category
+
+                </a>
+
+                <a href="{{ route('pharmacies.create') }}" class="btn btn-info btn-block">
+
+                    <i class="fas fa-clinic-medical"></i>
+
+                    Add Pharmacy
+
+                </a>
 
             </div>
 

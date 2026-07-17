@@ -43,6 +43,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/reports/print', 'ReportController@print')
         ->name('reports.print');
+
+     //Inventory
+    Route::resource('inventory', 'InventoryController');
+
+    Route::get('/stock-history', 'StockHistoryController@index')
+    ->name('stock-history.index');
 });
 
 /*

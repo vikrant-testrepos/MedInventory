@@ -3,107 +3,108 @@
 namespace App\Http\Controllers;
 
 use App\Order;
-use App\Medicine;
+use App\Inventory;
+use App\StockHistory;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('medicine','user')
-                    ->latest()
-                    ->paginate(10);
+        $orders = Order::with(
+            'user',
+            'medicine',
+            'pharmacy'
+        )
+        ->latest()
+        ->paginate(10);
 
         return view('orders.index', compact('orders'));
     }
 
-    public function create($medicine = null)
+    public function update(Request $request, $id)
     {
-        $selectedMedicine = null;
+        $request->validate([
+            'status' => 'required'
+        ]);
 
-        if ($medicine) {
+        $order = Order::findOrFail($id);
 
-            $selectedMedicine = Medicine::findOrFail($medicine);
+        /*
+        |--------------------------------------------------------------------------
+        | Deduct stock only when order is delivered for the first time
+        |--------------------------------------------------------------------------
+        */
 
+        if ($order->status != 'Delivered' && $request->status == 'Delivered') {
+
+            $inventory = Inventory::where(
+                'medicine_id',
+                $order->medicine_id
+            )->first();
+
+            if (!$inventory) {
+
+                return redirect()->back()->with(
+                    'error',
+                    'Inventory record not found.'
+                );
+            }
+
+            if ($inventory->stock < $order->quantity) {
+
+                return redirect()->back()->with(
+                    'error',
+                    'Not enough stock available.'
+                );
+            }
+
+            $stockBefore = $inventory->stock;
+
+            $inventory->stock -= $order->quantity;
+
+            $inventory->save();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Save Stock History
+            |--------------------------------------------------------------------------
+            */
+
+            StockHistory::create([
+
+                'medicine_id'  => $order->medicine_id,
+
+                'inventory_id' => $inventory->id,
+
+                'user_id'      => auth()->id(),
+
+                'action'       => 'Order Delivered',
+
+                'quantity'     => $order->quantity,
+
+                'stock_before' => $stockBefore,
+
+                'stock_after'  => $inventory->stock,
+
+                'remarks'      => 'Stock deducted after delivering Order #'.$order->id
+
+            ]);
         }
 
-        $medicines = Medicine::where('quantity','>',0)->get();
+        /*
+        |--------------------------------------------------------------------------
+        | Update Order Status
+        |--------------------------------------------------------------------------
+        */
 
-        return view(
-            'orders.create',
-            compact('medicines','selectedMedicine')
+        $order->update([
+            'status' => $request->status
+        ]);
+
+        return redirect()->back()->with(
+            'success',
+            'Order status updated successfully.'
         );
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'medicine_id' => 'required',
-            'quantity' => 'required|integer|min:1'
-        ]);
-
-        $medicine = Medicine::findOrFail($request->medicine_id);
-
-        if ($request->quantity > $medicine->quantity) {
-            return back()->with('error', 'Not enough stock available.');
-        }
-
-        Order::create([
-            'user_id'      => auth()->id(),
-            'pharmacy_id'  => $medicine->pharmacy_id,
-            'medicine_id'  => $medicine->id,
-            'quantity'     => $request->quantity,
-            'total_price'  => $medicine->price * $request->quantity,
-            'status'       => 'Pending'
-        ]);
-
-        $medicine->quantity -= $request->quantity;
-        $medicine->save();
-
-        return redirect()
-            ->route('orders.index')
-            ->with('success', 'Order placed successfully.');
-    }
-
-    public function edit($id)
-    {
-        $order = Order::findOrFail($id);
-
-        return view('orders.edit', compact('order'));
-    }
-
-    public function update(Request $request,$id)
-    {
-        $request->validate([
-            'status'=>'required'
-        ]);
-
-        $order = Order::findOrFail($id);
-
-        $order->status = $request->status;
-
-        $order->save();
-
-        return redirect()
-            ->route('orders.index')
-            ->with('success','Order updated.');
-    }
-
-    public function destroy($id)
-    {
-        $order = Order::findOrFail($id);
-
-        $medicine = $order->medicine;
-
-        if ($medicine) {
-            $medicine->quantity += $order->quantity;
-            $medicine->save();
-        }
-
-        $order->delete();
-
-        return redirect()
-            ->route('orders.index')
-            ->with('success', 'Order deleted and stock restored.');
     }
 }
