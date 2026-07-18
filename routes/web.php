@@ -166,38 +166,15 @@ Route::middleware(['auth', 'role:pharmacy'])->group(function () {
     Route::resource(
         'pharmacy/orders',
         'Pharmacy\OrderController'
-    )->names([
+    )->only([
+        'index',
+        'show',
+        'update'
+    ])->names([
         'index'  => 'pharmacy.orders.index',
         'show'   => 'pharmacy.orders.show',
         'update' => 'pharmacy.orders.update',
     ]);
-
-    /*
-    |--------------------------------------------------------------------------
-    | Reports (Coming Next)
-    |--------------------------------------------------------------------------
-    */
-
-    // Route::get(
-    //     '/pharmacy/reports',
-    //     'Pharmacy\ReportController@index'
-    // )->name('pharmacy.reports.index');
-
-    /*
-    |--------------------------------------------------------------------------
-    | My Pharmacy (Coming Next)
-    |--------------------------------------------------------------------------
-    */
-
-    // Route::get(
-    //     '/pharmacy/profile',
-    //     'Pharmacy\ProfileController@index'
-    // )->name('pharmacy.profile');
-
-    // Route::put(
-    //     '/pharmacy/profile',
-    //     'Pharmacy\ProfileController@update'
-    // )->name('pharmacy.profile.update');
 
 });
 
@@ -260,11 +237,18 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | My Orders
+    | Patient Orders
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/my-orders', 'PatientOrderController@index')
-        ->name('patient.orders');
+    Route::get(
+        '/patient/orders',
+        'Patient\OrderController@index'
+    )->name('patient.orders.index');
+
+    Route::get(
+        '/patient/orders/{order}',
+        'Patient\OrderController@show'
+    )->name('patient.orders.show');
 
 });
