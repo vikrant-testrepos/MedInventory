@@ -6,6 +6,7 @@ use App\Inventory;
 use App\Medicine;
 use App\StockHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
 {
@@ -14,21 +15,13 @@ class InventoryController extends Controller
         $search = request('search');
 
         $inventories = Inventory::with('medicine')
-
             ->when($search, function ($query) use ($search) {
-
                 $query->whereHas('medicine', function ($q) use ($search) {
-
                     $q->where('name', 'like', "%{$search}%");
-
                 });
-
             })
-
             ->latest()
-
             ->paginate(10)
-
             ->appends(request()->query());
 
         $totalMedicines = Inventory::count();
@@ -85,23 +78,14 @@ class InventoryController extends Controller
         $inventory = Inventory::create($request->all());
 
         StockHistory::create([
-
             'medicine_id'  => $inventory->medicine_id,
-
             'inventory_id' => $inventory->id,
-
-            'user_id'      => auth()->id(),
-
+            'user_id'      => Auth::id(),
             'action'       => 'Stock Added',
-
             'quantity'     => $inventory->stock,
-
             'stock_before' => 0,
-
             'stock_after'  => $inventory->stock,
-
-            'remarks'      => 'New inventory stock added.'
-
+            'remarks'      => 'New inventory added',
         ]);
 
         return redirect()
@@ -135,28 +119,19 @@ class InventoryController extends Controller
 
         $inventory = Inventory::findOrFail($id);
 
-        $stockBefore = $inventory->stock;
+        $beforeStock = $inventory->stock;
 
         $inventory->update($request->all());
 
         StockHistory::create([
-
             'medicine_id'  => $inventory->medicine_id,
-
             'inventory_id' => $inventory->id,
-
-            'user_id'      => auth()->id(),
-
+            'user_id'      => Auth::id(),
             'action'       => 'Stock Updated',
-
-            'quantity'     => abs($inventory->stock - $stockBefore),
-
-            'stock_before' => $stockBefore,
-
+            'quantity'     => $inventory->stock - $beforeStock,
+            'stock_before' => $beforeStock,
             'stock_after'  => $inventory->stock,
-
-            'remarks'      => 'Inventory updated by admin.'
-
+            'remarks'      => 'Inventory updated',
         ]);
 
         return redirect()
@@ -166,29 +141,7 @@ class InventoryController extends Controller
 
     public function destroy($id)
     {
-        $inventory = Inventory::findOrFail($id);
-
-        StockHistory::create([
-
-            'medicine_id'  => $inventory->medicine_id,
-
-            'inventory_id' => $inventory->id,
-
-            'user_id'      => auth()->id(),
-
-            'action'       => 'Stock Deleted',
-
-            'quantity'     => $inventory->stock,
-
-            'stock_before' => $inventory->stock,
-
-            'stock_after'  => 0,
-
-            'remarks'      => 'Inventory record deleted.'
-
-        ]);
-
-        $inventory->delete();
+        Inventory::destroy($id);
 
         return redirect()
             ->route('inventory.index')

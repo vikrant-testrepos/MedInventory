@@ -28,4 +28,9 @@ class Inventory extends Model
     {
         return $this->belongsTo(Medicine::class);
     }
+
+    public function history()
+    {
+        return $this->hasMany(StockHistory::class);
+    }
 }

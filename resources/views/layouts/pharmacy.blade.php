@@ -5,19 +5,21 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MedInventory Admin</title>
+    <title>MedInventory Pharmacy</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/pharmacy.css') }}" rel="stylesheet">
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    @stack('styles')
 
 </head>
 
@@ -26,12 +28,12 @@
 <div class="wrapper">
 
     {{-- Sidebar --}}
-    @include('components.admin-sidebar')
+    @include('components.pharmacy-sidebar')
 
     {{-- Main Content --}}
     <div class="content">
 
-        {{-- Top Bar --}}
+        {{-- Topbar --}}
         <div class="topbar">
 
             <div class="d-flex justify-content-between align-items-center">
@@ -40,7 +42,7 @@
 
                     <h4 class="mb-0">
 
-                        @yield('title','Admin Dashboard')
+                        @yield('title','Pharmacy Dashboard')
 
                     </h4>
 
@@ -85,14 +87,12 @@
 
                             <div class="dropdown-divider"></div>
 
-                            <form
-                                action="{{ route('logout') }}"
-                                method="POST">
+                            <form action="{{ route('logout') }}"
+                                  method="POST">
 
                                 @csrf
 
-                                <button
-                                    class="dropdown-item text-danger">
+                                <button class="dropdown-item text-danger">
 
                                     <i class="fas fa-sign-out-alt"></i>
 

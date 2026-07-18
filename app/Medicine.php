@@ -45,5 +45,10 @@ class Medicine extends Model
     {
         return $this->hasMany(Cart::class);
     }
+
+    public function stockHistory()
+    {
+        return $this->hasMany(StockHistory::class);
+    }
     
 }

@@ -6,11 +6,32 @@ use App\Category;
 use App\Medicine;
 use App\Order;
 use App\Pharmacy;
+use App\Inventory;
 
 class AdminController extends Controller
 {
     public function index()
     {
+        $recentOrders = Order::with(
+            'user',
+            'medicine',
+            'pharmacy'
+        )
+        ->latest()
+        ->take(5)
+        ->get();
+
+        $lowStock = Inventory::with('medicine')
+            ->where('stock', '<=', 20)
+            ->where('stock', '>', 0)
+            ->orderBy('stock', 'asc')
+            ->take(5)
+            ->get();
+
+        $latestPharmacies = Pharmacy::latest()
+            ->take(5)
+            ->get();
+
         return view('admin.dashboard', [
 
             'totalMedicines'  => Medicine::count(),
@@ -21,20 +42,11 @@ class AdminController extends Controller
 
             'totalPharmacies' => Pharmacy::count(),
 
-            'recentOrders' => Order::with(
-                'user',
-                'medicine',
-                'pharmacy'
-            )->latest()->take(5)->get(),
+            'recentOrders'    => $recentOrders,
 
-            'lowStock' => Medicine::where('quantity','<',10)
-                            ->orderBy('quantity')
-                            ->take(5)
-                            ->get(),
+            'lowStock'        => $lowStock,
 
-            'latestPharmacies' => Pharmacy::latest()
-                                    ->take(5)
-                                    ->get()
+            'latestPharmacies'=> $latestPharmacies,
 
         ]);
     }

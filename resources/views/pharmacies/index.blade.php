@@ -2,55 +2,28 @@
 
 @section('content')
 
-
 <div class="d-flex justify-content-between align-items-center mb-4">
 
-
     <div>
-
-        <h2 class="mb-1">
-
-            🏥 Pharmacy Management
-
-        </h2>
-
+        <h2 class="mb-1">🏥 Pharmacy Management</h2>
 
         <p class="text-muted mb-0">
-
             Manage registered pharmacies and their approval status.
-
         </p>
-
-
     </div>
 
-
-
-    <a href="{{ route('pharmacies.create') }}"
-       class="btn btn-primary">
-
-
+    <a href="{{ route('pharmacies.create') }}" class="btn btn-primary">
         <i class="fas fa-plus mr-1"></i>
-
         Add Pharmacy
-
-
     </a>
-
 
 </div>
 
-
-
-
 @if(session('success'))
-
 
 <div class="alert alert-success alert-dismissible fade show">
 
-
     {{ session('success') }}
-
 
     <button type="button"
             class="close"
@@ -60,69 +33,50 @@
 
     </button>
 
-
 </div>
-
 
 @endif
 
 
-
-
-
 <div class="card shadow-sm border-0">
-
 
     <div class="card-body">
 
-
         <div class="table-responsive">
-
 
             <table class="table table-hover align-middle">
 
-
                 <thead class="thead-light">
 
+                    <tr>
 
-                <tr>
+                        <th>ID</th>
 
+                        <th>Pharmacy</th>
 
-                    <th>ID</th>
+                        <th>Owner</th>
 
-                    <th>Pharmacy</th>
+                        <th>District</th>
 
-                    <th>Owner</th>
+                        <th>Phone</th>
 
-                    <th>District</th>
+                        <th>Status</th>
 
-                    <th>Phone</th>
+                        <th width="220" class="text-center">
 
-                    <th>Status</th>
+                            Action
 
-                    <th width="200" class="text-center">
+                        </th>
 
-                        Action
-
-                    </th>
-
-
-                </tr>
-
+                    </tr>
 
                 </thead>
 
-
-
-
                 <tbody>
-
 
                 @forelse($pharmacies as $pharmacy)
 
-
                 <tr>
-
 
                     <td>
 
@@ -134,9 +88,6 @@
 
                     </td>
 
-
-
-
                     <td>
 
                         <strong>
@@ -145,10 +96,27 @@
 
                         </strong>
 
+                        <br>
+
+                        <small class="text-muted">
+
+                            <i class="far fa-clock"></i>
+
+                            @if($pharmacy->opening_time && $pharmacy->closing_time)
+
+                                {{ \Carbon\Carbon::parse($pharmacy->opening_time)->format('h:i A') }}
+                                -
+                                {{ \Carbon\Carbon::parse($pharmacy->closing_time)->format('h:i A') }}
+
+                            @else
+
+                                Not Set
+
+                            @endif
+
+                        </small>
+
                     </td>
-
-
-
 
                     <td>
 
@@ -156,17 +124,11 @@
 
                     </td>
 
-
-
-
                     <td>
 
                         {{ $pharmacy->district ?? '-' }}
 
                     </td>
-
-
-
 
                     <td>
 
@@ -174,143 +136,99 @@
 
                     </td>
 
-
-
-
                     <td>
 
+                        <form action="{{ route('pharmacies.status',$pharmacy->id) }}"
+                              method="POST">
 
-                        @if($pharmacy->approved)
+                            @csrf
 
+                            <select
+                                name="approved"
+                                class="form-control form-control-sm"
+                                onchange="this.form.submit()">
 
-                            <span class="badge badge-success">
+                                <option value="1"
+                                    {{ $pharmacy->approved ? 'selected' : '' }}>
 
-                                <i class="fas fa-check"></i>
+                                    ✅ Approved
 
-                                Approved
+                                </option>
 
-                            </span>
+                                <option value="0"
+                                    {{ !$pharmacy->approved ? 'selected' : '' }}>
 
+                                    🟡 Pending
 
-                        @else
+                                </option>
 
+                            </select>
 
-                            <span class="badge badge-warning">
-
-                                <i class="fas fa-clock"></i>
-
-                                Pending
-
-                            </span>
-
-
-                        @endif
-
-
+                        </form>
 
                     </td>
 
-
-
-
                     <td class="text-center">
-
 
                         <a href="{{ route('pharmacies.edit',$pharmacy->id) }}"
                            class="btn btn-warning btn-sm">
-
 
                             <i class="fas fa-edit"></i>
 
                             Edit
 
-
                         </a>
-
-
-
-
 
                         <form
                             action="{{ route('pharmacies.destroy',$pharmacy->id) }}"
                             method="POST"
                             class="d-inline">
 
-
                             @csrf
 
                             @method('DELETE')
-
-
 
                             <button
                                 type="submit"
                                 class="btn btn-danger btn-sm"
                                 onclick="return confirm('Delete Pharmacy?')">
 
-
                                 <i class="fas fa-trash"></i>
 
                                 Delete
 
-
                             </button>
-
-
 
                         </form>
 
-
                     </td>
-
 
                 </tr>
 
-
                 @empty
 
-
-
                 <tr>
-
 
                     <td colspan="7"
                         class="text-center py-5 text-muted">
 
-
                         <i class="fas fa-hospital fa-3x mb-3"></i>
-
 
                         <br>
 
-
                         No pharmacies found.
-
-
 
                     </td>
 
-
                 </tr>
-
-
 
                 @endforelse
 
-
-
                 </tbody>
-
-
 
             </table>
 
-
-
         </div>
-
-
-
 
         <div class="mt-3">
 
@@ -318,13 +236,8 @@
 
         </div>
 
-
-
     </div>
 
-
 </div>
-
-
 
 @endsection

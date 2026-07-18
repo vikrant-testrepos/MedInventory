@@ -87,4 +87,21 @@ class PharmacyController extends Controller
 
         return back()->with('success', 'Pharmacy deleted successfully.');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'approved' => 'required|boolean',
+        ]);
+
+        $pharmacy = Pharmacy::findOrFail($id);
+
+        $pharmacy->approved = $request->approved;
+
+        $pharmacy->save();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Pharmacy status updated successfully.');
+    }
 }

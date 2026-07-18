@@ -24,31 +24,40 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin', 'AdminController@index')->name('admin.dashboard');
 
+    // Categories
     Route::resource('categories', 'CategoryController');
+
+    // Medicines
     Route::resource('medicines', 'MedicineController');
+
+    // Orders
     Route::resource('orders', 'OrderController');
-    Route::resource('pharmacies', 'PharmacyController');
 
     Route::get('/orders/create/{medicine}', 'OrderController@create')
         ->name('orders.create.medicine');
 
-    Route::get('/inventory', 'InventoryController@index')
-        ->name('inventory.index');
+    // Pharmacies
+    Route::resource('pharmacies', 'PharmacyController');
 
-    Route::post('/inventory/{id}', 'InventoryController@update')
-        ->name('inventory.update');
+    // NEW: Pharmacy Status Update
+    Route::post(
+        '/pharmacies/{id}/status',
+        'PharmacyController@updateStatus'
+    )->name('pharmacies.status');
 
+    // Inventory
+    Route::resource('inventory', 'InventoryController');
+
+    // Reports
     Route::get('/reports', 'ReportController@index')
         ->name('reports.index');
 
     Route::get('/reports/print', 'ReportController@print')
         ->name('reports.print');
 
-     //Inventory
-    Route::resource('inventory', 'InventoryController');
-
+    // Stock History
     Route::get('/stock-history', 'StockHistoryController@index')
-    ->name('stock-history.index');
+        ->name('stock-history.index');
 });
 
 /*
@@ -75,11 +84,11 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/patient', 'PatientController@index')
         ->name('patient.dashboard');
 
-    // Keep old links working
     Route::redirect('/home', '/patient');
 
     // Cart
-    Route::get('/cart', 'CartController@index')->name('cart.index');
+    Route::get('/cart', 'CartController@index')
+        ->name('cart.index');
 
     Route::post('/cart', 'CartController@store')
         ->name('cart.store');
@@ -101,11 +110,11 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
         ->name('checkout.store');
 
     Route::get('/checkout/success', function () {
-    return view('checkout.success');
+        return view('checkout.success');
     })->name('checkout.success');
 
     // Patient Orders
     Route::get('/my-orders', 'PatientOrderController@index')
-    ->name('patient.orders');
-    
+        ->name('patient.orders');
+
 });
