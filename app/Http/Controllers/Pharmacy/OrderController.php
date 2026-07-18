@@ -3,83 +3,78 @@
 namespace App\Http\Controllers\Pharmacy;
 
 use App\Http\Controllers\Controller;
+use App\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $orders = Order::with([
+                'user',
+                'medicine'
+            ])
+            ->where(
+                'pharmacy_id',
+                Auth::user()->pharmacy->id
+            )
+            ->latest()
+            ->paginate(10);
+
+        return view(
+            'pharmacy.orders.index',
+            compact('orders')
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function show(Order $order)
     {
-        //
+        if (
+            $order->pharmacy_id !=
+            Auth::user()->pharmacy->id
+        ) {
+
+            abort(403);
+
+        }
+
+        $order->load([
+            'user',
+            'medicine',
+            'pharmacy'
+        ]);
+
+        return view(
+            'pharmacy.orders.show',
+            compact('order')
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function update(Request $request, Order $order)
     {
-        //
-    }
+        if ($order->pharmacy_id != auth()->user()->pharmacy->id) {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            abort(403);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $request->validate([
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            'status' => 'required|in:Pending,Accepted,Preparing,Ready,Completed,Rejected'
+
+        ]);
+
+        $order->status = $request->status;
+
+        $order->save();
+
+        return redirect()
+            ->route('pharmacy.orders.show', $order->id)
+            ->with(
+                'success',
+                'Order status updated successfully.'
+            );
     }
+    
 }

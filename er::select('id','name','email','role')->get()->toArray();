@@ -1,0 +1,52 @@
+[34m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#7593
+    [34mall[39m: [
+      [34;4mApp\User[39;24m {#7592
+        [34mid[39m: [35m1[39m,
+        [34mname[39m: [32m"[39m[32mTest User[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mtest@email.com[39m[32m"[39m,
+        [34mrole[39m: [32m"[39m[32madmin[39m[32m"[39m,
+      },
+      [34;4mApp\User[39;24m {#7669
+        [34mid[39m: [35m2[39m,
+        [34mname[39m: [32m"[39m[32mTest Patient[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mtestpatient@email.com[39m[32m"[39m,
+        [34mrole[39m: [32m"[39m[32mpatient[39m[32m"[39m,
+      },
+      [34;4mApp\User[39;24m {#7670
+        [34mid[39m: [35m3[39m,
+        [34mname[39m: [32m"[39m[32mApollo Pharmacy[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mapollo@example.com[39m[32m"[39m,
+        [34mrole[39m: [32m"[39m[32mpharmacy[39m[32m"[39m,
+      },
+      [34;4mApp\User[39;24m {#7671
+        [34mid[39m: [35m4[39m,
+        [34mname[39m: [32m"[39m[32mCity Medicos[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mcity@example.com[39m[32m"[39m,
+        [34mrole[39m: [32m"[39m[32mpharmacy[39m[32m"[39m,
+      },
+      [34;4mApp\User[39;24m {#7672
+        [34mid[39m: [35m5[39m,
+        [34mname[39m: [32m"[39m[32mHealthCare Plus[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mhealth@example.com[39m[32m"[39m,
+        [34mrole[39m: [32m"[39m[32mpharmacy[39m[32m"[39m,
+      },
+      [34;4mApp\User[39;24m {#7673
+        [34mid[39m: [35m6[39m,
+        [34mname[39m: [32m"[39m[32mMedLife Pharmacy[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mmedlife@example.com[39m[32m"[39m,
+        [34mrole[39m: [32m"[39m[32mpharmacy[39m[32m"[39m,
+      },
+      [34;4mApp\User[39;24m {#7674
+        [34mid[39m: [35m7[39m,
+        [34mname[39m: [32m"[39m[32mNepal Pharmacy[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mnepal@example.com[39m[32m"[39m,
+        [34mrole[39m: [32m"[39m[32mpharmacy[39m[32m"[39m,
+      },
+      [34;4mApp\User[39;24m {#7675
+        [34mid[39m: [35m8[39m,
+        [34mname[39m: [32m"[39m[32mDemo Pharmacy[39m[32m"[39m,
+        [34memail[39m: [32m"[39m[32mpharmacy@email.com[39m[32m"[39m,
+        [34mrole[39m: [32m"[39m[32mpharmacy[39m[32m"[39m,
+      },
+    ],
+  }
