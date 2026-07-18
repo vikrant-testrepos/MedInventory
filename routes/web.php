@@ -187,6 +187,11 @@ Route::middleware(['auth', 'role:pharmacy'])->group(function () {
         'Pharmacy\ReportController@index'
     )->name('pharmacy.reports.index');
 
+    Route::get(
+        '/pharmacy/reports/print',
+        'Pharmacy\ReportController@print'
+    )->name('pharmacy.reports.print');
+
     /*
     |--------------------------------------------------------------------------
     | Pharmacy Profile

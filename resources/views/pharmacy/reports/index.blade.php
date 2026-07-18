@@ -1,56 +1,103 @@
 @extends('layouts.pharmacy')
 
+@section('title', 'Reports')
+
 @section('content')
 
 <div class="container-fluid">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
+
         <div>
-            <h2>Reports</h2>
-            <small class="text-muted">Sales & Order Summary</small>
+            <h2 class="mb-1">Reports</h2>
+            <small class="text-muted">
+                Sales & Order Summary
+            </small>
         </div>
 
-        <button onclick="window.print()" class="btn btn-success">
-            <i class="fas fa-print"></i> Print Report
-        </button>
+        <a href="{{ route('pharmacy.reports.print') }}"
+           target="_blank"
+           class="btn btn-success">
+
+            <i class="fas fa-print"></i>
+            Print Report
+
+        </a>
+
     </div>
 
     <div class="row">
 
         <div class="col-md-3">
+
             <div class="card shadow-sm border-0 mb-4">
+
                 <div class="card-body text-center">
-                    <h3>{{ $totalOrders }}</h3>
-                    <p>Total Orders</p>
+
+                    <h2>{{ $totalOrders }}</h2>
+
+                    <p class="mb-0">
+                        Total Orders
+                    </p>
+
                 </div>
+
             </div>
+
         </div>
 
         <div class="col-md-3">
+
             <div class="card shadow-sm border-0 mb-4">
+
                 <div class="card-body text-center">
-                    <h3>{{ $pendingOrders }}</h3>
-                    <p>Pending Orders</p>
+
+                    <h2>{{ $pendingOrders }}</h2>
+
+                    <p class="mb-0">
+                        Pending Orders
+                    </p>
+
                 </div>
+
             </div>
+
         </div>
 
         <div class="col-md-3">
+
             <div class="card shadow-sm border-0 mb-4">
+
                 <div class="card-body text-center">
-                    <h3>{{ $completedOrders }}</h3>
-                    <p>Completed Orders</p>
+
+                    <h2>{{ $completedOrders }}</h2>
+
+                    <p class="mb-0">
+                        Completed Orders
+                    </p>
+
                 </div>
+
             </div>
+
         </div>
 
         <div class="col-md-3">
+
             <div class="card shadow-sm border-0 mb-4">
+
                 <div class="card-body text-center">
-                    <h3>Rs. {{ number_format($totalRevenue, 2) }}</h3>
-                    <p>Total Revenue</p>
+
+                    <h2>Rs. {{ number_format($totalRevenue,2) }}</h2>
+
+                    <p class="mb-0">
+                        Total Revenue
+                    </p>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
@@ -58,7 +105,9 @@
     <div class="card shadow-sm">
 
         <div class="card-header">
+
             <strong>Order Report</strong>
+
         </div>
 
         <div class="card-body table-responsive">
@@ -66,7 +115,9 @@
             <table class="table table-bordered table-hover">
 
                 <thead class="thead-light">
+
                     <tr>
+
                         <th>#</th>
                         <th>Customer</th>
                         <th>Medicine</th>
@@ -74,7 +125,9 @@
                         <th>Total</th>
                         <th>Status</th>
                         <th>Date</th>
+
                     </tr>
+
                 </thead>
 
                 <tbody>
@@ -92,44 +145,91 @@
                         <td>{{ $order->quantity }}</td>
 
                         <td>
-                            Rs. {{ number_format($order->total_price, 2) }}
+                            Rs. {{ number_format($order->total_price,2) }}
                         </td>
 
                         <td>
 
-                            @if($order->status == 'Completed')
-                                <span class="badge badge-success">Completed</span>
+                            @switch($order->status)
 
-                            @elseif($order->status == 'Ready')
-                                <span class="badge badge-info">Ready</span>
+                                @case('Pending')
 
-                            @elseif($order->status == 'Preparing')
-                                <span class="badge badge-warning">Preparing</span>
+                                    <span class="badge badge-warning">
+                                        Pending
+                                    </span>
 
-                            @elseif($order->status == 'Accepted')
-                                <span class="badge badge-primary">Accepted</span>
+                                    @break
 
-                            @elseif($order->status == 'Rejected')
-                                <span class="badge badge-danger">Rejected</span>
+                                @case('Accepted')
 
-                            @else
-                                <span class="badge badge-secondary">
-                                    {{ $order->status }}
-                                </span>
-                            @endif
+                                    <span class="badge badge-primary">
+                                        Accepted
+                                    </span>
+
+                                    @break
+
+                                @case('Preparing')
+
+                                    <span class="badge badge-info">
+                                        Preparing
+                                    </span>
+
+                                    @break
+
+                                @case('Ready')
+
+                                    <span class="badge badge-secondary">
+                                        Ready
+                                    </span>
+
+                                    @break
+
+                                @case('Completed')
+
+                                    <span class="badge badge-success">
+                                        Completed
+                                    </span>
+
+                                    @break
+
+                                @case('Rejected')
+
+                                    <span class="badge badge-danger">
+                                        Rejected
+                                    </span>
+
+                                    @break
+
+                                @default
+
+                                    <span class="badge badge-dark">
+
+                                        {{ $order->status }}
+
+                                    </span>
+
+                            @endswitch
 
                         </td>
 
-                        <td>{{ $order->created_at->format('d M Y') }}</td>
+                        <td>
+
+                            {{ $order->created_at->format('d M Y') }}
+
+                        </td>
 
                     </tr>
 
                 @empty
 
                     <tr>
+
                         <td colspan="7" class="text-center">
-                            No orders found.
+
+                            No Orders Found.
+
                         </td>
+
                     </tr>
 
                 @endforelse
