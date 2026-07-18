@@ -51,14 +51,16 @@
         </li>
 
         <li>
-            <a href="#">
+            <a href="{{ route('pharmacy.my-pharmacy') }}"
+            class="{{ request()->routeIs('pharmacy.my-pharmacy') ? 'active' : '' }}">
                 <i class="fas fa-store"></i>
                 My Pharmacy
             </a>
         </li>
 
         <li>
-            <a href="#">
+            <a href="{{ route('pharmacy.profile') }}"
+            class="{{ request()->routeIs('pharmacy.profile') ? 'active' : '' }}">
                 <i class="fas fa-user-circle"></i>
                 Profile
             </a>

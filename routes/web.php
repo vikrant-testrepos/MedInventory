@@ -187,6 +187,31 @@ Route::middleware(['auth', 'role:pharmacy'])->group(function () {
         'Pharmacy\ReportController@index'
     )->name('pharmacy.reports.index');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Pharmacy Profile
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/pharmacy/my-pharmacy', 'Pharmacy\PharmacyController@show')
+        ->name('pharmacy.my-pharmacy')
+        ->middleware(['auth', 'role:pharmacy']);
+
+    Route::get(
+        '/pharmacy/profile',
+        'Pharmacy\ProfileController@index'
+    )->name('pharmacy.profile');
+
+    Route::post(
+        '/pharmacy/profile/account',
+        'Pharmacy\ProfileController@updateAccount'
+    )->name('pharmacy.profile.account');
+
+    Route::post(
+        '/pharmacy/profile/details',
+        'Pharmacy\ProfileController@updatePharmacy'
+    )->name('pharmacy.profile.details');
+
 });
 
 
