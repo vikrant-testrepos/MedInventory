@@ -12,7 +12,9 @@ Route::get('/', 'WelcomeController@index')->name('welcome');
 
 Auth::routes();
 
-Route::get('/search', 'SearchController@index')->name('medicine.search');
+Route::get('/search', 'SearchController@index')
+    ->name('medicine.search');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,43 +24,84 @@ Route::get('/search', 'SearchController@index')->name('medicine.search');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/admin', 'AdminController@index')->name('admin.dashboard');
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
 
-    // Categories
+    Route::get('/admin', 'AdminController@index')
+        ->name('admin.dashboard');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Categories
+    |--------------------------------------------------------------------------
+    */
+
     Route::resource('categories', 'CategoryController');
 
-    // Medicines
+    /*
+    |--------------------------------------------------------------------------
+    | Medicines
+    |--------------------------------------------------------------------------
+    */
+
     Route::resource('medicines', 'MedicineController');
 
-    // Orders
+    /*
+    |--------------------------------------------------------------------------
+    | Orders
+    |--------------------------------------------------------------------------
+    */
+
     Route::resource('orders', 'OrderController');
 
     Route::get('/orders/create/{medicine}', 'OrderController@create')
         ->name('orders.create.medicine');
 
-    // Pharmacies
+    /*
+    |--------------------------------------------------------------------------
+    | Pharmacies
+    |--------------------------------------------------------------------------
+    */
+
     Route::resource('pharmacies', 'PharmacyController');
 
-    // NEW: Pharmacy Status Update
-    Route::post(
-        '/pharmacies/{id}/status',
-        'PharmacyController@updateStatus'
-    )->name('pharmacies.status');
+    Route::post('/pharmacies/{id}/status', 'PharmacyController@updateStatus')
+        ->name('pharmacies.status');
 
-    // Inventory
+    /*
+    |--------------------------------------------------------------------------
+    | Inventory
+    |--------------------------------------------------------------------------
+    */
+
     Route::resource('inventory', 'InventoryController');
 
-    // Reports
+    /*
+    |--------------------------------------------------------------------------
+    | Reports
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/reports', 'ReportController@index')
         ->name('reports.index');
 
     Route::get('/reports/print', 'ReportController@print')
         ->name('reports.print');
 
-    // Stock History
+    /*
+    |--------------------------------------------------------------------------
+    | Stock History
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/stock-history', 'StockHistoryController@index')
         ->name('stock-history.index');
+
 });
+
 
 /*
 |--------------------------------------------------------------------------
@@ -68,10 +111,96 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:pharmacy'])->group(function () {
 
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/pharmacy', 'PharmacyDashboardController@index')
         ->name('pharmacy.dashboard');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Medicines
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource(
+        'pharmacy/medicines',
+        'Pharmacy\MedicineController'
+    )->names([
+        'index'   => 'pharmacy.medicines.index',
+        'create'  => 'pharmacy.medicines.create',
+        'store'   => 'pharmacy.medicines.store',
+        'show'    => 'pharmacy.medicines.show',
+        'edit'    => 'pharmacy.medicines.edit',
+        'update'  => 'pharmacy.medicines.update',
+        'destroy' => 'pharmacy.medicines.destroy',
+    ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Inventory (Coming Next)
+    |--------------------------------------------------------------------------
+    */
+
+    // Route::resource(
+    //     'pharmacy/inventory',
+    //     'Pharmacy\InventoryController'
+    // )->names([
+    //     'index'   => 'pharmacy.inventory.index',
+    //     'create'  => 'pharmacy.inventory.create',
+    //     'store'   => 'pharmacy.inventory.store',
+    //     'edit'    => 'pharmacy.inventory.edit',
+    //     'update'  => 'pharmacy.inventory.update',
+    //     'destroy' => 'pharmacy.inventory.destroy',
+    // ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Orders (Coming Next)
+    |--------------------------------------------------------------------------
+    */
+
+    // Route::resource(
+    //     'pharmacy/orders',
+    //     'Pharmacy\OrderController'
+    // )->names([
+    //     'index'  => 'pharmacy.orders.index',
+    //     'show'   => 'pharmacy.orders.show',
+    //     'update' => 'pharmacy.orders.update',
+    // ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reports (Coming Next)
+    |--------------------------------------------------------------------------
+    */
+
+    // Route::get(
+    //     '/pharmacy/reports',
+    //     'Pharmacy\ReportController@index'
+    // )->name('pharmacy.reports.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | My Pharmacy (Coming Next)
+    |--------------------------------------------------------------------------
+    */
+
+    // Route::get(
+    //     '/pharmacy/profile',
+    //     'Pharmacy\ProfileController@index'
+    // )->name('pharmacy.profile');
+
+    // Route::put(
+    //     '/pharmacy/profile',
+    //     'Pharmacy\ProfileController@update'
+    // )->name('pharmacy.profile.update');
+
 });
+
 
 /*
 |--------------------------------------------------------------------------
@@ -81,12 +210,23 @@ Route::middleware(['auth', 'role:pharmacy'])->group(function () {
 
 Route::middleware(['auth', 'role:patient'])->group(function () {
 
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/patient', 'PatientController@index')
         ->name('patient.dashboard');
 
     Route::redirect('/home', '/patient');
 
-    // Cart
+    /*
+    |--------------------------------------------------------------------------
+    | Cart
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/cart', 'CartController@index')
         ->name('cart.index');
 
@@ -102,7 +242,12 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::delete('/cart/{id}', 'CartController@destroy')
         ->name('cart.destroy');
 
-    // Checkout
+    /*
+    |--------------------------------------------------------------------------
+    | Checkout
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/checkout', 'CheckoutController@index')
         ->name('checkout.index');
 
@@ -113,7 +258,12 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
         return view('checkout.success');
     })->name('checkout.success');
 
-    // Patient Orders
+    /*
+    |--------------------------------------------------------------------------
+    | My Orders
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/my-orders', 'PatientOrderController@index')
         ->name('patient.orders');
 

@@ -37,7 +37,8 @@
 
         <li>
 
-            <a href="#">
+            <a href="{{ route('pharmacy.medicines.index') }}"
+            class="{{ request()->routeIs('pharmacy.medicines.*') ? 'active' : '' }}">
 
                 <i class="fas fa-pills"></i>
 
