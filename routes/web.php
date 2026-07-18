@@ -85,7 +85,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/reports', 'ReportController@index')
+    Route::get('/reports', 'AdminReportController@index')
         ->name('reports.index');
 
     Route::get('/reports/print', 'ReportController@print')
@@ -175,6 +175,17 @@ Route::middleware(['auth', 'role:pharmacy'])->group(function () {
         'show'   => 'pharmacy.orders.show',
         'update' => 'pharmacy.orders.update',
     ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reports
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/pharmacy/reports',
+        'Pharmacy\ReportController@index'
+    )->name('pharmacy.reports.index');
 
 });
 
