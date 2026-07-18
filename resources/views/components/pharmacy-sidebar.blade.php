@@ -51,7 +51,8 @@
 
         <li>
 
-            <a href="#">
+            <a href="{{ route('pharmacy.inventory.index') }}"
+            class="{{ request()->routeIs('pharmacy.inventory.*') ? 'active' : '' }}">
 
                 <i class="fas fa-boxes"></i>
 

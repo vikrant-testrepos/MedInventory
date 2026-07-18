@@ -145,17 +145,17 @@ Route::middleware(['auth', 'role:pharmacy'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Route::resource(
-    //     'pharmacy/inventory',
-    //     'Pharmacy\InventoryController'
-    // )->names([
-    //     'index'   => 'pharmacy.inventory.index',
-    //     'create'  => 'pharmacy.inventory.create',
-    //     'store'   => 'pharmacy.inventory.store',
-    //     'edit'    => 'pharmacy.inventory.edit',
-    //     'update'  => 'pharmacy.inventory.update',
-    //     'destroy' => 'pharmacy.inventory.destroy',
-    // ]);
+    Route::resource(
+        'pharmacy/inventory',
+        'Pharmacy\InventoryController'
+    )->names([
+        'index'   => 'pharmacy.inventory.index',
+        'create'  => 'pharmacy.inventory.create',
+        'store'   => 'pharmacy.inventory.store',
+        'edit'    => 'pharmacy.inventory.edit',
+        'update'  => 'pharmacy.inventory.update',
+        'destroy' => 'pharmacy.inventory.destroy',
+    ]);
 
     /*
     |--------------------------------------------------------------------------
