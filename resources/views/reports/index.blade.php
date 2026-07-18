@@ -2,31 +2,85 @@
 
 @section('content')
 
-<h2 class="mb-4">Reports Dashboard</h2>
+<div class="container-fluid">
 
-<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <a href="{{ route('reports.print') }}"
-       target="_blank"
-       class="btn btn-success">
+        <div>
+            <h2>Admin Reports</h2>
+            <small class="text-muted">
+                Overall System Summary
+            </small>
+        </div>
 
-        🖨 Print Report
+        <button onclick="window.print()" class="btn btn-success">
+            <i class="fas fa-print"></i>
+            Print Report
+        </button>
 
-    </a>
+    </div>
 
-</div>
+    <div class="row">
 
-<div class="row">
+        <div class="col-md-3 mb-4">
 
-    <div class="col-md-3 mb-3">
+            <div class="card shadow border-0">
 
-        <div class="card bg-primary text-white shadow">
+                <div class="card-body text-center">
 
-            <div class="card-body text-center">
+                    <h2>{{ $totalOrders }}</h2>
 
-                <h6>Total Medicines</h6>
+                    <p class="mb-0">Total Orders</p>
 
-                <h2>{{ $totalMedicines }}</h2>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center">
+
+                    <h2>{{ $totalMedicines }}</h2>
+
+                    <p class="mb-0">Medicines</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center">
+
+                    <h2>{{ $totalPharmacies }}</h2>
+
+                    <p class="mb-0">Pharmacies</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center">
+
+                    <h2>{{ $totalPatients }}</h2>
+
+                    <p class="mb-0">Patients</p>
+
+                </div>
 
             </div>
 
@@ -34,15 +88,71 @@
 
     </div>
 
-    <div class="col-md-3 mb-3">
+    <div class="row">
 
-        <div class="card bg-success text-white shadow">
+        <div class="col-md-4 mb-4">
 
-            <div class="card-body text-center">
+            <div class="card shadow border-0">
 
-                <h6>Total Categories</h6>
+                <div class="card-body text-center">
 
-                <h2>{{ $totalCategories }}</h2>
+                    <h3>Rs. {{ number_format($totalRevenue,2) }}</h3>
+
+                    <p>Total Revenue</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-8 mb-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <div class="row text-center">
+
+                        <div class="col">
+                            <strong>{{ $pendingOrders }}</strong>
+                            <br>
+                            Pending
+                        </div>
+
+                        <div class="col">
+                            <strong>{{ $acceptedOrders }}</strong>
+                            <br>
+                            Accepted
+                        </div>
+
+                        <div class="col">
+                            <strong>{{ $preparingOrders }}</strong>
+                            <br>
+                            Preparing
+                        </div>
+
+                        <div class="col">
+                            <strong>{{ $readyOrders }}</strong>
+                            <br>
+                            Ready
+                        </div>
+
+                        <div class="col">
+                            <strong>{{ $completedOrders }}</strong>
+                            <br>
+                            Completed
+                        </div>
+
+                        <div class="col">
+                            <strong>{{ $rejectedOrders }}</strong>
+                            <br>
+                            Rejected
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -50,269 +160,112 @@
 
     </div>
 
-    <div class="col-md-3 mb-3">
+    <div class="card shadow">
 
-        <div class="card bg-warning text-dark shadow">
+        <div class="card-header">
 
-            <div class="card-body text-center">
-
-                <h6>Total Orders</h6>
-
-                <h2>{{ $totalOrders }}</h2>
-
-            </div>
+            <strong>Recent Orders</strong>
 
         </div>
 
-    </div>
+        <div class="card-body table-responsive">
 
-    <div class="col-md-3 mb-3">
+            <table class="table table-bordered table-hover">
 
-        <div class="card bg-info text-white shadow">
+                <thead class="thead-light">
 
-            <div class="card-body text-center">
+                    <tr>
 
-                <h6>Total Stock</h6>
+                        <th>#</th>
+                        <th>Patient</th>
+                        <th>Medicine</th>
+                        <th>Pharmacy</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
 
-                <h2>{{ $totalStock }}</h2>
+                    </tr>
 
-            </div>
+                </thead>
+
+                <tbody>
+
+                @forelse($recentOrders as $order)
+
+                    <tr>
+
+                        <td>{{ $order->id }}</td>
+
+                        <td>{{ optional($order->user)->name }}</td>
+
+                        <td>{{ optional($order->medicine)->name }}</td>
+
+                        <td>{{ optional($order->pharmacy)->name }}</td>
+
+                        <td>{{ $order->quantity }}</td>
+
+                        <td>
+                            Rs. {{ number_format($order->total_price,2) }}
+                        </td>
+
+                        <td>
+
+                            @if($order->status=="Completed")
+
+                                <span class="badge badge-success">
+                                    Completed
+                                </span>
+
+                            @elseif($order->status=="Pending")
+
+                                <span class="badge badge-warning">
+                                    Pending
+                                </span>
+
+                            @elseif($order->status=="Rejected")
+
+                                <span class="badge badge-danger">
+                                    Rejected
+                                </span>
+
+                            @else
+
+                                <span class="badge badge-info">
+                                    {{ $order->status }}
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                        <td>
+
+                            {{ $order->created_at->format('d M Y') }}
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="8" class="text-center">
+
+                            No orders found.
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+                </tbody>
+
+            </table>
 
         </div>
-
-    </div>
-
-</div>
-
-<div class="row">
-
-    <div class="col-md-6 mb-4">
-
-        <div class="card shadow border-danger">
-
-            <div class="card-header bg-danger text-white">
-
-                Inventory Summary
-
-            </div>
-
-            <div class="card-body">
-
-                <p>
-
-                    <strong>Low Stock Medicines:</strong>
-
-                    {{ $lowStock }}
-
-                </p>
-
-                <p>
-
-                    <strong>Out of Stock:</strong>
-
-                    {{ $outOfStock }}
-
-                </p>
-
-                <p>
-
-                    <strong>Total Inventory Value:</strong>
-
-                    Rs. {{ number_format($inventoryValue ?? 0,2) }}
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-6 mb-4">
-
-        <div class="card shadow">
-
-            <div class="card-header bg-primary text-white">
-
-                Low Stock Medicines
-
-            </div>
-
-            <div class="card-body p-0">
-
-                <table class="table table-bordered mb-0">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Medicine</th>
-
-                            <th>Company</th>
-
-                            <th>Stock</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                    @forelse($lowStockMedicines as $medicine)
-
-                        <tr>
-
-                            <td>{{ $medicine->name }}</td>
-
-                            <td>{{ $medicine->company }}</td>
-
-                            <td>
-
-                                @if($medicine->quantity == 0)
-
-                                    <span class="badge badge-danger">
-
-                                        Out of Stock
-
-                                    </span>
-
-                                @else
-
-                                    <span class="badge badge-warning">
-
-                                        {{ $medicine->quantity }}
-
-                                    </span>
-
-                                @endif
-
-                            </td>
-
-                        </tr>
-
-                    @empty
-
-                        <tr>
-
-                            <td colspan="3" class="text-center">
-
-                                No low stock medicines.
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<div class="card shadow mt-4">
-
-    <div class="card-header bg-success text-white">
-
-        Recent Orders
-
-    </div>
-
-    <div class="card-body p-0">
-
-        <table class="table table-hover mb-0">
-
-            <thead>
-
-                <tr>
-
-                    <th>#</th>
-
-                    <th>Medicine</th>
-
-                    <th>Customer</th>
-
-                    <th>Quantity</th>
-
-                    <th>Total</th>
-
-                    <th>Status</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-            @forelse($recentOrders as $order)
-
-                <tr>
-
-                    <td>{{ $order->id }}</td>
-
-                    <td>{{ $order->medicine->name ?? '-' }}</td>
-
-                    <td>{{ $order->user->name ?? '-' }}</td>
-
-                    <td>{{ $order->quantity }}</td>
-
-                    <td>Rs. {{ number_format($order->total_price,2) }}</td>
-
-                    <td>
-
-                        @if($order->status == 'Pending')
-
-                            <span class="badge badge-warning">
-
-                                Pending
-
-                            </span>
-
-                        @elseif($order->status == 'Approved')
-
-                            <span class="badge badge-info">
-
-                                Approved
-
-                            </span>
-
-                        @else
-
-                            <span class="badge badge-success">
-
-                                Delivered
-
-                            </span>
-
-                        @endif
-
-                    </td>
-
-                </tr>
-
-            @empty
-
-                <tr>
-
-                    <td colspan="6" class="text-center">
-
-                        No orders found.
-
-                    </td>
-
-                </tr>
-
-            @endforelse
-
-            </tbody>
-
-        </table>
 
     </div>
 
