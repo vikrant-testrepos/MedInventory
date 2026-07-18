@@ -65,7 +65,8 @@
 
         <li>
 
-            <a href="#">
+            <a href="{{ route('pharmacy.orders.index') }}"
+            class="{{ request()->routeIs('pharmacy.orders.*') ? 'active' : '' }}">
 
                 <i class="fas fa-shopping-cart"></i>
 

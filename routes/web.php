@@ -141,7 +141,7 @@ Route::middleware(['auth', 'role:pharmacy'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Inventory (Coming Next)
+    | Inventory
     |--------------------------------------------------------------------------
     */
 
@@ -159,18 +159,18 @@ Route::middleware(['auth', 'role:pharmacy'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Orders (Coming Next)
+    | Orders
     |--------------------------------------------------------------------------
     */
 
-    // Route::resource(
-    //     'pharmacy/orders',
-    //     'Pharmacy\OrderController'
-    // )->names([
-    //     'index'  => 'pharmacy.orders.index',
-    //     'show'   => 'pharmacy.orders.show',
-    //     'update' => 'pharmacy.orders.update',
-    // ]);
+    Route::resource(
+        'pharmacy/orders',
+        'Pharmacy\OrderController'
+    )->names([
+        'index'  => 'pharmacy.orders.index',
+        'show'   => 'pharmacy.orders.show',
+        'update' => 'pharmacy.orders.update',
+    ]);
 
     /*
     |--------------------------------------------------------------------------
