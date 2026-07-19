@@ -16,6 +16,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/patient.css') }}" rel="stylesheet">
 
+    @stack('styles')
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -195,6 +197,8 @@
 </footer>
 
 <script src="{{ asset('js/app.js') }}"></script>
+
+@stack('scripts')
 
 </body>
 

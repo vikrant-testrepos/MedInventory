@@ -346,12 +346,12 @@
 
                         <div class="col-md-6 mb-3">
 
-                            <a href="#"
-                               class="btn btn-primary btn-block">
+                            <a href="{{ route('patient.map', $medicine->id) }}"
+                                class="btn btn-primary btn-block">
 
-                                <i class="fas fa-map"></i>
+                                    <i class="fas fa-map-marked-alt"></i>
 
-                                Open Interactive Map
+                                    Open Interactive Map
 
                             </a>
 

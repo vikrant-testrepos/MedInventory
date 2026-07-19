@@ -430,11 +430,11 @@
 
                                 <a
                                     href="{{ route('patient.medicine.show',$medicine->id) }}"
-                                    class="btn btn-outline-primary btn-block">
+                                        class="btn btn-outline-primary btn-block">
 
-                                    <i class="fas fa-eye"></i>
+                                        <i class="fas fa-eye"></i>
 
-                                    View Details
+                                        View Details
 
                                 </a>
 
