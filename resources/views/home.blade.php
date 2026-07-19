@@ -2,40 +2,9 @@
 
 @section('content')
 
-@if(session('success'))
+<!-- ========================= HERO ========================= -->
 
-<div class="container mt-3">
-
-    <div class="alert alert-success alert-dismissible fade show">
-
-        <strong>
-
-            <i class="fas fa-check-circle mr-1"></i>
-
-            {{ session('success') }}
-
-        </strong>
-
-        <button
-            type="button"
-            class="close"
-            data-dismiss="alert">
-
-            <span>&times;</span>
-
-        </button>
-
-    </div>
-
-</div>
-
-@endif
-
-<div class="container">
-
-    <!-- =======================================
-            HERO SECTION
-    ======================================== -->
+<div class="container mt-5">
 
     <section class="hero">
 
@@ -43,49 +12,61 @@
 
             <div class="col-lg-6">
 
-                <span class="badge badge-light px-3 py-2 mb-3">
+                <span class="badge badge-light hero-badge">
 
-                    💊 Nepal's Trusted Online Pharmacy
+                    <i class="fas fa-shield-alt mr-2"></i>
+
+                    Trusted Medicine Delivery
 
                 </span>
 
                 <h1>
 
-                    Your Health,
+                    Find Medicines
+
                     <br>
-                    Delivered Faster.
+
+                    From Nearby
+
+                    <span class="text-warning">
+
+                        Pharmacies
+
+                    </span>
 
                 </h1>
 
                 <p>
 
-                    Order genuine medicines from verified pharmacies across Nepal and receive them safely at your doorstep.
+                    Search thousands of medicines available in nearby pharmacies,
+                    compare prices and order instantly from trusted medical stores.
 
                 </p>
 
-                <form action="{{ route('medicine.search') }}" method="GET">
+                <form
+                    action="{{ route('medicine.search') }}"
+                    method="GET"
+                    class="search-box">
 
-                    <div class="search-box">
+                    <div class="input-group">
 
-                        <div class="input-group">
+                        <input
+                            type="text"
+                            name="keyword"
+                            class="form-control"
+                            placeholder="Search medicine...">
 
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="keyword"
-                                placeholder="Search medicines...">
+                        <div class="input-group-append">
 
-                            <div class="input-group-append">
+                            <button
+                                class="btn btn-main"
+                                type="submit">
 
-                                <button class="btn btn-main">
+                                <i class="fas fa-search mr-2"></i>
 
-                                    <i class="fas fa-search"></i>
+                                Search
 
-                                    Search
-
-                                </button>
-
-                            </div>
+                            </button>
 
                         </div>
 
@@ -93,78 +74,43 @@
 
                 </form>
 
-            </div>
+                <div class="hero-features">
 
-            <div class="col-lg-6 text-center hero-image">
+                    <div>
 
-                <img
-                    src="{{ asset('images/hero/pharmacy.png') }}"
-                    class="img-fluid"
-                    alt="Online Pharmacy">
+                        <i class="fas fa-check-circle"></i>
 
-            </div>
+                        Genuine Medicines
 
-        </div>
+                    </div>
 
-    </section>
+                    <div>
 
-        <!-- =======================================
-            FEATURES
-    ======================================== -->
+                        <i class="fas fa-map-marker-alt"></i>
 
-    <section class="mt-5">
+                        Nearby Pharmacies
 
-        <div class="row">
+                    </div>
 
-            <div class="col-md-4 mb-4">
+                    <div>
 
-                <div class="feature-card text-center">
+                        <i class="fas fa-truck"></i>
 
-                    <i class="fas fa-shipping-fast fa-3x text-success mb-3"></i>
+                        Fast Delivery
 
-                    <h5>Fast Delivery</h5>
-
-                    <p>
-
-                        Get medicines delivered safely and quickly right to your doorstep.
-
-                    </p>
+                    </div>
 
                 </div>
 
             </div>
 
-            <div class="col-md-4 mb-4">
+            <div class="col-lg-6">
 
-                <div class="feature-card text-center">
+                <div class="hero-image text-center">
 
-                    <i class="fas fa-clinic-medical fa-3x text-primary mb-3"></i>
-
-                    <h5>Verified Pharmacies</h5>
-
-                    <p>
-
-                        Buy medicines only from licensed and verified pharmacies.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-4 mb-4">
-
-                <div class="feature-card text-center">
-
-                    <i class="fas fa-headset fa-3x text-warning mb-3"></i>
-
-                    <h5>24/7 Support</h5>
-
-                    <p>
-
-                        Our support team is always available to help you.
-
-                    </p>
+                    <img src="{{ asset('images/hero/pharmacy.png') }}"
+                        class="img-fluid"
+                        alt="Medicine">
 
                 </div>
 
@@ -174,335 +120,291 @@
 
     </section>
 
-    <!-- =======================================
-            CATEGORIES
-    ======================================== -->
+</div>
 
-    <section class="mt-5">
+<!-- ========================= CATEGORIES ========================= -->
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
         <h2 class="section-title">
 
-            Browse Categories
+            Shop by Category
 
         </h2>
 
-        @php
+    </div>
 
-            $icons = [
+    <div class="row">
 
-                'fas fa-capsules',
+        @foreach($categories as $category)
 
-                'fas fa-heartbeat',
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
 
-                'fas fa-syringe',
+                <div class="category-card">
 
-                'fas fa-baby',
+                    <div class="category-icon bg{{ ($loop->iteration % 6) ?: 6 }}">
 
-                'fas fa-leaf',
+                        <i class="fas fa-capsules"></i>
 
-                'fas fa-pills',
+                    </div>
 
-                'fas fa-stethoscope',
+                    <h6>
 
-                'fas fa-prescription-bottle'
+                        {{ $category->name }}
 
-            ];
+                    </h6>
 
-            $colors = [
+                </div>
 
-                'bg1',
+            </div>
 
-                'bg2',
+        @endforeach
 
-                'bg3',
+    </div>
 
-                'bg4',
+</div>
 
-                'bg5',
+<!-- ========================= FEATURED MEDICINES ========================= -->
 
-                'bg6'
+<div class="container mt-5">
 
-            ];
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        @endphp
+        <h2 class="section-title">
 
-        <div class="row">
+            Featured Medicines
 
-            @foreach(App\Category::where('name','!=','Any')->get() as $index => $category)
+        </h2>
 
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
+        <a href="{{ route('medicine.search') }}"
+           class="btn btn-outline-success">
 
-                    <div class="category-card">
+            View All
 
-                        <div class="category-icon {{ $colors[$index % count($colors)] }}">
+        </a>
 
-                            <i class="{{ $icons[$index % count($icons)] }}"></i>
+    </div>
 
-                        </div>
+    <div class="row">
 
-                        <h6>
+    @foreach($medicines as $medicine)
 
-                            {{ $category->name }}
+        <div class="col-lg-4 col-md-6 mb-4">
 
-                        </h6>
+            <div class="medicine-card">
 
+                <div class="medicine-image">
+
+                    @if($medicine->image)
+
+                        <img src="{{ asset('uploads/medicines/' . $medicine->image) }}"
+                            alt="{{ $medicine->name }}">
+
+                    @else
+
+                        <i class="fas fa-prescription-bottle-alt"></i>
+
+                    @endif
+
+                    <span class="badge-new">NEW</span>
+
+                    <div class="wishlist">
+                        <i class="far fa-heart"></i>
                     </div>
 
                 </div>
 
-            @endforeach
+                <div class="card-body">
 
-        </div>
+                    <span class="category-pill">
+                        {{ optional($medicine->category)->name ?? 'Medicine' }}
+                    </span>
 
-    </section>
+                    <h4 class="medicine-title">
+                        {{ $medicine->name }}
+                    </h4>
 
-    <!-- =======================================
-            FEATURED MEDICINES
-    ======================================= -->
+                    <div class="company">
+                        {{ $medicine->manufacturer ?? 'Unknown Manufacturer' }}
+                    </div>
 
-    <section class="mt-5">
+                    <div class="rating">
+                        ★★★★★
+                        <span>4.8</span>
+                    </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="price">
+                        Rs. {{ number_format($medicine->price,2) }}
+                    </div>
 
-            <h2 class="section-title mb-0">
+                    @if($medicine->quantity>10)
 
-                Featured Medicines
-
-            </h2>
-
-            <a href="#" class="btn btn-outline-success">
-
-                View All
-
-            </a>
-
-        </div>
-
-        <div class="row">
-
-            @forelse($medicines as $medicine)
-
-                <div class="col-lg-4 col-md-6 mb-4">
-
-                    <div class="medicine-card shadow-sm">
-
-                        {{-- New Badge --}}
-
-                        <span class="badge-new">
-
-                            New
-
+                        <span class="stock-green">
+                            In Stock
                         </span>
 
-                        {{-- Wishlist --}}
+                    @elseif($medicine->quantity>0)
 
-                        <div class="wishlist">
+                        <span class="stock-orange">
+                            Few Left
+                        </span>
 
-                            <i class="far fa-heart"></i>
+                    @else
 
-                        </div>
+                        <span class="stock-red">
+                            Out of Stock
+                        </span>
 
-                        {{-- Medicine Image --}}
+                    @endif
 
-                        <div class="medicine-image">
+                    <div class="pharmacy mt-3">
+                        <i class="fas fa-store"></i>
 
-                            @if($medicine->image)
+                        {{ optional($medicine->pharmacy)->name ?? 'MedInventory Pharmacy' }}
+                    </div>
 
-                                <img
-                                    src="{{ asset('storage/'.$medicine->image) }}"
-                                    class="img-fluid"
-                                    alt="{{ $medicine->name }}">
+                    <div class="buttons mt-4">
 
-                            @else
+                        <a href="{{ route('patient.medicine.show',$medicine->id) }}"
+                        class="btn btn-view">
 
-                                <i class="fas fa-capsules fa-5x text-success"></i>
+                            <i class="fas fa-eye"></i>
 
-                            @endif
+                            View Details
 
-                        </div>
+                        </a>
 
-                        <div class="card-body">
+                        <form action="{{ route('cart.store') }}" method="POST">
 
-                            {{-- Category --}}
+                            @csrf
 
-                            <small class="text-success font-weight-bold">
+                            <input type="hidden"
+                                name="medicine_id"
+                                value="{{ $medicine->id }}">
 
-                                {{ optional($medicine->category)->name }}
+                            <button class="btn btn-cart">
 
-                            </small>
+                                <i class="fas fa-shopping-cart"></i>
 
-                            {{-- Medicine Name --}}
+                                Add To Cart
 
-                            <h4 class="mt-2">
+                            </button>
 
-                                {{ $medicine->name }}
-
-                            </h4>
-
-                            {{-- Company --}}
-
-                            <p class="text-muted mb-2">
-
-                                {{ $medicine->company }}
-
-                            </p>
-
-                            {{-- Rating --}}
-
-                            <div class="rating mb-2">
-
-                                ⭐⭐⭐⭐⭐
-
-                                <span class="text-muted">
-
-                                    (4.8)
-
-                                </span>
-
-                            </div>
-
-                            {{-- Price --}}
-
-                            <div class="price mb-2">
-
-                                <span class="text-muted">
-
-                                    Starting From
-
-                                </span>
-
-                                <br>
-
-                                <strong class="text-success h5">
-
-                                    Rs.
-                                    {{ number_format($medicine->price,2) }}
-
-                                </strong>
-
-                            </div>
-
-                            {{-- Stock --}}
-
-                            <div class="stock mb-2">
-
-                                @if($medicine->quantity > 0)
-
-                                    <span class="badge badge-success">
-
-                                        <i class="fas fa-check-circle"></i>
-
-                                        {{ $medicine->quantity }} Available
-
-                                    </span>
-
-                                @else
-
-                                    <span class="badge badge-danger">
-
-                                        Out of Stock
-
-                                    </span>
-
-                                @endif
-
-                            </div>
-
-                            {{-- Pharmacy --}}
-
-                            <div class="pharmacy-name">
-
-                                <i class="fas fa-store text-success"></i>
-
-                                <strong>
-
-                                    {{ optional($medicine->pharmacy)->name }}
-
-                                </strong>
-
-                            </div>
-
-                            <hr>
-
-                            {{-- Buttons --}}
-
-                            <div class="medicine-actions">
-
-                                <a
-                                    href="{{ route('patient.medicine.show',$medicine->id) }}"
-                                        class="btn btn-outline-primary btn-block">
-
-                                        <i class="fas fa-eye"></i>
-
-                                        View Details
-
-                                </a>
-
-                                <form
-                                    action="{{ route('cart.store') }}"
-                                    method="POST">
-
-                                    @csrf
-
-                                    <input
-                                        type="hidden"
-                                        name="medicine_id"
-                                        value="{{ $medicine->id }}">
-
-                                    <button
-                                        class="btn btn-success btn-block">
-
-                                        <i class="fas fa-shopping-cart"></i>
-
-                                        Add to Cart
-
-                                    </button>
-
-                                </form>
-
-                            </div>
-
-                        </div>
+                        </form>
 
                     </div>
 
                 </div>
 
-            @empty
-
-                <div class="col-12">
-
-                    <div class="alert alert-warning">
-
-                        No medicines available.
-
-                    </div>
-
-                </div>
-
-            @endforelse
+            </div>
 
         </div>
 
-    </section>
+    @endforeach
 
-    <!-- =======================================
-            STATISTICS
-    ======================================= -->
+    </div>
 
-    <section class="stats mt-5">
+</div>
+
+<!-- ========================= WHY CHOOSE US ========================= -->
+
+<div class="container why-section">
+
+    <h2 class="section-title text-center mb-5">
+
+        Why Choose MedInventory?
+
+    </h2>
+
+    <div class="row">
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="why-card">
+
+                <i class="fas fa-clinic-medical"></i>
+
+                <h4>
+
+                    Trusted Pharmacies
+
+                </h4>
+
+                <p>
+
+                    Buy medicines only from verified and registered pharmacies.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="why-card">
+
+                <i class="fas fa-shipping-fast"></i>
+
+                <h4>
+
+                    Fast Delivery
+
+                </h4>
+
+                <p>
+
+                    Find nearby pharmacies and receive medicines quickly.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="why-card">
+
+                <i class="fas fa-user-shield"></i>
+
+                <h4>
+
+                    Secure Ordering
+
+                </h4>
+
+                <p>
+
+                    Safe ordering process with reliable pharmacies.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================= STATS ========================= -->
+
+<div class="container">
+
+    <section class="stats">
 
         <div class="row">
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-md-3">
 
                 <div class="stat-box">
 
-                    <i class="fas fa-capsules fa-2x text-success mb-3"></i>
-
                     <h2>
 
-                        {{ App\Medicine::count() }}+
+                        {{ $medicines->count() }}
 
                     </h2>
 
@@ -516,21 +418,19 @@
 
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-md-3">
 
                 <div class="stat-box">
 
-                    <i class="fas fa-clinic-medical fa-2x text-primary mb-3"></i>
-
                     <h2>
 
-                        {{ App\Pharmacy::count() }}+
+                        {{ $categories->count() }}
 
                     </h2>
 
                     <p>
 
-                        Verified Pharmacies
+                        Categories
 
                     </p>
 
@@ -538,21 +438,19 @@
 
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-md-3">
 
                 <div class="stat-box">
 
-                    <i class="fas fa-users fa-2x text-warning mb-3"></i>
-
                     <h2>
 
-                        {{ App\User::where('role','patient')->count() }}+
+                        {{ $pharmacies->count() }}
 
                     </h2>
 
                     <p>
 
-                        Happy Patients
+                        Pharmacies
 
                     </p>
 
@@ -560,11 +458,9 @@
 
             </div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-md-3">
 
                 <div class="stat-box">
-
-                    <i class="fas fa-headset fa-2x text-danger mb-3"></i>
 
                     <h2>
 
@@ -574,7 +470,7 @@
 
                     <p>
 
-                        Customer Support
+                        Support
 
                     </p>
 
@@ -585,90 +481,6 @@
         </div>
 
     </section>
-
-    <!-- =======================================
-        WHY CHOOSE US
-======================================= -->
-
-<section class="why-section mt-5 mb-5">
-
-    <h2 class="section-title text-center">
-
-        Why Choose MedInventory?
-
-    </h2>
-
-    <div class="row mt-5">
-
-        <div class="col-lg-4 mb-4">
-
-            <div class="why-card h-100">
-
-                <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
-
-                <h4>
-
-                    Genuine Medicines
-
-                </h4>
-
-                <p>
-
-                    Every medicine available on MedInventory comes from licensed pharmacies approved by our administration.
-
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-4 mb-4">
-
-            <div class="why-card h-100">
-
-                <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
-
-                <h4>
-
-                    Nearby Pharmacies
-
-                </h4>
-
-                <p>
-
-                    Find medicines available in pharmacies closest to your current location.
-
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-4 mb-4">
-
-            <div class="why-card h-100">
-
-                <i class="fas fa-route fa-3x text-warning mb-3"></i>
-
-                <h4>
-
-                    Navigation Support
-
-                </h4>
-
-                <p>
-
-                    Open an interactive map and navigate directly to your selected pharmacy.
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
 
 </div>
 

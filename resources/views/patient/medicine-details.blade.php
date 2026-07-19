@@ -34,7 +34,7 @@
                     @if($medicine->image)
 
                         <img
-                            src="{{ asset('storage/'.$medicine->image) }}"
+                            src="{{ asset('uploads/medicines/'.$medicine->image) }}"
                             class="img-fluid rounded"
                             style="max-height:350px;">
 

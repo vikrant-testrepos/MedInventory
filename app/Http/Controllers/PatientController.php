@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Medicine;
 use App\Order;
 use App\Pharmacy;
+use App\Category;
 
 class PatientController extends Controller
 {
@@ -17,17 +18,20 @@ class PatientController extends Controller
     public function index()
     {
         $medicines = Medicine::with([
-            'category',
-            'pharmacy'
-        ])
-        ->where('quantity', '>', 0)
-        ->latest()
-        ->get();
+                'category',
+                'pharmacy'
+            ])
+            ->where('quantity', '>', 0)
+            ->latest()
+            ->get();
+
+        $categories = Category::latest()->get();
 
         $pharmacies = Pharmacy::latest()->get();
 
         return view('home', compact(
             'medicines',
+            'categories',
             'pharmacies'
         ));
     }
