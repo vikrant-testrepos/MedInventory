@@ -22,11 +22,11 @@ class Medicine extends Model
 
         'quantity',
 
-        'description',
-
         'batch_number',
 
         'expiry_date',
+
+        'description',
 
         'image'
 
@@ -61,5 +61,26 @@ class Medicine extends Model
     public function stockHistory()
     {
         return $this->hasMany(StockHistory::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Calculated Attributes
+    |--------------------------------------------------------------------------
+    */
+
+    public function getProfitPerUnitAttribute()
+    {
+        return $this->price - $this->cost_price;
+    }
+
+    public function getInventoryValueAttribute()
+    {
+        return $this->cost_price * $this->quantity;
+    }
+
+    public function getExpectedProfitAttribute()
+    {
+        return ($this->price - $this->cost_price) * $this->quantity;
     }
 }

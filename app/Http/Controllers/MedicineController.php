@@ -27,75 +27,64 @@ class MedicineController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-
-            'name' => 'required',
-
-            'category_id' => 'required',
-
-            'price' => 'required|numeric',
-
-            'cost_price' => 'required|numeric',
-
-            'quantity' => 'required|numeric',
-
-            'batch_number' => 'nullable|string|max:100',
-
-            'expiry_date' => 'nullable|date',
-
-            'image' => 'nullable|image'
-
+            'name'          => 'required',
+            'category_id'   => 'required',
+            'company'       => 'required',
+            'price'         => 'required|numeric',
+            'cost_price'    => 'required|numeric',
+            'quantity'      => 'required|integer',
+            'batch_number'  => 'nullable|string|max:255',
+            'expiry_date'   => 'nullable|date',
+            'description'   => 'nullable',
+            'image'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $imageName = null;
 
         if ($request->hasFile('image')) {
 
-            $imageName = time().'.'.$request->image->extension();
+            $imageName = time().'_'.$request->image->getClientOriginalName();
 
             $request->image->move(
-
                 public_path('uploads/medicines'),
-
                 $imageName
-
             );
-
         }
 
         Medicine::create([
 
-            'category_id' => $request->category_id,
+            'category_id'  => $request->category_id,
 
-            'name' => $request->name,
+            'name'         => $request->name,
 
-            'company' => $request->company,
+            'company'      => $request->company,
 
-            'price' => $request->price,
+            'price'        => $request->price,
 
-            'cost_price' => $request->cost_price,
+            'cost_price'   => $request->cost_price,
 
-            'quantity' => $request->quantity,
+            'quantity'     => $request->quantity,
 
             'batch_number' => $request->batch_number,
 
-            'expiry_date' => $request->expiry_date,
+            'expiry_date'  => $request->expiry_date,
 
-            'description' => $request->description,
+            'description'  => $request->description,
 
-            'image' => $imageName,
+            'image'        => $imageName,
 
         ]);
 
         return redirect()
-
             ->route('medicines.index')
-
-            ->with('success','Medicine added successfully.');
+            ->with('success', 'Medicine added successfully.');
     }
 
     public function show($id)
     {
-        //
+        $medicine = Medicine::findOrFail($id);
+
+        return view('medicines.show', compact('medicine'));
     }
 
     public function edit($id)
@@ -104,112 +93,60 @@ class MedicineController extends Controller
 
         $categories = Category::all();
 
-        return view('medicines.edit', compact(
-
-            'medicine',
-
-            'categories'
-
-        ));
+        return view('medicines.edit', compact('medicine', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-
-            'name' => 'required',
-
-            'category_id' => 'required',
-
-            'price' => 'required|numeric',
-
-            'cost_price' => 'required|numeric',
-
-            'quantity' => 'required|numeric',
-
-            'batch_number' => 'nullable|string|max:100',
-
-            'expiry_date' => 'nullable|date',
-
-            'image' => 'nullable|image'
-
+            'category_id'   => 'required',
+            'name'          => 'required',
+            'company'       => 'required',
+            'price'         => 'required|numeric',
+            'cost_price'    => 'required|numeric',
+            'quantity'      => 'required|integer',
+            'batch_number'  => 'nullable|string|max:255',
+            'expiry_date'   => 'nullable|date',
+            'description'   => 'nullable',
+            'image'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $medicine = Medicine::findOrFail($id);
 
-        $imageName = $medicine->image;
-
         if ($request->hasFile('image')) {
 
             if (
-
                 $medicine->image &&
-
-                file_exists(
-
-                    public_path(
-
-                        'uploads/medicines/'.$medicine->image
-
-                    )
-
-                )
-
+                file_exists(public_path('uploads/medicines/'.$medicine->image))
             ) {
-
-                unlink(
-
-                    public_path(
-
-                        'uploads/medicines/'.$medicine->image
-
-                    )
-
-                );
-
+                unlink(public_path('uploads/medicines/'.$medicine->image));
             }
 
-            $imageName = time().'.'.$request->image->extension();
+            $imageName = time().'_'.$request->image->getClientOriginalName();
 
             $request->image->move(
-
                 public_path('uploads/medicines'),
-
                 $imageName
-
             );
 
+            $medicine->image = $imageName;
         }
 
-        $medicine->update([
+        $medicine->category_id  = $request->category_id;
+        $medicine->name         = $request->name;
+        $medicine->company      = $request->company;
+        $medicine->price        = $request->price;
+        $medicine->cost_price   = $request->cost_price;
+        $medicine->quantity     = $request->quantity;
+        $medicine->batch_number = $request->batch_number;
+        $medicine->expiry_date  = $request->expiry_date;
+        $medicine->description  = $request->description;
 
-            'category_id' => $request->category_id,
-
-            'name' => $request->name,
-
-            'company' => $request->company,
-
-            'price' => $request->price,
-
-            'cost_price' => $request->cost_price,
-
-            'quantity' => $request->quantity,
-
-            'batch_number' => $request->batch_number,
-
-            'expiry_date' => $request->expiry_date,
-
-            'description' => $request->description,
-
-            'image' => $imageName
-
-        ]);
+        $medicine->save();
 
         return redirect()
-
             ->route('medicines.index')
-
-            ->with('success','Medicine updated successfully.');
+            ->with('success', 'Medicine updated successfully.');
     }
 
     public function destroy($id)
@@ -217,39 +154,16 @@ class MedicineController extends Controller
         $medicine = Medicine::findOrFail($id);
 
         if (
-
             $medicine->image &&
-
-            file_exists(
-
-                public_path(
-
-                    'uploads/medicines/'.$medicine->image
-
-                )
-
-            )
-
+            file_exists(public_path('uploads/medicines/'.$medicine->image))
         ) {
-
-            unlink(
-
-                public_path(
-
-                    'uploads/medicines/'.$medicine->image
-
-                )
-
-            );
-
+            unlink(public_path('uploads/medicines/'.$medicine->image));
         }
 
         $medicine->delete();
 
         return redirect()
-
             ->route('medicines.index')
-
-            ->with('success','Medicine deleted successfully.');
+            ->with('success', 'Medicine deleted successfully.');
     }
 }

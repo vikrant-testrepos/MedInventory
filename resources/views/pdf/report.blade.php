@@ -7,7 +7,11 @@
 
     <title>MedInventory Report</title>
 
-    <link rel="stylesheet" href="{{ public_path('css/pdf.css') }}">
+    <style>
+
+{!! file_get_contents(public_path('css/pdf-report.css')) !!}
+
+    </style>
 
 </head>
 
@@ -88,7 +92,7 @@
 
         <tr>
             <td>Inventory Value</td>
-            <td>Rs. {{ number_format($inventoryValue,2) }}</td>
+            <td>Rs. {{ number_format($inventorySellingValue,2) }}</td>
         </tr>
 
     </table>
