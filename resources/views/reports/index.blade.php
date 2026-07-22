@@ -13,10 +13,10 @@
             </small>
         </div>
 
-        <button onclick="window.print()" class="btn btn-success">
-            <i class="fas fa-print"></i>
-            Print Report
-        </button>
+        <a href="{{ route('reports.print') }}" class="btn btn-success">
+            <i class="fas fa-file-pdf"></i>
+            Download PDF
+        </a>
 
     </div>
 
