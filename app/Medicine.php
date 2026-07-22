@@ -18,13 +18,25 @@ class Medicine extends Model
 
         'price',
 
+        'cost_price',
+
         'quantity',
 
         'description',
 
+        'batch_number',
+
+        'expiry_date',
+
         'image'
 
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
 
     public function category()
     {
@@ -50,5 +62,4 @@ class Medicine extends Model
     {
         return $this->hasMany(StockHistory::class);
     }
-    
 }

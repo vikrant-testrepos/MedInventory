@@ -3,135 +3,121 @@
 
 <head>
 
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
 
     <title>MedInventory Report</title>
 
-    <style>
-        {!! file_get_contents(public_path('css/pdf-report.css')) !!}
-    </style>
+    <link rel="stylesheet" href="{{ public_path('css/pdf.css') }}">
 
 </head>
 
 <body>
 
-    <h1>MedInventory</h1>
+    <!-- ================= HEADER ================= -->
 
-    <p class="subtitle">
-        Inventory & Sales Report
-        <br>
-        Generated on {{ date('d M Y h:i A') }}
-    </p>
+    <div class="header">
 
-    <h2 class="section-title">
+        <div class="logo">
+            MedInventory
+        </div>
+
+        <div class="subtitle">
+            Inventory & Sales Report
+        </div>
+
+        <table class="report-info">
+
+            <tr>
+                <td><strong>Report ID</strong></td>
+                <td>REP-{{ date('Ymd-His') }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>Generated On</strong></td>
+                <td>{{ date('d M Y h:i A') }}</td>
+            </tr>
+
+            <tr>
+                <td><strong>Prepared By</strong></td>
+                <td>Administrator</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- ================= SYSTEM SUMMARY ================= -->
+
+    <div class="section-title">
+
         System Summary
-    </h2>
 
-    <table class="summary">
+    </div>
+
+    <table class="summary-table">
 
         <tr>
-
-            <td>
-                <strong>Total Medicines</strong>
-            </td>
-
-            <td>
-                {{ $totalMedicines }}
-            </td>
-
+            <td>Total Medicines</td>
+            <td>{{ $totalMedicines }}</td>
         </tr>
 
         <tr>
-
-            <td>
-                <strong>Total Categories</strong>
-            </td>
-
-            <td>
-                {{ $totalCategories }}
-            </td>
-
+            <td>Total Categories</td>
+            <td>{{ $totalCategories }}</td>
         </tr>
 
         <tr>
-
-            <td>
-                <strong>Total Orders</strong>
-            </td>
-
-            <td>
-                {{ $totalOrders }}
-            </td>
-
+            <td>Total Orders</td>
+            <td>{{ $totalOrders }}</td>
         </tr>
 
         <tr>
-
-            <td>
-                <strong>Total Stock</strong>
-            </td>
-
-            <td>
-                {{ $totalStock }}
-            </td>
-
+            <td>Total Stock Available</td>
+            <td>{{ $totalStock }}</td>
         </tr>
 
         <tr>
-
-            <td>
-                <strong>Low Stock Medicines</strong>
-            </td>
-
-            <td>
-                {{ $lowStock }}
-            </td>
-
+            <td>Low Stock Medicines</td>
+            <td>{{ $lowStock }}</td>
         </tr>
 
         <tr>
-
-            <td>
-                <strong>Out Of Stock</strong>
-            </td>
-
-            <td>
-                {{ $outOfStock }}
-            </td>
-
+            <td>Out Of Stock Medicines</td>
+            <td>{{ $outOfStock }}</td>
         </tr>
 
         <tr>
-
-            <td>
-                <strong>Inventory Value</strong>
-            </td>
-
-            <td>
-                Rs. {{ number_format($inventoryValue,2) }}
-            </td>
-
+            <td>Inventory Value</td>
+            <td>Rs. {{ number_format($inventoryValue,2) }}</td>
         </tr>
 
     </table>
 
-    <h2 class="section-title">
-        Low Stock Medicines
-    </h2>
+    <!-- ================= LOW STOCK ================= -->
 
-    <table>
+    <div class="section-title">
+
+        Low Stock Medicines
+
+    </div>
+
+    <table class="data-table">
 
         <thead>
 
-            <tr>
+        <tr>
 
-                <th>ID</th>
-                <th>Medicine</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Quantity</th>
+            <th>ID</th>
 
-            </tr>
+            <th>Medicine</th>
+
+            <th>Category</th>
+
+            <th>Price</th>
+
+            <th>Quantity</th>
+
+        </tr>
 
         </thead>
 
@@ -159,7 +145,7 @@
 
             <tr>
 
-                <td colspan="5" class="text-center">
+                <td colspan="5" style="text-align:center">
 
                     No Low Stock Medicines
 
@@ -173,25 +159,31 @@
 
     </table>
 
-    <h2 class="section-title">
+    <!-- ================= RECENT ORDERS ================= -->
+
+    <div class="section-title">
 
         Recent Orders
 
-    </h2>
+    </div>
 
-    <table>
+    <table class="data-table">
 
         <thead>
 
-            <tr>
+        <tr>
 
-                <th>ID</th>
-                <th>Patient</th>
-                <th>Medicine</th>
-                <th>Quantity</th>
-                <th>Status</th>
+            <th>ID</th>
 
-            </tr>
+            <th>Patient</th>
+
+            <th>Medicine</th>
+
+            <th>Quantity</th>
+
+            <th>Status</th>
+
+        </tr>
 
         </thead>
 
@@ -217,7 +209,7 @@
 
             <tr>
 
-                <td colspan="5" class="text-center">
+                <td colspan="5" style="text-align:center">
 
                     No Orders Found
 
@@ -231,13 +223,71 @@
 
     </table>
 
+    <!-- ================= ALL MEDICINES ================= -->
+
+    <div class="section-title">
+
+        Medicine Inventory
+
+    </div>
+
+    <table class="data-table">
+
+        <thead>
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Medicine</th>
+
+            <th>Category</th>
+
+            <th>Price</th>
+
+            <th>Stock</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        @foreach($medicines as $medicine)
+
+            <tr>
+
+                <td>{{ $medicine->id }}</td>
+
+                <td>{{ $medicine->name }}</td>
+
+                <td>{{ optional($medicine->category)->name }}</td>
+
+                <td>
+
+                    Rs. {{ number_format($medicine->price,2) }}
+
+                </td>
+
+                <td>{{ $medicine->quantity }}</td>
+
+            </tr>
+
+        @endforeach
+
+        </tbody>
+
+    </table>
+
+    <!-- ================= FOOTER ================= -->
+
     <div class="footer">
 
-        MedInventory Management System
+        MedInventory Inventory Management System
 
         <br>
 
-        Generated by Laravel 6 + DomPDF
+        Confidential Report
 
     </div>
 

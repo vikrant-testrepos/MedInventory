@@ -12,7 +12,7 @@
 
 </div>
 
-<div class="card">
+<div class="card shadow">
 
     <div class="card-body">
 
@@ -65,23 +65,82 @@
 
             </div>
 
-            <div class="form-group">
+            <div class="row">
 
-                <label>Price</label>
+                <div class="col-md-6">
 
-                <input type="number"
-                       step="0.01"
-                       name="price"
-                       class="form-control">
+                    <div class="form-group">
+
+                        <label>Selling Price (Rs.)</label>
+
+                        <input type="number"
+                               step="0.01"
+                               name="price"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>Cost Price (Rs.)</label>
+
+                        <input type="number"
+                               step="0.01"
+                               name="cost_price"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>Quantity</label>
+
+                        <input type="number"
+                               name="quantity"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>Batch Number</label>
+
+                        <input type="text"
+                               name="batch_number"
+                               class="form-control"
+                               placeholder="Example: BATCH-2026-001">
+
+                    </div>
+
+                </div>
 
             </div>
 
             <div class="form-group">
 
-                <label>Quantity</label>
+                <label>Expiry Date</label>
 
-                <input type="number"
-                       name="quantity"
+                <input type="date"
+                       name="expiry_date"
                        class="form-control">
 
             </div>
@@ -91,9 +150,9 @@
                 <label>Description</label>
 
                 <textarea
-                        name="description"
-                        class="form-control"
-                        rows="4"></textarea>
+                    name="description"
+                    class="form-control"
+                    rows="4"></textarea>
 
             </div>
 
@@ -107,7 +166,9 @@
 
             </div>
 
-            <button class="btn btn-primary">
+            <button class="btn btn-success">
+
+                <i class="fas fa-save"></i>
 
                 Save Medicine
 
