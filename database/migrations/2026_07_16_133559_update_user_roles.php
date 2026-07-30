@@ -7,6 +7,11 @@ class UpdateUserRoles extends Migration
 {
     public function up()
     {
+        // SQLite does not support ALTER TABLE ... MODIFY COLUMN syntax.
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         DB::statement("
             ALTER TABLE users
             MODIFY role ENUM(
@@ -19,6 +24,10 @@ class UpdateUserRoles extends Migration
 
     public function down()
     {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         DB::statement("
             ALTER TABLE users
             MODIFY role ENUM(

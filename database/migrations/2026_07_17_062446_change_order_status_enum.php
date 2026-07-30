@@ -7,6 +7,11 @@ class ChangeOrderStatusEnum extends Migration
 {
     public function up()
     {
+        // SQLite does not support ALTER TABLE ... MODIFY COLUMN syntax.
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         DB::statement("
             ALTER TABLE orders
             MODIFY status ENUM(
@@ -20,6 +25,10 @@ class ChangeOrderStatusEnum extends Migration
 
     public function down()
     {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         DB::statement("
             ALTER TABLE orders
             MODIFY status ENUM(

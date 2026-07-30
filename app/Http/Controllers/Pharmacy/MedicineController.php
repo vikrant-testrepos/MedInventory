@@ -81,6 +81,8 @@ class MedicineController extends Controller
 
     public function edit(Medicine $medicine)
     {
+        $this->authorizeOwnership($medicine);
+
         $categories = Category::orderBy('name')->get();
 
         return view(
@@ -91,6 +93,8 @@ class MedicineController extends Controller
 
     public function update(Request $request, Medicine $medicine)
     {
+        $this->authorizeOwnership($medicine);
+
         $request->validate([
 
             'category_id' => 'required|exists:categories,id',
@@ -159,6 +163,8 @@ class MedicineController extends Controller
 
     public function destroy(Medicine $medicine)
     {
+        $this->authorizeOwnership($medicine);
+
         if (
             $medicine->image &&
             file_exists(public_path('uploads/medicines/' . $medicine->image))
@@ -173,6 +179,18 @@ class MedicineController extends Controller
         return redirect()
             ->route('pharmacy.medicines.index')
             ->with('success', 'Medicine deleted successfully.');
+    }
+
+    /**
+     * Ensure the authenticated pharmacy owns the given medicine.
+     */
+    protected function authorizeOwnership(Medicine $medicine)
+    {
+        $pharmacyId = Auth::user()->pharmacy->id ?? null;
+
+        if (! $pharmacyId || $medicine->pharmacy_id != $pharmacyId) {
+            abort(403);
+        }
     }
     
 }

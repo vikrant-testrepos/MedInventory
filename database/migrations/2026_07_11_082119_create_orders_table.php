@@ -27,8 +27,9 @@ class CreateOrdersTable extends Migration
 
             $table->enum('status',[
                 'Pending',
-                'Approved',
-                'Delivered'
+                'Preparing',
+                'Delivered',
+                'Cancelled'
             ])->default('Pending');
 
             $table->timestamps();

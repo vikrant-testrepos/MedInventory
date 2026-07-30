@@ -66,7 +66,10 @@ class InventoryController extends Controller
 
         ]);
 
-        $medicine = Medicine::findOrFail($request->medicine_id);
+        $pharmacyId = Auth::user()->pharmacy->id ?? null;
+
+        $medicine = Medicine::where('pharmacy_id', $pharmacyId)
+            ->findOrFail($request->medicine_id);
 
         $inventory = Inventory::create([
 

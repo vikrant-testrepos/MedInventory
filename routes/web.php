@@ -247,7 +247,7 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
 
     Route::get(
         '/patient/medicine/{medicine}',
-        'PatientController@showMedicine'
+        'Patient\MedicineController@show'
     )->name('patient.medicine.show');
 
     /*
@@ -260,17 +260,6 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
         '/patient/map/{medicine}',
         'PatientMapController@index'
     )->name('patient.map');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Medicine Details
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get(
-        '/patient/medicine/{id}',
-        'Patient\MedicineController@show'
-    )->name('patient.medicine.show');
 
     /*
     |--------------------------------------------------------------------------

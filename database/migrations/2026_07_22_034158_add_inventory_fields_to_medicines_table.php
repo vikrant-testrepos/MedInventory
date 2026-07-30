@@ -10,11 +10,18 @@ class AddInventoryFieldsToMedicinesTable extends Migration
     {
         Schema::table('medicines', function (Blueprint $table) {
 
-            $table->decimal('cost_price',8,2)->default(0)->after('company');
+            // These columns may already exist from an earlier migration.
+            if (! Schema::hasColumn('medicines', 'cost_price')) {
+                $table->decimal('cost_price', 8, 2)->default(0)->after('company');
+            }
 
-            $table->string('batch_number')->nullable()->after('quantity');
+            if (! Schema::hasColumn('medicines', 'batch_number')) {
+                $table->string('batch_number')->nullable()->after('quantity');
+            }
 
-            $table->date('expiry_date')->nullable()->after('batch_number');
+            if (! Schema::hasColumn('medicines', 'expiry_date')) {
+                $table->date('expiry_date')->nullable()->after('batch_number');
+            }
 
         });
     }
@@ -23,11 +30,21 @@ class AddInventoryFieldsToMedicinesTable extends Migration
     {
         Schema::table('medicines', function (Blueprint $table) {
 
-            $table->dropColumn([
-                'cost_price',
-                'batch_number',
-                'expiry_date'
-            ]);
+            $columns = [];
+
+            if (Schema::hasColumn('medicines', 'cost_price')) {
+                $columns[] = 'cost_price';
+            }
+            if (Schema::hasColumn('medicines', 'batch_number')) {
+                $columns[] = 'batch_number';
+            }
+            if (Schema::hasColumn('medicines', 'expiry_date')) {
+                $columns[] = 'expiry_date';
+            }
+
+            if (! empty($columns)) {
+                $table->dropColumn($columns);
+            }
 
         });
     }
