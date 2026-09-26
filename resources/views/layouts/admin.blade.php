@@ -14,6 +14,8 @@
 
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
+        <meta name="theme-color" content="#142d43">
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -75,7 +77,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
 
                                 <i class="fas fa-user"></i>
 

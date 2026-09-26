@@ -9,75 +9,48 @@ class MedicineSeeder extends Seeder
 {
     public function run()
     {
+        Medicine::whereIn('name', [
+            'प्यारासिटामोल ५००mg', 'आइबुप्रोफेन ४००mg', 'अमोक्सिसिलिन ५००mg',
+            'एजिथ्रोमाइसिन ५००mg', 'भिटामिन C ५००mg', 'जिंक ट्याब्लेट',
+            'मेटफर्मिन ५००mg', 'एम्लोडिपिन ५mg', 'ओआरएस पाउडर',
+            'खोकीको सिरप', 'बाल मल्हम', 'एलोभेरा जेल', 'त्रिफला चूर्ण',
+            'अश्वगन्धा क्याप्सुल', 'एन्टासिड ट्याब्लेट',
+        ])->delete();
+
         $medicines = [
-
-            ['Paracetamol 500mg','GSK','Pain Relief',120,120,'Effective pain relief and fever reducer.'],
-            ['Ibuprofen 400mg','Sun Pharma','Pain Relief',180,80,'Relieves pain and inflammation.'],
-            ['Crocin Advance','GSK','Pain Relief',90,150,'Fast acting fever medicine.'],
-            ['Dolo 650','Micro Labs','Pain Relief',140,95,'Relieves body pain and fever.'],
-
-            ['Amoxicillin 500mg','Cipla','Antibiotics',260,75,'Broad spectrum antibiotic.'],
-            ['Azithromycin 500mg','Pfizer','Antibiotics',420,60,'Treats bacterial infections.'],
-            ['Cefixime 200mg','Lupin','Antibiotics',390,55,'Used for respiratory infections.'],
-
-            ['Vitamin C Tablets','Himalaya','Vitamins',240,200,'Boosts immunity.'],
-            ['Zinc Tablets','Abbott','Vitamins',210,140,'Supports immune system.'],
-            ['Multivitamin','Centrum','Vitamins',650,110,'Daily nutritional supplement.'],
-            ['Evion 400','Merck','Vitamins',380,95,'Vitamin E capsules.'],
-
-            ['Metformin 500mg','USV','Diabetes',160,130,'Controls blood sugar.'],
-            ['Insulin Pen','Novo Nordisk','Diabetes',1500,25,'Insulin injection pen.'],
-            ['Gluconorm','Lupin','Diabetes',280,70,'Diabetes management tablets.'],
-
-            ['Amlodipine 5mg','Cipla','Heart Care',240,85,'Controls blood pressure.'],
-            ['Atorvastatin','Pfizer','Heart Care',350,90,'Reduces cholesterol.'],
-            ['Ecosprin 75','USV','Heart Care',110,160,'Blood thinner.'],
-
-            ['Baby Lotion','Johnson & Johnson','Baby Care',420,75,'Moisturizes baby skin.'],
-            ['Baby Shampoo','Johnson & Johnson','Baby Care',390,85,'Gentle baby shampoo.'],
-
-            ['Liv52','Himalaya','Herbal',250,100,'Supports liver health.'],
-            ['Ashwagandha','Dabur','Herbal',520,80,'Improves energy and immunity.'],
-            ['Tulsi Drops','Patanjali','Herbal',190,90,'Natural immunity booster.'],
-
-            ['Cetaphil Cleanser','Galderma','Skin Care',980,40,'Gentle facial cleanser.'],
-            ['Moisturizing Cream','Nivea','Skin Care',560,60,'Keeps skin hydrated.'],
-            ['Acne Gel','Himalaya','Skin Care',320,65,'Helps reduce acne.'],
-
-            ['ORS Powder','Electral','Vitamins',40,250,'Prevents dehydration.'],
-            ['Benadryl Syrup','Johnson','Pain Relief',220,55,'Relieves cough.'],
-            ['Digene Tablets','Abbott','Pain Relief',180,90,'Antacid tablets.'],
-            ['Vicks Vaporub','Vicks','Pain Relief',170,120,'Relieves cold symptoms.'],
-            ['Volini Spray','Sun Pharma','Pain Relief',430,45,'Pain relief spray.']
-
+            ['Paracetamol 500mg', 'Nepal Pharma', 'Pain and Fever Relief', 35, 150, 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80'],
+            ['Ibuprofen 400mg', 'Deurali Janta', 'Pain and Fever Relief', 75, 90, 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=800&q=80'],
+            ['Amoxicillin 500mg', 'Kantipur Pharma', 'Antibiotics', 180, 80, 'https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=800&q=80'],
+            ['Azithromycin 500mg', 'Lomus Pharmaceuticals', 'Antibiotics', 240, 65, 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80'],
+            ['Vitamin C 500mg', 'Himalayan Pharma', 'Vitamins and Nutrition', 220, 120, 'https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=800&q=80'],
+            ['Zinc Tablets', 'Nepal Drug Limited', 'Vitamins and Nutrition', 160, 110, 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=800&q=80'],
+            ['Metformin 500mg', 'Magnus Pharma', 'Diabetes Care', 95, 100, 'https://images.unsplash.com/photo-1628771065518-0d82f1938462?auto=format&fit=crop&w=800&q=80'],
+            ['Amlodipine 5mg', 'Everest Pharma', 'Blood Pressure and Heart Care', 85, 75, 'https://images.unsplash.com/photo-1580281658223-9b93f18ae9ae?auto=format&fit=crop&w=800&q=80'],
+            ['ORS Sachets', 'National Healthcare', 'Digestive Health', 25, 240, 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=800&q=80'],
+            ['Cough Syrup', 'Sumi Pharmaceuticals', 'Respiratory Care', 140, 70, 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=800&q=80'],
+            ['Baby Balm', 'Nepal Medicine', 'Child Health', 95, 80, 'https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&w=800&q=80'],
+            ['Aloe Vera Gel', 'Ayurvedic Nepal', 'Skin and Personal Care', 180, 60, 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=800&q=80'],
+            ['Triphala Powder', 'Singha Durbar Vaidyakhana', 'Ayurvedic and Herbal', 130, 55, 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=800&q=80'],
+            ['Ashwagandha Capsules', 'Divya Ayurveda', 'Ayurvedic and Herbal', 360, 45, 'https://images.unsplash.com/photo-1542884748-2b87b36c6b90?auto=format&fit=crop&w=800&q=80'],
+            ['Antacid Tablets', 'Kathmandu Pharma', 'Digestive Health', 60, 130, 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80'],
         ];
 
-        $pharmacies = Pharmacy::all();
+        $pharmacies = Pharmacy::pluck('id')->values();
 
-        foreach ($medicines as $item) {
-
-            $category = Category::where('name', $item[2])->first();
-
-            Medicine::create([
-
-                'pharmacy_id' => $pharmacies->random()->id,
-
-                'category_id' => $category ? $category->id : 1,
-
-                'name' => $item[0],
-
-                'company' => $item[1],
-
-                'price' => $item[3],
-
-                'quantity' => $item[4],
-
-                'description' => $item[5],
-
-                'image' => null
-
-            ]);
-
+        foreach ($medicines as $index => $item) {
+            Medicine::updateOrCreate(
+                ['name' => $item[0]],
+                [
+                    'pharmacy_id' => $pharmacies->get($index % max($pharmacies->count(), 1)),
+                    'category_id' => Category::where('name', $item[2])->value('id'),
+                    'company' => $item[1],
+                    'price' => $item[3],
+                    'cost_price' => round($item[3] * .72, 2),
+                    'quantity' => $item[4],
+                    'description' => $item[0] . ' available from verified pharmacies in Nepal.',
+                    'image' => $item[5],
+                ]
+            );
         }
     }
 }

@@ -83,7 +83,7 @@
 
                                 {{ $medicine->name }}
                                 -
-                                Rs. {{ number_format($medicine->price,2) }}
+                                रु. {{ number_format($medicine->price,2) }}
                                 (Stock: {{ $medicine->quantity }})
 
                             </option>
@@ -119,7 +119,7 @@
 
                             <br>
 
-                            Rs. <span id="price">0.00</span>
+                            रु. <span id="price">0.00</span>
 
                         </div>
 
@@ -147,7 +147,7 @@
 
                             <br>
 
-                            Rs. <span id="total">0.00</span>
+                            रु. <span id="total">0.00</span>
 
                         </div>
 

@@ -34,7 +34,7 @@
                     @if($medicine->image)
 
                         <img
-                            src="{{ asset('uploads/medicines/'.$medicine->image) }}"
+                            src="{{ $medicine->image_url }}"
                             class="img-fluid rounded"
                             style="max-height:350px;">
 
@@ -86,7 +86,7 @@
 
                     <h3 class="text-success font-weight-bold">
 
-                        Rs. {{ number_format($medicine->price,2) }}
+                        रु. {{ number_format($medicine->price,2) }}
 
                     </h3>
 
@@ -417,7 +417,7 @@
                             @if($item->image)
 
                                 <img
-                                    src="{{ asset('storage/'.$item->image) }}"
+                                    src="{{ $item->image_url }}"
                                     class="img-fluid mb-3"
                                     style="height:120px;object-fit:contain;">
 
@@ -435,7 +435,7 @@
 
                             <p class="text-success">
 
-                                Rs.
+                                रु.
                                 {{ number_format($item->price,2) }}
 
                             </p>

@@ -7,11 +7,17 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="{{ asset('css/entry.css') }}" rel="stylesheet">
+
     <style>
 
         body{
             background:#f8fafc;
-            font-family:Arial, Helvetica, sans-serif;
+            font-family:'DM Sans', sans-serif;
         }
 
         .navbar{
@@ -77,45 +83,77 @@
 
 </head>
 
-<body>
+<body class="entry-page">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-light">
 
     <div class="container">
 
-        <a class="navbar-brand" href="/">
-            💊 MedInventory
+        <a class="navbar-brand" href="{{ route('welcome') }}">
+            <i class="fa-solid fa-prescription-bottle-medical"></i>
+            MedInventory
         </a>
 
-        <div class="ml-auto">
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#rootNavbar"
+                aria-controls="rootNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
 
-            @guest
+            <span class="navbar-toggler-icon"></span>
 
-                <a href="{{ route('login') }}" class="btn btn-light mr-2">
-                    Login
-                </a>
+        </button>
 
-                <a href="{{ route('register') }}" class="btn btn-warning">
-                    Register
-                </a>
+        <div class="collapse navbar-collapse" id="rootNavbar">
 
-            @else
+            <ul class="navbar-nav ml-auto align-items-center">
 
-                @if(Auth::user()->role == 'admin')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('welcome') }}">Home</a>
+                </li>
 
-                    <a href="/admin" class="btn btn-light">
-                        Dashboard
-                    </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('medicine.search') }}">Medicines</a>
+                </li>
+
+                @auth
+
+                    @if(Auth::user()->role == 'patient')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cart.index') }}">
+                                <i class="fa-solid fa-cart-shopping"></i> Cart
+                                @if($cartCount > 0)
+                                    <span class="cart-count" aria-label="{{ $cartCount }} items in cart">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('patient.orders.index') }}">Orders</a>
+                        </li>
+                    @endif
+
+                    <li class="nav-item ml-2">
+                        <a class="btn btn-main" href="{{ Auth::user()->role == 'admin' ? route('admin.dashboard') : (Auth::user()->role == 'pharmacy' ? route('pharmacy.dashboard') : route('patient.dashboard')) }}">Dashboard</a>
+                    </li>
 
                 @else
 
-                    <a href="/home" class="btn btn-light">
-                        Dashboard
-                    </a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Login</a>
+                    </li>
 
-                @endif
+                    <li class="nav-item ml-2">
+                        <a class="btn btn-main" href="{{ route('register') }}">Register</a>
+                    </li>
 
-            @endguest
+                @endauth
+
+            </ul>
 
         </div>
 
@@ -137,7 +175,7 @@
 
         <br>
 
-        <a href="#medicines" class="btn btn-light btn-lg">
+        <a href="{{ route('medicine.search') }}" class="btn btn-light btn-lg">
 
             Browse Medicines
 
@@ -163,9 +201,13 @@
 
                 <div class="card medicine-card">
 
+                    <a href="{{ route('medicine.search', ['keyword' => $medicine->name]) }}"
+                       class="medicine-card-link"
+                       aria-label="Search for {{ $medicine->name }}">
+
                     @if($medicine->image)
 
-                        <img src="{{ asset('uploads/medicines/'.$medicine->image) }}"
+                        <img src="{{ $medicine->image_url }}"
                              class="card-img-top medicine-image">
 
                     @else
@@ -175,9 +217,15 @@
 
                     @endif
 
+                    </a>
+
                     <div class="card-body">
 
-                        <h4>{{ $medicine->name }}</h4>
+                        <h4>
+                            <a href="{{ route('medicine.search', ['keyword' => $medicine->name]) }}">
+                                {{ $medicine->name }}
+                            </a>
+                        </h4>
 
                         <p>
 
@@ -187,9 +235,23 @@
 
                         <h5 class="text-success">
 
-                            Rs. {{ number_format($medicine->price,2) }}
+                            रु. {{ number_format($medicine->price,2) }}
 
                         </h5>
+
+                        @if(auth()->check() && auth()->user()->role === 'patient')
+                            <form action="{{ route('cart.store') }}" method="POST" class="mt-3">
+                                @csrf
+                                <input type="hidden" name="medicine_id" value="{{ $medicine->id }}">
+                                <button type="submit" class="btn btn-main btn-block">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </form>
+                        @elseif(!auth()->check())
+                            <a href="{{ route('login') }}" class="btn btn-outline-success btn-block mt-3">
+                                Login to Add to Cart
+                            </a>
+                        @endif
 
                     </div>
 
@@ -243,7 +305,7 @@
 
                 <div class="feature-icon">📦</div>
 
-                <h5>Easy Inventory</h5>
+                <h5>Local Pharmacies</h5>
 
             </div>
 
@@ -255,7 +317,7 @@
 
                 <div class="feature-icon">🚚</div>
 
-                <h5>Fast Service</h5>
+                <h5>Easy Ordering</h5>
 
             </div>
 
@@ -267,7 +329,7 @@
 
                 <div class="feature-icon">🔒</div>
 
-                <h5>Secure Ordering</h5>
+                <h5>Secure Service</h5>
 
             </div>
 

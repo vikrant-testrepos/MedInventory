@@ -96,7 +96,7 @@
 
                 <div class="card-body text-center">
 
-                    <h3>Rs. {{ number_format($totalRevenue,2) }}</h3>
+                    <h3>रु. {{ number_format($totalRevenue,2) }}</h3>
 
                     <p>Total Revenue</p>
 
@@ -206,7 +206,7 @@
                         <td>{{ $order->quantity }}</td>
 
                         <td>
-                            Rs. {{ number_format($order->total_price,2) }}
+                            रु. {{ number_format($order->total_price,2) }}
                         </td>
 
                         <td>

@@ -93,7 +93,7 @@
 
                     <div class="form-group">
 
-                        <label>Selling Price (Rs.)</label>
+                        <label>Selling Price (रु.)</label>
 
                         <input
                             type="number"
@@ -110,7 +110,7 @@
 
                     <div class="form-group">
 
-                        <label>Cost Price (Rs.)</label>
+                        <label>Cost Price (रु.)</label>
 
                         <input
                             type="number"
@@ -197,7 +197,7 @@
                 @if($medicine->image)
 
                     <img
-                        src="{{ asset('uploads/medicines/'.$medicine->image) }}"
+                        src="{{ $medicine->image_url }}"
                         width="120"
                         class="img-thumbnail mb-3">
 

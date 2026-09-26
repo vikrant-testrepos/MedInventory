@@ -12,6 +12,20 @@ Route::get('/', 'WelcomeController@index')->name('welcome');
 
 Auth::routes();
 
+Route::get('/dashboard', function () {
+    $role = auth()->user()->role;
+
+    if ($role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    if ($role === 'pharmacy') {
+        return redirect()->route('pharmacy.dashboard');
+    }
+
+    return redirect()->route('patient.dashboard');
+})->middleware('auth')->name('dashboard');
+
 Route::get('/search', 'SearchController@index')
     ->name('medicine.search');
 
@@ -297,6 +311,12 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/checkout/success', function () {
         return view('checkout.success');
     })->name('checkout.success');
+
+    Route::match(['GET', 'POST'], '/payment/esewa/success', 'EsewaPaymentController@success')
+        ->name('payment.esewa.success');
+
+    Route::match(['GET', 'POST'], '/payment/esewa/failure', 'EsewaPaymentController@failure')
+        ->name('payment.esewa.failure');
 
     /*
     |--------------------------------------------------------------------------

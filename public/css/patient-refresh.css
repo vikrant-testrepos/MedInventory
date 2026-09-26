@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+body { background:#f7f8f5; color:#17212b; font-family:'DM Sans',sans-serif; }
+.navbar { padding:16px 0; border-bottom:1px solid #e7ece9; box-shadow:none; }
+.navbar-brand { color:#142d43 !important; font:700 23px 'Space Grotesk',sans-serif; }
+.navbar-brand i { color:#1d8f82; }
+.nav-link { color:#52606b !important; font-size:14px; }
+.nav-link:hover { color:#1d8f82 !important; }
+.cart-count { display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px; margin-left:4px; padding:0 5px; border-radius:999px; background:#ef765f; color:#fff; font-size:11px; font-weight:700; line-height:1; vertical-align:middle; }
+.btn-main { background:#ef765f; border-radius:6px; padding:11px 22px; }
+.btn-main:hover { background:#d95f4a; }
+.hero { background:#142d43; border-radius:12px; padding:64px 58px; box-shadow:0 18px 45px rgba(20,45,67,.15); }
+.hero::after { background:rgba(128,212,200,.12); }
+.hero h1 { font:700 clamp(2.4rem,5vw,4.5rem) 'Space Grotesk',sans-serif; letter-spacing:-1.5px; }
+.hero .text-warning { color:#f0c368 !important; }
+.hero p { max-width:570px; color:#c5d5dc; }
+.search-box { border-radius:8px; margin-top:26px; }
+.search-box .btn-main { border-radius:6px; }
+.section-title { color:#142d43; font:700 30px 'Space Grotesk',sans-serif; }
+.category-card, .medicine-card, .why-card { border:1px solid #e4e9ee; border-radius:10px; box-shadow:0 10px 30px rgba(20,45,67,.06); }
+.category-card:hover, .medicine-card:hover { transform:translateY(-5px); }
+.category-card { padding:22px 15px; }
+.category-icon { border-radius:8px; }
+.medicine-card { overflow:hidden; }
+.medicine-image { background:#eef4f1; }
+.badge-new, .stock-green { background:#1d8f82; }
+.btn-view { border-color:#d7e1e0; color:#142d43; }
+.btn-cart { background:#ef765f; border-radius:6px; color:#fff; }
+.btn-cart:hover { background:#d95f4a; color:#fff; }
+footer { background:#142d43; color:#c5d5dc; }
+@media(max-width:768px){ .hero { padding:38px 24px; border-radius:8px; } .hero h1 { font-size:2.7rem; } .navbar-brand { font-size:20px; } }

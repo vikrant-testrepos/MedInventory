@@ -58,6 +58,17 @@ class Medicine extends Model
         return $this->hasMany(Cart::class);
     }
 
+    public function getImageUrlAttribute()
+    {
+        if (!$this->image) {
+            return null;
+        }
+
+        return filter_var($this->image, FILTER_VALIDATE_URL)
+            ? $this->image
+            : asset('uploads/medicines/' . $this->image);
+    }
+
     public function stockHistory()
     {
         return $this->hasMany(StockHistory::class);

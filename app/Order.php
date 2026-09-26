@@ -26,6 +26,12 @@ class Order extends Model
 
         'payment_method',
 
+        'transaction_uuid',
+
+        'payment_status',
+
+        'payment_reference',
+
         'status'
 
     ];

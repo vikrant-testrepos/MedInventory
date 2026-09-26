@@ -158,7 +158,7 @@
 
                     <i class="fas fa-rupee-sign fa-2x text-warning mb-2"></i>
 
-                    <h3>Rs. {{ number_format($totalRevenue,2) }}</h3>
+                    <h3>रु. {{ number_format($totalRevenue,2) }}</h3>
 
                     <small>Total Revenue</small>
 

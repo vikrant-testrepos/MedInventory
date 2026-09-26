@@ -218,28 +218,28 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('pharmacy.medicines.index') }}">
                     <i class="fas fa-pills"></i>
                     My Medicines
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('pharmacy.inventory.index') }}">
                     <i class="fas fa-boxes"></i>
                     Inventory
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('pharmacy.orders.index') }}">
                     <i class="fas fa-shopping-cart"></i>
                     Orders
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('pharmacy.profile') }}">
                     <i class="fas fa-user"></i>
                     Pharmacy Profile
                 </a>
@@ -259,23 +259,16 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('medicine.search') }}">
                     <i class="fas fa-search"></i>
                     Search Medicines
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('patient.orders.index') }}">
                     <i class="fas fa-shopping-cart"></i>
                     My Orders
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <i class="fas fa-user"></i>
-                    Profile
                 </a>
             </li>
 

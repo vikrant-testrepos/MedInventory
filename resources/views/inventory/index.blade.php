@@ -211,11 +211,11 @@
                         </td>
 
                         <td>
-                            Rs. {{ number_format($inventory->purchase_price, 2) }}
+                            रु. {{ number_format($inventory->purchase_price, 2) }}
                         </td>
 
                         <td>
-                            Rs. {{ number_format($inventory->selling_price, 2) }}
+                            रु. {{ number_format($inventory->selling_price, 2) }}
                         </td>
 
                         <td>

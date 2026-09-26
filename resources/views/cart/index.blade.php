@@ -47,7 +47,7 @@
                                 @if($item->medicine->image)
 
                                     <img
-                                        src="{{ asset('storage/'.$item->medicine->image) }}"
+                                        src="{{ $item->medicine->image_url }}"
                                         class="img-fluid"
                                         style="max-height:120px;">
 
@@ -118,7 +118,7 @@
 
                                 <h5>
 
-                                    Rs.
+                                    रु.
                                     {{ number_format($item->price,2) }}
 
                                 </h5>
@@ -173,7 +173,7 @@
 
                                 <h5 class="text-success">
 
-                                    Rs.
+                                    रु.
                                     {{ number_format($subtotal,2) }}
 
                                 </h5>
@@ -267,7 +267,7 @@
 
                         <strong>
 
-                            Rs. {{ number_format($grandTotal,2) }}
+                            रु. {{ number_format($grandTotal,2) }}
 
                         </strong>
 
@@ -283,7 +283,7 @@
 
                         <strong>
 
-                            Rs. 100.00
+                            रु. 100.00
 
                         </strong>
 
@@ -299,7 +299,7 @@
 
                         <strong class="text-success">
 
-                            Rs. 0.00
+                            रु. 0.00
 
                         </strong>
 
@@ -317,7 +317,7 @@
 
                         <h4 class="text-success">
 
-                            Rs. {{ number_format($grandTotal + 100,2) }}
+                            रु. {{ number_format($grandTotal + 100,2) }}
 
                         </h4>
 

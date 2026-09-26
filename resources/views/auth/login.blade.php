@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="auth-shell">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+            <div class="card auth-card">
+                <div class="auth-intro">
+                    <span class="auth-kicker">MedInventory</span>
+                    <h1>Welcome back</h1>
+                    <p>Sign in to manage your medicines and orders.</p>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

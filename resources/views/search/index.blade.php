@@ -98,8 +98,9 @@
                         @if($medicine->image)
 
                             <img
-                                src="{{ asset('storage/'.$medicine->image) }}"
-                                class="img-fluid">
+                                src="{{ $medicine->image_url }}"
+                                class="img-fluid"
+                                alt="{{ $medicine->name }}">
 
                         @else
 
@@ -143,7 +144,7 @@
 
                         <div class="price mt-2">
 
-                            Rs.
+                            रु.
                             {{ number_format($medicine->price,2) }}
 
                         </div>
@@ -166,15 +167,21 @@
 
                         <div class="mt-4">
 
-                            <a
-                                href="{{ route('orders.create.medicine',$medicine->id) }}"
-                                class="btn btn-cart">
+                            <form action="{{ route('cart.store') }}" method="POST">
 
-                                <i class="fas fa-shopping-cart"></i>
+                                @csrf
 
-                                Add to Cart
+                                <input type="hidden" name="medicine_id" value="{{ $medicine->id }}">
 
-                            </a>
+                                <button type="submit" class="btn btn-cart">
+
+                                    <i class="fas fa-shopping-cart"></i>
+
+                                    Add to Cart
+
+                                </button>
+
+                            </form>
 
                         </div>
 

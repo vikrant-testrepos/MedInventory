@@ -150,7 +150,7 @@
 
                     @if($medicine->image)
 
-                        <img src="{{ asset('uploads/medicines/'.$medicine->image) }}"
+                        <img src="{{ $medicine->image_url }}"
                              width="150"
                              class="img-thumbnail">
 

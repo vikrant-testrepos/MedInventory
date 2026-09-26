@@ -90,7 +90,7 @@
 
                         </a>
 
-                        <a href="{{ route('patient.orders') }}"
+                        <a href="{{ route('patient.orders.index') }}"
                         class="btn btn-outline-primary btn-lg ml-2">
 
                             View My Orders

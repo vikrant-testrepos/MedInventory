@@ -232,7 +232,7 @@
 
         <td>Total Inventory Value</td>
 
-        <td>Rs. {{ number_format($inventoryValue,2) }}</td>
+        <td>रु. {{ number_format($inventoryValue,2) }}</td>
 
     </tr>
 
@@ -350,7 +350,7 @@
 
             <td>{{ $order->quantity }}</td>
 
-            <td>Rs. {{ number_format($order->total_price,2) }}</td>
+            <td>रु. {{ number_format($order->total_price,2) }}</td>
 
             <td>{{ $order->status }}</td>
 

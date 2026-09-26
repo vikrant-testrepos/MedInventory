@@ -242,7 +242,7 @@
 
                     <h4 class="font-weight-bold">
 
-                        Rs. {{ number_format($totalRevenue,2) }}
+                        रु. {{ number_format($totalRevenue,2) }}
 
                     </h4>
 
@@ -352,7 +352,7 @@
 
                         <strong class="text-success">
 
-                            Rs. {{ number_format($totalRevenue,2) }}
+                            रु. {{ number_format($totalRevenue,2) }}
 
                         </strong>
 
@@ -451,7 +451,7 @@
 
                             <strong>
 
-                                Rs. {{ number_format($order->total_price,2) }}
+                                रु. {{ number_format($order->total_price,2) }}
 
                             </strong>
 
@@ -767,7 +767,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             datasets: [{
 
-                label: 'Revenue (Rs.)',
+                label: 'Revenue (रु.)',
 
                 data: @json($monthlyRevenue),
 

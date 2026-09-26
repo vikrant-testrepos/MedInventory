@@ -197,7 +197,7 @@
 
                             <strong>
 
-                                Rs. {{ number_format($item->price * $item->quantity,2) }}
+                                रु. {{ number_format($item->price * $item->quantity,2) }}
 
                             </strong>
 
@@ -213,7 +213,7 @@
 
                         <strong>
 
-                            Rs. {{ number_format($subtotal,2) }}
+                            रु. {{ number_format($subtotal,2) }}
 
                         </strong>
 
@@ -225,7 +225,7 @@
 
                         <strong>
 
-                            Rs. {{ number_format($delivery,2) }}
+                            रु. {{ number_format($delivery,2) }}
 
                         </strong>
 
@@ -237,7 +237,7 @@
 
                         <strong class="text-success">
 
-                            Rs. 0.00
+                            रु. 0.00
 
                         </strong>
 
@@ -251,7 +251,7 @@
 
                         <h4 class="text-success">
 
-                            Rs. {{ number_format($grandTotal,2) }}
+                            रु. {{ number_format($grandTotal,2) }}
 
                         </h4>
 

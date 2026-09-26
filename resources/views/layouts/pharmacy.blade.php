@@ -13,6 +13,8 @@
 
     <link href="{{ asset('css/pharmacy/common.css') }}" rel="stylesheet">
 
+        <meta name="theme-color" content="#142d43">
+
     @stack('styles')
 
     <link rel="stylesheet"
@@ -78,7 +80,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('pharmacy.profile') }}">
 
                                 <i class="fas fa-user"></i>
 

@@ -82,7 +82,7 @@
 
                         @if($medicine->image)
 
-                            <img src="{{ asset('uploads/medicines/'.$medicine->image) }}"
+                            <img src="{{ $medicine->image_url }}"
                                  width="60"
                                  class="rounded">
 
@@ -115,7 +115,7 @@
 
                     <td>
 
-                        Rs. {{ number_format($medicine->price,2) }}
+                        रु. {{ number_format($medicine->price,2) }}
 
                     </td>
 

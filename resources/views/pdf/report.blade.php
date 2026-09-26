@@ -92,7 +92,7 @@
 
         <tr>
             <td>Inventory Value</td>
-            <td>Rs. {{ number_format($inventorySellingValue,2) }}</td>
+            <td>रु. {{ number_format($inventorySellingValue,2) }}</td>
         </tr>
 
     </table>
@@ -138,7 +138,7 @@
                 <td>{{ optional($medicine->category)->name }}</td>
 
                 <td>
-                    Rs. {{ number_format($medicine->price,2) }}
+                    रु. {{ number_format($medicine->price,2) }}
                 </td>
 
                 <td>{{ $medicine->quantity }}</td>
@@ -269,7 +269,7 @@
 
                 <td>
 
-                    Rs. {{ number_format($medicine->price,2) }}
+                    रु. {{ number_format($medicine->price,2) }}
 
                 </td>
 

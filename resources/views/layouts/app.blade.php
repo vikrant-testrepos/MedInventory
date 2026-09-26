@@ -69,6 +69,20 @@
         }
     </style>
 
+    <link href="{{ asset('css/patient-refresh.css') }}" rel="stylesheet">
+
+    <style>
+        .auth-shell { max-width: 760px; margin: 56px auto 90px; padding: 0 18px; }
+        .auth-card { border: 1px solid #e4e9ee; border-radius: 12px; overflow: hidden; box-shadow: 0 18px 45px rgba(20,45,67,.10); }
+        .auth-intro { background: #142d43; color: #fff; padding: 34px 40px; }
+        .auth-intro h1 { margin: 8px 0; font: 700 32px 'Space Grotesk', sans-serif; }
+        .auth-intro p { margin: 0; color: #c5d5dc; }
+        .auth-kicker { color: #80d4c8; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+        .auth-card .card-body { padding: 34px 40px; }
+        .auth-card .btn-primary { background: #ef765f; border-color: #ef765f; }
+        @media(max-width:576px) { .auth-intro, .auth-card .card-body { padding: 26px 22px; } .auth-shell { margin-top: 28px; } }
+    </style>
+
 </head>
 
 <body>
@@ -77,7 +91,7 @@
 
     <div class="container">
 
-        <a class="navbar-brand" href="{{ route('patient.dashboard') }}">
+        <a class="navbar-brand" href="{{ route('welcome') }}">
             <i class="fa-solid fa-prescription-bottle-medical"></i>
             MedInventory
         </a>
@@ -96,7 +110,7 @@
             <ul class="navbar-nav ml-auto align-items-center">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('patient.dashboard') }}">
+                    <a class="nav-link" href="{{ route('welcome') }}">
                         Home
                     </a>
                 </li>
@@ -111,6 +125,11 @@
                     <a class="nav-link" href="{{ route('cart.index') }}">
                         <i class="fa-solid fa-cart-shopping"></i>
                         Cart
+                        @if($cartCount > 0)
+                            <span class="cart-count" aria-label="{{ $cartCount }} items in cart">
+                                {{ $cartCount }}
+                            </span>
+                        @endif
                     </a>
                 </li>
 
@@ -124,7 +143,7 @@
                     <li class="nav-item dropdown">
 
                         <a class="nav-link dropdown-toggle"
-                           href="#"
+                           href="{{ route('patient.dashboard') }}"
                            id="navbarDropdown"
                            role="button"
                            data-toggle="dropdown">

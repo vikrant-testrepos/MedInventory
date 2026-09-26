@@ -125,7 +125,7 @@
 
                     <strong>Total:</strong>
 
-                    Rs. {{ number_format($order->total_price,2) }}
+                    रु. {{ number_format($order->total_price,2) }}
 
                 </p>
 

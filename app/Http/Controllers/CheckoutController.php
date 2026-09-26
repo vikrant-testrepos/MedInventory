@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
@@ -70,6 +71,9 @@ class CheckoutController extends Controller
 
         }
 
+        $transactionUuid = (string) Str::uuid();
+        $isEsewa = $request->payment_method === 'eSewa';
+
         foreach ($cartItems as $item) {
 
             $medicine = $item->medicine;
@@ -105,6 +109,10 @@ class CheckoutController extends Controller
 
                 'payment_method' => $request->payment_method,
 
+                'transaction_uuid' => $isEsewa ? $transactionUuid : null,
+
+                'payment_status' => $isEsewa ? 'unpaid' : 'pending',
+
                 'status' => 'Pending'
 
             ]);
@@ -113,6 +121,32 @@ class CheckoutController extends Controller
 
             $medicine->save();
 
+        }
+
+        if ($isEsewa) {
+            session(['esewa_transaction_uuid' => $transactionUuid]);
+
+            $subtotal = $cartItems->sum(function ($item) {
+                return $item->price * $item->quantity;
+            });
+
+            $totalAmount = number_format($subtotal + 100, 2, '.', '');
+            $signedFields = 'total_amount,transaction_uuid,product_code';
+            $signaturePayload = 'total_amount=' . $totalAmount
+                . ',transaction_uuid=' . $transactionUuid
+                . ',product_code=' . config('services.esewa.product_code');
+
+            return view('checkout.esewa', [
+                'totalAmount' => $totalAmount,
+                'transactionUuid' => $transactionUuid,
+                'signedFields' => $signedFields,
+                'signature' => base64_encode(hash_hmac(
+                    'sha256',
+                    $signaturePayload,
+                    config('services.esewa.secret'),
+                    true
+                )),
+            ]);
         }
 
         Cart::where('user_id', auth()->id())->delete();

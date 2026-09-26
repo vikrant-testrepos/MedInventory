@@ -195,11 +195,15 @@
 
             <div class="medicine-card">
 
-                <div class="medicine-image">
+                     <a href="{{ route('patient.medicine.show',$medicine->id) }}"
+                         class="medicine-card-link"
+                         aria-label="View {{ $medicine->name }} details">
+
+                     <div class="medicine-image">
 
                     @if($medicine->image)
 
-                        <img src="{{ asset('uploads/medicines/' . $medicine->image) }}"
+                        <img src="{{ $medicine->image_url }}"
                             alt="{{ $medicine->name }}">
 
                     @else
@@ -216,6 +220,8 @@
 
                 </div>
 
+                </a>
+
                 <div class="card-body">
 
                     <span class="category-pill">
@@ -223,7 +229,9 @@
                     </span>
 
                     <h4 class="medicine-title">
-                        {{ $medicine->name }}
+                        <a href="{{ route('patient.medicine.show',$medicine->id) }}">
+                            {{ $medicine->name }}
+                        </a>
                     </h4>
 
                     <div class="company">
@@ -236,7 +244,7 @@
                     </div>
 
                     <div class="price">
-                        Rs. {{ number_format($medicine->price,2) }}
+                        रु. {{ number_format($medicine->price,2) }}
                     </div>
 
                     @if($medicine->quantity>10)

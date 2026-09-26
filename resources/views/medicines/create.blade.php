@@ -72,7 +72,7 @@
 
                     <div class="form-group">
 
-                        <label>Selling Price (Rs.)</label>
+                        <label>Selling Price (रु.)</label>
 
                         <input type="number"
                                step="0.01"
@@ -88,7 +88,7 @@
 
                     <div class="form-group">
 
-                        <label>Cost Price (Rs.)</label>
+                        <label>Cost Price (रु.)</label>
 
                         <input type="number"
                                step="0.01"

@@ -45,7 +45,7 @@
         <li class="nav-item dropdown">
 
             <a class="nav-link dropdown-toggle"
-               href="#"
+               href="{{ route('patient.dashboard') }}"
                id="navbarDropdown"
                role="button"
                data-toggle="dropdown">
@@ -75,7 +75,7 @@
         <li class="nav-item dropdown">
 
             <a class="nav-link dropdown-toggle"
-               href="#"
+               href="{{ route('patient.dashboard') }}"
                id="userDropdown"
                role="button"
                data-toggle="dropdown">

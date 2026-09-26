@@ -70,7 +70,7 @@
 
                 <input type="text"
                        class="form-control"
-                       value="Rs. {{ number_format($order->total_price,2) }}"
+                       value="रु. {{ number_format($order->total_price,2) }}"
                        readonly>
 
             </div>

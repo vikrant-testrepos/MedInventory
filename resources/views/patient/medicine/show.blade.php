@@ -27,7 +27,7 @@
 
                         @if($medicine->image)
 
-                            <img src="{{ asset('storage/'.$medicine->image) }}"
+                            <img src="{{ $medicine->image_url }}"
                                  class="img-fluid rounded"
                                  style="max-height:250px;">
 
@@ -65,7 +65,7 @@
 
                     <h3 class="text-success mb-3">
 
-                        Rs. {{ number_format($medicine->price,2) }}
+                        रु. {{ number_format($medicine->price,2) }}
 
                     </h3>
 

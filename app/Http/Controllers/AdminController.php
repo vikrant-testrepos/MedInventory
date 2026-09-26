@@ -8,6 +8,7 @@ use App\Order;
 use App\Pharmacy;
 use App\Inventory;
 use App\User;
+use Illuminate\Support\Carbon;
 
 class AdminController extends Controller
 {
@@ -35,6 +36,18 @@ class AdminController extends Controller
             'Completed',
             'Delivered'
         ])->sum('total_price');
+
+        $monthlyRevenue = [];
+
+        for ($month = 1; $month <= 12; $month++) {
+            $monthlyRevenue[] = Order::whereIn('status', [
+                    'Completed',
+                    'Delivered'
+                ])
+                ->whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', $month)
+                ->sum('total_price');
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -107,6 +120,7 @@ class AdminController extends Controller
             'totalPatients',
 
             'totalRevenue',
+            'monthlyRevenue',
 
             'pendingOrders',
             'acceptedOrders',

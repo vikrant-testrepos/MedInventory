@@ -158,7 +158,7 @@
 
             <h2>
 
-                Rs.
+                रु.
                 {{ number_format($totalRevenue,2) }}
 
             </h2>
@@ -223,7 +223,7 @@
 
                 <td>
 
-                    Rs.
+                    रु.
 
                     {{ number_format($order->total_price,2) }}
 

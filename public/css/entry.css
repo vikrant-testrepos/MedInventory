@@ -1,0 +1,27 @@
+.entry-page { background:#f7f8f5; color:#17212b; font-family:'DM Sans',sans-serif; }
+.entry-page .navbar { background:#fff !important; box-shadow:0 2px 15px rgba(0,0,0,.08); padding:14px 0; }
+.entry-page .navbar-brand { color:#16a085 !important; font-size:24px; font-weight:700; letter-spacing:-.3px; }
+.entry-page .navbar-brand i { color:#16a085; margin-right:7px; }
+.entry-page .nav-link { color:#555 !important; font-weight:500; margin-left:15px; transition:.3s; }
+.entry-page .nav-link:hover { color:#16a085 !important; }
+.entry-page .navbar .btn-main { background:#16a085; border:0; border-radius:30px; color:#fff; padding:10px 22px; }
+.entry-page .navbar .btn-main:hover { background:#13856f; color:#fff; }
+.entry-page .cart-count { display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px; margin-left:4px; padding:0 5px; border-radius:999px; background:#ef765f; color:#fff; font-size:11px; font-weight:700; line-height:1; vertical-align:middle; }
+.entry-page .hero { background:#142d43; color:#fff; padding:88px 0 102px; position:relative; overflow:hidden; }
+.entry-page .hero::after { background:rgba(128,212,200,.12); }
+.entry-page .eyebrow { color:#80d4c8; font-size:12px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+.entry-page .hero h1 { font:700 clamp(2.6rem,6vw,5rem) 'Space Grotesk',sans-serif; letter-spacing:-1.8px; line-height:1.04; }
+.entry-page .hero h1 span { color:#f0c368; }
+.entry-page .hero p:not(.eyebrow) { max-width:620px; color:#c5d5dc; font-size:18px; }
+.entry-page .hero .btn-light { color:#142d43; border:0; border-radius:6px; font-weight:700; padding:13px 22px; }
+.entry-page .section-title { color:#142d43; font:700 30px 'Space Grotesk',sans-serif; margin:62px 0 34px; }
+.entry-page .medicine-card { border:1px solid #e4e9ee; border-radius:10px; box-shadow:0 10px 30px rgba(20,45,67,.06); overflow:hidden; }
+.entry-page .medicine-card:hover { transform:translateY(-5px); }
+.entry-page .medicine-card-link { display:block; color:inherit; text-decoration:none; }
+.entry-page .medicine-card-link:hover { color:inherit; text-decoration:none; }
+.entry-page .medicine-card h4 a { color:inherit; text-decoration:none; }
+.entry-page .medicine-card h4 a:hover { color:#16a085; }
+.entry-page .medicine-image { background:#eef4f1; }
+.entry-page .feature-box { color:#52606b; padding:24px 12px; }
+.entry-page .feature-icon { color:#1d8f82; font-size:36px; }
+.entry-page footer { background:#142d43; color:#c5d5dc; margin-top:72px; padding:32px; }

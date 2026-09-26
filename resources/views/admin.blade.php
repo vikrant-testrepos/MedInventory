@@ -196,22 +196,22 @@
             Categories
         </a>
 
-        <a href="#">
+        <a href="{{ route('admin.dashboard') }}">
             <i class="fas fa-pills"></i>
             Medicines
         </a>
 
-        <a href="#">
+        <a href="{{ route('medicines.index') }}">
             <i class="fas fa-warehouse"></i>
             Inventory
         </a>
 
-        <a href="#">
+        <a href="{{ route('inventory.index') }}">
             <i class="fas fa-cart-plus"></i>
             Orders
         </a>
 
-        <a href="#">
+        <a href="{{ route('orders.index') }}">
             <i class="fas fa-chart-bar"></i>
             Reports
         </a>

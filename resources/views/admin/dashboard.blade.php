@@ -121,7 +121,7 @@
 
                             <div class="h4 font-weight-bold">
 
-                                Rs {{ number_format($totalRevenue,2) }}
+                                रु. {{ number_format($totalRevenue,2) }}
 
                             </div>
 
@@ -372,7 +372,7 @@
 
                                 <td>
 
-                                    Rs {{ number_format($order->total_price,2) }}
+                                    रु. {{ number_format($order->total_price,2) }}
 
                                 </td>
 
@@ -506,7 +506,7 @@
 
                         <strong class="text-success">
 
-                            Rs {{ number_format($totalRevenue,2) }}
+                            रु. {{ number_format($totalRevenue,2) }}
 
                         </strong>
 
@@ -713,20 +713,7 @@ new Chart(document.getElementById('revenueChart'), {
 
             label: 'Revenue',
 
-            data: [
-                12000,
-                15000,
-                18000,
-                21000,
-                25000,
-                29000,
-                33000,
-                36000,
-                41000,
-                45000,
-                49000,
-                {{ $totalRevenue }}
-            ],
+            data: @json($monthlyRevenue),
 
             borderColor: '#28a745',
 

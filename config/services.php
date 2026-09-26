@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'esewa' => [
+        'endpoint' => env('ESEWA_ENDPOINT', 'https://rc-epay.esewa.com.np/api/epay/main/v2/form'),
+        'product_code' => env('ESEWA_PRODUCT_CODE', 'EPAYTEST'),
+        'secret' => env('ESEWA_SECRET', '8gBm/:&EnhH.1/q'),
+    ],
+
 ];
